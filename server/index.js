@@ -8,6 +8,8 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
+
+console.log('what is the port', PORT)
 const app = express()
 const socketio = require('socket.io')
 module.exports = app

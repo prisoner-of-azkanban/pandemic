@@ -1,9 +1,11 @@
 import React from 'react'
 import MessageBox from './MessageBox'
 import io from 'socket.io-client'
-const socket = process.env.PORT
-  ? io('http://onlinepandemicgame.herokuapp.com')
-  : io('http://localhost:8080')
+
+const socket =
+  window.location.hostname !== 'localhost'
+    ? io('http://onlinepandemicgame.herokuapp.com')
+    : io('http://localhost:8080')
 
 class Chatroom extends React.Component {
   constructor() {
@@ -16,6 +18,8 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
+    console.log('hi we have a window')
+    console.log(window.location.hostname)
     socket.on('connect', () => {
       console.log('client side socket works!')
     })
