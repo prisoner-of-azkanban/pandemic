@@ -16,8 +16,7 @@ module.exports = io => {
     socket.on('adduser', username => {
       socket.username = username
       usernames[username] = username
-      socket.emit('updatechat', 'you have connected')
-      socket.broadcast.emit('updatechat', username + ' has connected')
+      io.emit('updatechat', username + ' has connected')
       // io.sockets.emit('updateusers', usernames)
     })
   })

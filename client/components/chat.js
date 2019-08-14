@@ -1,6 +1,7 @@
 import React from 'react'
 import MessageBox from './MessageBox'
 import io from 'socket.io-client'
+import * as ReactDOM from 'react-dom'
 
 const socket =
   window.location.hostname !== 'localhost'
@@ -12,9 +13,6 @@ class Chatroom extends React.Component {
     super()
     this.state = {message: '', username: '', messages: []}
     this.socket = socket
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleName = this.handleName.bind(this)
   }
 
   componentDidMount() {
@@ -29,24 +27,28 @@ class Chatroom extends React.Component {
     // socket.on('outgoing data', data => console.log(data))
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+
   nameClick = event => {
     event.preventDefault()
     socket.emit('adduser', this.state.username)
   }
 
-  handleName(event) {
+  handleName = event => {
     this.setState({
       username: event.target.value
     })
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       message: event.target.value
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault()
     socket.emit('message', {message: this.state.message})
     this.setState({
@@ -54,10 +56,28 @@ class Chatroom extends React.Component {
     })
   }
 
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({behavior: 'smooth'})
+  }
+
   render() {
     return (
       <React.Fragment>
-        <MessageBox messages={this.state.messages} />
+        <div className="chatBox">
+          {this.state.messages.length ? (
+            this.state.messages.map((message, index) => (
+              <p key={index}>{message}</p>
+            ))
+          ) : (
+            <p>No messages</p>
+          )}
+          <div
+            style={{float: 'left', clear: 'both'}}
+            ref={el => {
+              this.messagesEnd = el
+            }}
+          />
+        </div>
         <form>
           Name:
           <input
