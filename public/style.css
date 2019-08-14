@@ -19,3 +19,8 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.chatBox {
+  overflow-y: scroll;
+  height: 20vh;
+}

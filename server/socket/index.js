@@ -9,14 +9,16 @@ module.exports = io => {
     })
 
     socket.on('message', data => {
-      //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
-      console.log(data)
-      io.emit('outgoing data', data)
+      const message = socket.username + `: ${data.message}`
+      io.emit('updatechat', message)
     })
 
     socket.on('adduser', username => {
       socket.username = username
-      console.log('hi', name)
+      usernames[username] = username
+      socket.emit('updatechat', 'you have connected')
+      socket.broadcast.emit('updatechat', username + ' has connected')
+      // io.sockets.emit('updateusers', usernames)
     })
   })
 }

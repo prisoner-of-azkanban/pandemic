@@ -18,15 +18,19 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-    console.log('hi we have a window')
-    console.log(window.location.hostname)
     socket.on('connect', () => {
       console.log('client side socket works!')
     })
-    socket.on('outgoing data', data => console.log(data))
+    socket.on('updatechat', data => {
+      console.log('update chat with new username', data)
+      this.setState({messages: [...this.state.messages, data]})
+      console.log(this.state)
+    })
+    // socket.on('outgoing data', data => console.log(data))
   }
 
-  nameClick = () => {
+  nameClick = event => {
+    event.preventDefault()
     socket.emit('adduser', this.state.username)
   }
 
@@ -54,7 +58,7 @@ class Chatroom extends React.Component {
     return (
       <React.Fragment>
         <MessageBox messages={this.state.messages} />
-        <form onSubmit={this.handleSubmit}>
+        <form>
           Name:
           <input
             type="text"
@@ -71,7 +75,7 @@ class Chatroom extends React.Component {
             value={this.state.message}
             onChange={this.handleChange}
           />
-          <button type="submit">Submit Chat</button>
+          <button onClick={this.handleSubmit}>Submit Chat</button>
         </form>
       </React.Fragment>
     )
