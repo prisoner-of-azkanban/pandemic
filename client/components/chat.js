@@ -1,7 +1,9 @@
 import React from 'react'
 import MessageBox from './MessageBox'
 import io from 'socket.io-client'
-const socket = io('http://localhost:8080')
+const socket = process.env.PORT
+  ? io('http://onlinepandemicgame.herokuapp.com')
+  : io('http://localhost:8080')
 
 class Chatroom extends React.Component {
   constructor() {
@@ -18,6 +20,10 @@ class Chatroom extends React.Component {
       console.log('client side socket works!')
     })
     socket.on('outgoing data', data => console.log(data))
+  }
+
+  nameClick = () => {
+    socket.emit('adduser', this.state.username)
   }
 
   handleName(event) {
@@ -52,6 +58,7 @@ class Chatroom extends React.Component {
             value={this.state.username}
             onChange={this.handleName}
           />
+          <button onClick={this.nameClick}>Send Name</button>
           <br />
           Message:
           <input
