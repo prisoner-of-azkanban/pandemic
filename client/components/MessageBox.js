@@ -1,21 +1,15 @@
 import React from 'react'
 
-class MessageBox extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {messages: props.messages}
-  }
-  render() {
-    return (
-      <div>
-        {this.state.messages.length ? (
-          this.state.messages.map(message => <h1 key={message}>{message}</h1>)
-        ) : (
-          <h1>No messages</h1>
-        )}
-      </div>
-    )
-  }
+const MessageBox = props => {
+  return (
+    <div className="chatBox">
+      {props.messages.length ? (
+        props.messages.map((message, index) => <p key={index}>{message}</p>)
+      ) : (
+        <p>No messages</p>
+      )}
+    </div>
+  )
 }
 
 export default MessageBox
