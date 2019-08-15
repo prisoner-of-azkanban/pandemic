@@ -2,12 +2,12 @@ import React from 'react'
 import {app, db, config} from '../../firebase-server/firebase'
 import {Form, Button} from 'react-bootstrap'
 import firebase from 'firebase'
+import {randomNumGenerator} from './utils'
 
 class Chatroom extends React.Component {
   constructor() {
     super()
     this.state = {message: '', username: '', messages: []}
-    // this.chatroom = firebase.database().ref('messages')
     this.chatroom = db
       .collection('games')
       .doc('game1')
@@ -18,7 +18,7 @@ class Chatroom extends React.Component {
 
   async componentDidMount() {
     let user = firebase.auth().currentUser
-    let username = 'Guest'
+    let username = 'Guest' + randomNumGenerator()
     if (user) {
       await db
         .collection('users')
@@ -33,7 +33,32 @@ class Chatroom extends React.Component {
           }
         })
     }
+    db
+      .collection('games')
+      .doc('game1')
+      .collection('participants')
+      .doc(username)
+      .set({username: username})
     this.setState({username: username})
+    await this.chatroom.add({
+      username: 'Admin',
+      message: `${username} has entered the room`,
+      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+    })
+    window.addEventListener('beforeunload', ev => {
+      ev.preventDefault()
+      db
+        .collection('games')
+        .doc('game1')
+        .collection('participants')
+        .doc(this.state.username)
+        .delete()
+      this.chatroom.add({
+        username: 'Admin',
+        message: `${username} has left the room`,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      })
+    })
   }
 
   componentDidUpdate() {
@@ -43,6 +68,29 @@ class Chatroom extends React.Component {
   componentWillUnmount() {
     const unsubscribe = this.chatroom.onSnapshot(this.listenMessages)
     unsubscribe()
+    db
+      .collection('games')
+      .doc('game1')
+      .collection('participants')
+      .doc(this.state.username)
+      .delete()
+      .then(function() {
+        console.log('doc successfully deleted')
+      })
+    window.removeEventListener('beforeunload', ev => {
+      ev.preventDefault()
+      db
+        .collection('games')
+        .doc('game1')
+        .collection('participants')
+        .doc(this.state.username)
+        .delete()
+      this.chatroom.add({
+        username: 'Admin',
+        message: `${this.state.username} has left the room`,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      })
+    })
   }
 
   handleChange = event => {
