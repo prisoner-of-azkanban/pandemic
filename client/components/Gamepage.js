@@ -1,5 +1,6 @@
 import React from 'react'
 import Chatroom from './Chatroom'
+import CanvasComponent from './canvas-component'
 
 class Gamepage extends React.Component {
   constructor() {
@@ -9,9 +10,7 @@ class Gamepage extends React.Component {
   render() {
     return (
       <div id="gamepage">
-        <div id="game-placeholder">
-          <h1>Placeholder for graphics</h1>
-        </div>
+        <CanvasComponent />
         <Chatroom />
       </div>
     )
