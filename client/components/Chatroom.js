@@ -8,7 +8,6 @@ class Chatroom extends React.Component {
   constructor() {
     super()
     this.state = {message: '', username: '', messages: []}
-    // this.chatroom = firebase.database().ref('messages')
     this.chatroom = db
       .collection('games')
       .doc('game1')
