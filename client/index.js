@@ -10,14 +10,11 @@ import App from './app'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../public/style.css'
 
-// establishes socket connection
-import './socket'
-
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
-  </Provider>,
+  // <Provider store={store}>
+  <Router history={history}>
+    <App />
+  </Router>,
+  // </Provider>,
   document.getElementById('app')
 )
