@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, UserHome, Chatroom, NewSignup} from './components'
+import {UserHome, Chatroom, NewSignup, NewLogin} from './components'
 import {me} from './store'
 
 /**
@@ -19,7 +19,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={NewLogin} />
         <Route path="/signup" component={NewSignup} />
         {isLoggedIn && (
           <Switch>
@@ -29,7 +29,7 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route path="/chat" component={Chatroom} />
-        <Route component={Login} />
+        <Route component={NewLogin} />
       </Switch>
     )
   }

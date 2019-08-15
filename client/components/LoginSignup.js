@@ -1,40 +1,45 @@
 import React from 'react'
+import {Form, Button} from 'react-bootstrap'
 
 const LoginSignup = props => {
   return (
     <div>
-      <form onSubmit={props.handleSubmit}>
+      <Form onSubmit={props.handleSubmit}>
         {props.displayName === 'Sign Up' ? (
-          <React.Fragment>
-            <label htmlFor="username">
-              <small>Username</small>
-            </label>
-            <input name="username" type="text" onChange={props.handleChange} />{' '}
-          </React.Fragment>
+          <div>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              name="username"
+              type="text"
+              onChange={props.handleChange}
+            />
+          </div>
         ) : (
           <div />
         )}
 
         <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" onChange={props.handleChange} />
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            name="email"
+            type="email"
+            onChange={props.handleChange}
+          />
         </div>
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             name="password"
             type="password"
             onChange={props.handleChange}
           />
         </div>
         <div>
-          <button type="submit">{props.displayName}</button>
+          <Button type="submit" variant="primary">
+            {props.displayName}
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }

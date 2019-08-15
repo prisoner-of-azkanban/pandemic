@@ -4,11 +4,10 @@ import firebase from 'firebase'
 
 import {app, db} from '../../firebase-server/firebase'
 
-class Signup extends React.Component {
+class Login extends React.Component {
   constructor() {
     super()
     this.state = {
-      username: '',
       email: '',
       password: ''
     }
@@ -21,16 +20,12 @@ class Signup extends React.Component {
   }
 
   handleSubmit = event => {
+    console.log(this.state)
     event.preventDefault()
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user =>
-        db
-          .collection('users')
-          .doc(user.user.uid)
-          .set({username: this.state.username, email: this.state.email})
-      )
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(alert('you have logged in'))
       .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message
@@ -41,7 +36,7 @@ class Signup extends React.Component {
   render() {
     return (
       <LoginSignup
-        displayName="Sign Up"
+        displayName="Log In"
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
       />
@@ -49,4 +44,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup
+export default Login
