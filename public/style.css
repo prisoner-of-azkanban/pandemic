@@ -24,3 +24,10 @@ form div {
   overflow-y: scroll;
   height: 20vh;
 }
+
+.canvas {
+  height: 85px;
+  width: 180px;
+  padding: 5%;
+  border: 3px solid black;
+}

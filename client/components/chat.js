@@ -1,25 +1,29 @@
 import React from 'react'
-import MessageBox from './MessageBox'
+import CanvasComponent from './canvas-component'
 import io from 'socket.io-client'
 import * as ReactDOM from 'react-dom'
 
-const socket =
-  window.location.hostname !== 'localhost'
-    ? io('http://onlinepandemicgame.herokuapp.com')
-    : io('http://localhost:8080')
+// const socket =
+//   window.location.hostname !== 'localhost'
+//     ? io('http://onlinepandemicgame.herokuapp.com')
+//     : io('http://localhost:8080')
 
 class Chatroom extends React.Component {
   constructor() {
     super()
     this.state = {message: '', username: '', messages: []}
-    this.socket = socket
+    // this.socket = socket
+    this.socket =
+      window.location.hostname !== 'localhost'
+        ? io('http://onlinepandemicgame.herokuapp.com')
+        : io('http://localhost:8080')
   }
 
   componentDidMount() {
-    socket.on('connect', () => {
+    this.socket.on('connect', () => {
       console.log('client side socket works!')
     })
-    socket.on('updatechat', data => {
+    this.socket.on('updatechat', data => {
       console.log('update chat with new username', data)
       this.setState({messages: [...this.state.messages, data]})
       console.log(this.state)
@@ -33,7 +37,7 @@ class Chatroom extends React.Component {
 
   nameClick = event => {
     event.preventDefault()
-    socket.emit('adduser', this.state.username)
+    this.socket.emit('adduser', this.state.username)
   }
 
   handleName = event => {
@@ -50,7 +54,7 @@ class Chatroom extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    socket.emit('message', {message: this.state.message})
+    this.socket.emit('message', {message: this.state.message})
     this.setState({
       message: ''
     })
@@ -61,8 +65,10 @@ class Chatroom extends React.Component {
   }
 
   render() {
+    console.log('the socket', this.socket)
     return (
       <React.Fragment>
+        <CanvasComponent socket={this.socket} />
         <div className="chatBox">
           {this.state.messages.length ? (
             this.state.messages.map((message, index) => (
