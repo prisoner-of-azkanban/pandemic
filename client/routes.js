@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {UserHome, Chatroom, NewSignup, NewLogin} from './components'
+import {UserHome, Chatroom, NewSignup, NewLogin, NewChat} from './components'
 import {me} from './store'
 
 /**
@@ -29,6 +29,7 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route path="/chat" component={Chatroom} />
+        <Route path="/newchat" component={NewChat} />
         <Route component={NewLogin} />
       </Switch>
     )
@@ -49,7 +50,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
-      dispatch(me())
+      // dispatch(me())
     }
   }
 }
