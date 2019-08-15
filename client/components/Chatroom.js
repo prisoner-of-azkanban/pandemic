@@ -19,7 +19,6 @@ class Chatroom extends React.Component {
   async componentDidMount() {
     let user = firebase.auth().currentUser
     let username = 'Guest'
-    let messages = []
     if (user) {
       await db
         .collection('users')
@@ -34,24 +33,17 @@ class Chatroom extends React.Component {
           }
         })
     }
-    await this.chatroom.get().then(function(doc) {
-      doc.forEach(function(doc) {
-        messages.push(doc.data())
-        console.log('componentdidmount firing')
-      })
-    })
-    this.setState({username: username, messages: messages})
-
-    // this.chatroom.on('value', this.listenMessages)
+    this.setState({username: username})
   }
 
-  // componentDidUpdate() {
-  //   this.scrollToBottom()
-  // }
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
 
-  // componentWillUnmount() {
-  //   this.chatroom.off('value', this.listenMessages)
-  // }
+  componentWillUnmount() {
+    const unsubscribe = this.chatroom.onSnapshot(this.listenMessages)
+    unsubscribe()
+  }
 
   handleChange = event => {
     this.setState({
@@ -60,15 +52,19 @@ class Chatroom extends React.Component {
   }
 
   handleSubmit = event => {
+    event.preventDefault()
     if (this.state.username && this.state.message) {
-      this.chatroom.add({
-        username: this.state.username,
-        message: this.state.message,
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-      this.setState({
-        message: ''
-      })
+      this.chatroom
+        .add({
+          username: this.state.username,
+          message: this.state.message,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+        })
+        .then(
+          this.setState({
+            message: ''
+          })
+        )
     }
   }
 
@@ -81,15 +77,14 @@ class Chatroom extends React.Component {
     this.chatroom
       .orderBy('createdAt', 'asc')
       .get()
-      .then(function(doc) {
+      .then(doc => {
         doc.forEach(function(msg) {
           messages.push(msg.data())
         })
+        this.setState({
+          messages: messages
+        })
       })
-    console.log('messages', messages)
-    this.setState({
-      messages: messages
-    })
   }
 
   render() {
