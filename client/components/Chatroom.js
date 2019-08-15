@@ -40,9 +40,10 @@ class Chatroom extends React.Component {
     this.scrollToBottom()
   }
 
-  // componentWillUnmount() {
-  //   this.chatroom.off('value', this.listenMessages)
-  // }
+  componentWillUnmount() {
+    const unsubscribe = this.chatroom.onSnapshot(this.listenMessages)
+    unsubscribe()
+  }
 
   handleChange = event => {
     this.setState({
