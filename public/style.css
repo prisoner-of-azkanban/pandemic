@@ -30,6 +30,8 @@ form div {
   width: 180px;
   padding: 5%;
   border: 3px solid black;
+}
+
 #gamepage {
   display: flex;
   flex-direction: column;
