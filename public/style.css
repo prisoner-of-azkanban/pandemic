@@ -24,3 +24,13 @@ form div {
   overflow-y: scroll;
   height: 20vh;
 }
+
+#gamepage {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+#game-placeholder {
+  height: 60vh;
+}
