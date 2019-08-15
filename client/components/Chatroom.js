@@ -12,7 +12,7 @@ class Chatroom extends React.Component {
 
   async componentDidMount() {
     let user = firebase.auth().currentUser
-    let username = ''
+    let username = 'Guest'
     if (user) {
       await db
         .collection('users')
