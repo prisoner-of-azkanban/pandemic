@@ -2,6 +2,7 @@ import React from 'react'
 import {app, db, config} from '../../firebase-server/firebase'
 import {Form, Button} from 'react-bootstrap'
 import firebase from 'firebase'
+import {randomNumGenerator} from './utils'
 
 class Chatroom extends React.Component {
   constructor() {
@@ -18,7 +19,7 @@ class Chatroom extends React.Component {
 
   async componentDidMount() {
     let user = firebase.auth().currentUser
-    let username = 'Guest'
+    let username = 'Guest' + randomNumGenerator()
     if (user) {
       await db
         .collection('users')
@@ -33,7 +34,22 @@ class Chatroom extends React.Component {
           }
         })
     }
+    db
+      .collection('games')
+      .doc('game1')
+      .collection('participants')
+      .doc(username)
+      .set({username: username})
     this.setState({username: username})
+    window.addEventListener('beforeunload', ev => {
+      ev.preventDefault()
+      db
+        .collection('games')
+        .doc('game1')
+        .collection('participants')
+        .doc(this.state.username)
+        .delete()
+    })
   }
 
   componentDidUpdate() {
@@ -43,6 +59,24 @@ class Chatroom extends React.Component {
   componentWillUnmount() {
     const unsubscribe = this.chatroom.onSnapshot(this.listenMessages)
     unsubscribe()
+    db
+      .collection('games')
+      .doc('game1')
+      .collection('participants')
+      .doc(this.state.username)
+      .delete()
+      .then(function() {
+        console.log('doc successfully deleted')
+      })
+    window.removeEventListener('beforeunload', ev => {
+      ev.preventDefault()
+      db
+        .collection('games')
+        .doc('game1')
+        .collection('participants')
+        .doc(this.state.username)
+        .delete()
+    })
   }
 
   handleChange = event => {
