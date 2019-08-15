@@ -19,5 +19,9 @@ module.exports = io => {
       io.emit('updatechat', username + ' has connected')
       // io.sockets.emit('updateusers', usernames)
     })
+
+    socket.on('colorchange', color => {
+      io.emit('setcolor', color)
+    })
   })
 }
