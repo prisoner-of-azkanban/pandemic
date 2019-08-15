@@ -20,7 +20,9 @@ class Signup extends React.Component {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = event => {
+    event.preventDefault()
+    console.log('i was clicked')
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -34,7 +36,6 @@ class Signup extends React.Component {
         var errorCode = error.code
         var errorMessage = error.message
         console.log(errorCode, errorMessage)
-        alert(error.message)
       })
   }
 
