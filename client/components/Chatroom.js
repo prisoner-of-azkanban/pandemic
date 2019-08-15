@@ -41,6 +41,11 @@ class Chatroom extends React.Component {
       .doc(username)
       .set({username: username})
     this.setState({username: username})
+    await this.chatroom.add({
+      username: 'Admin',
+      message: `${username} has entered the room`,
+      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+    })
     window.addEventListener('beforeunload', ev => {
       ev.preventDefault()
       db
@@ -49,6 +54,11 @@ class Chatroom extends React.Component {
         .collection('participants')
         .doc(this.state.username)
         .delete()
+      this.chatroom.add({
+        username: 'Admin',
+        message: `${username} has left the room`,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      })
     })
   }
 
@@ -76,6 +86,11 @@ class Chatroom extends React.Component {
         .collection('participants')
         .doc(this.state.username)
         .delete()
+      this.chatroom.add({
+        username: 'Admin',
+        message: `${this.state.username} has left the room`,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      })
     })
   }
 
