@@ -28,7 +28,7 @@ class Chatroom extends React.Component {
         })
     }
     this.setState({username: username})
-    this.listenMessages()
+    this.chatroom.on('value', this.listenMessages)
   }
 
   componentDidUpdate() {
@@ -36,7 +36,7 @@ class Chatroom extends React.Component {
   }
 
   componentWillUnmount() {
-    this.chatroom.off()
+    this.chatroom.off('value', this.listenMessages)
   }
 
   handleChange = event => {
