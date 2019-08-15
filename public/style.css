@@ -30,4 +30,12 @@ form div {
   width: 180px;
   padding: 5%;
   border: 3px solid black;
+#gamepage {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+#game-placeholder {
+  height: 60vh;
 }

@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Chatroom} from './components'
+import {
+  UserHome,
+  Chatroom,
+  NewSignup,
+  NewLogin,
+  NewChat,
+  Gamepage
+} from './components'
 import {me} from './store'
 
 /**
@@ -19,8 +26,8 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login" component={NewLogin} />
+        <Route path="/signup" component={NewSignup} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -29,7 +36,9 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route path="/chat" component={Chatroom} />
-        <Route component={Login} />
+        <Route path="/newchat" component={NewChat} />
+        <Route path="/game" component={Gamepage} />
+        <Route component={NewLogin} />
       </Switch>
     )
   }
@@ -49,7 +58,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
-      dispatch(me())
+      // dispatch(me())
     }
   }
 }
