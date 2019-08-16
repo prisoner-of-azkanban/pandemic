@@ -10,7 +10,7 @@ class Chatroom extends React.Component {
     this.state = {message: '', username: '', messages: []}
     this.chatroom = db
       .collection('games')
-      .doc(this.props.match.params.gamename)
+      .doc(this.props.gamename)
       .collection('chatroom')
 
     this.chatroom.onSnapshot(this.listenMessages)

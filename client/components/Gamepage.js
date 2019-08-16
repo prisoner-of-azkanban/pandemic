@@ -3,15 +3,15 @@ import Chatroom from './Chatroom'
 import CanvasComponent from './canvas-component'
 
 class Gamepage extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
   }
 
   render() {
     return (
       <div id="gamepage">
-        <CanvasComponent />
-        <Chatroom />
+        <CanvasComponent gamename={this.props.match.params.gamename} />
+        <Chatroom gamename={this.props.match.params.gamename} />
       </div>
     )
   }

@@ -9,6 +9,8 @@ import {
   WaitingRoom
 } from './components'
 
+import CanvasComp from './components/canvas-component'
+
 /**
  * COMPONENT
  */
@@ -23,7 +25,7 @@ class Routes extends Component {
         <Route
           exact
           path="/game/:gamename"
-          render={props => <NewChat {...props} />}
+          render={props => <Gamepage {...props} />}
         />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
