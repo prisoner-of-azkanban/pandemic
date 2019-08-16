@@ -27,7 +27,6 @@ class MyRect extends React.Component {
       .get()
       .then(function(doc) {
         if (!doc.exists) {
-          console.log('nope')
           db
             .collection('games')
             .doc(gamename)
