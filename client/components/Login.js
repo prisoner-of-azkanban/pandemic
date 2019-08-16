@@ -1,7 +1,8 @@
 import React from 'react'
 import LoginSignup from './LoginSignup'
 import firebase from 'firebase'
-
+import * as yup from 'yup'
+import {validationLogin} from './utils'
 import {app, db} from '../../firebase-server/firebase'
 
 class Login extends React.Component {
@@ -19,18 +20,24 @@ class Login extends React.Component {
     })
   }
 
-  handleSubmit = event => {
-    console.log(this.state)
+  handleSubmit = async event => {
     event.preventDefault()
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(alert('you have logged in'))
-      .catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
-        console.log(errorCode, errorMessage)
-      })
+    const valid = await validationLogin.isValid(this.state)
+    if (valid) {
+      console.log('hi i am valid')
+      try {
+        const login = await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+        if (login) {
+          alert('you have logged in')
+        }
+      } catch (error) {
+        alert(error.message)
+      }
+    } else {
+      console.log('hi im not valid')
+    }
   }
 
   render() {
@@ -39,6 +46,7 @@ class Login extends React.Component {
         displayName="Log In"
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        disabled={false}
       />
     )
   }

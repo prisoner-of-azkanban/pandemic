@@ -24,7 +24,6 @@ class MyRect extends React.Component {
   listenColors = () => {
     let color = ''
     this.color.get().then(doc => {
-      console.log('hi', doc)
       doc.forEach(clr => {
         color = clr.data()
       })
@@ -33,8 +32,6 @@ class MyRect extends React.Component {
   }
 
   render() {
-    console.log('what is a color', this.state.color)
-    // console.log('cahtroom', this.chatroom)
     return (
       <Rect
         x={10}

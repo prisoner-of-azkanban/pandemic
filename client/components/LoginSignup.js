@@ -35,7 +35,7 @@ const LoginSignup = props => {
           />
         </div>
         <div>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={props.disabled}>
             {props.displayName}
           </Button>
         </div>
