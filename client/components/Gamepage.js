@@ -1,6 +1,5 @@
 import React from 'react'
-import Chatroom from './Chatroom'
-import CanvasComponent from './canvas-component'
+import {Chatroom, CanvasComponent, Test} from './index'
 
 class Gamepage extends React.Component {
   constructor() {
@@ -12,6 +11,7 @@ class Gamepage extends React.Component {
       <div id="gamepage">
         <CanvasComponent />
         <Chatroom />
+        <Test />
       </div>
     )
   }
