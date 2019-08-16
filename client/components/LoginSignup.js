@@ -3,7 +3,12 @@ import {Form, Button} from 'react-bootstrap'
 
 const LoginSignup = props => {
   return (
-    <div>
+    <div className="login-page">
+      {props.displayName === 'Sign Up' ? (
+        <p id="header-sub">Sign up for the resistance</p>
+      ) : (
+        <p id="header-sub">Sign into your account</p>
+      )}
       <Form onSubmit={props.handleSubmit}>
         {props.displayName === 'Sign Up' ? (
           <div>
@@ -35,7 +40,12 @@ const LoginSignup = props => {
           />
         </div>
         <div>
-          <Button type="submit" variant="primary" disabled={props.disabled}>
+          <Button
+            type="submit"
+            variant="outline-dark"
+            disabled={props.disabled}
+            className="main-btn"
+          >
             {props.displayName}
           </Button>
         </div>

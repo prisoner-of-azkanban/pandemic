@@ -20,12 +20,11 @@ class Login extends React.Component {
   }
 
   handleSubmit = event => {
-    console.log(this.state)
     event.preventDefault()
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => alert('you have logged in'))
+      .then(() => this.props.history.push('/waitingroom'))
       .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message
@@ -41,12 +40,14 @@ class Login extends React.Component {
       this.state.email.includes('@')
     )
     return (
-      <LoginSignup
-        displayName="Log In"
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        disabled={disabled}
-      />
+      <React.Fragment>
+        <LoginSignup
+          displayName="Log In"
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          disabled={disabled}
+        />
+      </React.Fragment>
     )
   }
 }

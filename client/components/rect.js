@@ -4,16 +4,37 @@ import {db} from '../../firebase-server/firebase'
 import firebase from 'firebase'
 
 class MyRect extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       color: 'green'
     }
     this.color = db
       .collection('games')
-      .doc('game1')
+      .doc(this.props.gamename)
       .collection('colors')
     this.color.onSnapshot(this.listenColors)
+  }
+
+  async componentDidMount() {
+    const gamename = this.props.gamename
+    const color = this.state.color
+    await db
+      .collection('games')
+      .doc(this.props.gamename)
+      .collection('colors')
+      .doc('color')
+      .get()
+      .then(function(doc) {
+        if (!doc.exists) {
+          db
+            .collection('games')
+            .doc(gamename)
+            .collection('colors')
+            .doc('color')
+            .set({color: color})
+        }
+      })
   }
 
   handleClick = () => {
@@ -24,7 +45,6 @@ class MyRect extends React.Component {
   listenColors = () => {
     let color = ''
     this.color.get().then(doc => {
-      console.log('hi', doc)
       doc.forEach(clr => {
         color = clr.data()
       })
@@ -33,7 +53,8 @@ class MyRect extends React.Component {
   }
 
   render() {
-    console.log('what is a color', this.state.color)
+    console.log('rect.js props', this.props)
+    // console.log('what is a color', this.state.color)
     // console.log('cahtroom', this.chatroom)
     return (
       <Rect

@@ -6,7 +6,7 @@ function CanvasComponent(props) {
   return (
     <Stage width={150} height={150}>
       <Layer>
-        <MyRect />
+        <MyRect gamename={props.gamename} />
       </Layer>
     </Stage>
   )
