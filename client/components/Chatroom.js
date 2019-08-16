@@ -17,34 +17,38 @@ class Chatroom extends React.Component {
   }
 
   async componentDidMount() {
-    let user = firebase.auth().currentUser
+    let userId = ''
     let username = 'Guest' + randomNumGenerator()
-    if (user) {
-      await db
-        .collection('users')
-        .doc(user.uid)
-        .get()
-        .then(function(doc) {
-          if (doc.exists) {
-            console.log('document data obtained')
-            username = doc.data().username
-          } else {
-            console.log('document does not exist')
-          }
-        })
-    }
+
+    await firebase.auth().onAuthStateChanged(loggedinUser => {
+      if (loggedinUser) {
+        userId = loggedinUser.uid
+        db
+          .collection('users')
+          .doc(userId)
+          .get()
+          .then(doc => {
+            if (doc.exists) {
+              username = doc.data().username
+              this.setState({username: username})
+            }
+          })
+          .then(() =>
+            this.chatroom.add({
+              username: 'Admin',
+              message: `${username} has entered the room`,
+              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+            })
+          )
+      }
+    })
     db
       .collection('games')
       .doc('game1')
       .collection('participants')
       .doc(username)
       .set({username: username})
-    this.setState({username: username})
-    await this.chatroom.add({
-      username: 'Admin',
-      message: `${username} has entered the room`,
-      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-    })
+
     window.addEventListener('beforeunload', ev => {
       ev.preventDefault()
       db
@@ -155,15 +159,15 @@ class Chatroom extends React.Component {
             }}
           />
         </div>
-        <Form>
-          Message:
+        <Form onSubmit={this.handleSubmit}>
           <Form.Control
             type="text"
+            placeholder="enter message here"
             name="message"
             value={this.state.message}
             onChange={this.handleChange}
           />
-          <Button onClick={this.handleSubmit}>Send</Button>
+          <Button type="submit">Send</Button>
         </Form>
       </React.Fragment>
     )
