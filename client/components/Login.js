@@ -25,20 +25,27 @@ class Login extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(alert('you have logged in'))
+      .then(login => alert('you have logged in'))
       .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message
         console.log(errorCode, errorMessage)
+        alert(errorMessage)
       })
   }
 
   render() {
+    const disabled = !(
+      this.state.email.length &&
+      this.state.password.length &&
+      this.state.email.includes('@')
+    )
     return (
       <LoginSignup
         displayName="Log In"
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        disabled={disabled}
       />
     )
   }
