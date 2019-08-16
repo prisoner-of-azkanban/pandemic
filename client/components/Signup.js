@@ -31,6 +31,7 @@ class Signup extends React.Component {
           .doc(user.user.uid)
           .set({username: this.state.username, email: this.state.email})
       )
+      .then(() => this.props.history.push('/waitingroom'))
       .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message

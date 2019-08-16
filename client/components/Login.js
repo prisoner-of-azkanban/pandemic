@@ -20,12 +20,11 @@ class Login extends React.Component {
   }
 
   handleSubmit = event => {
-    console.log(this.state)
     event.preventDefault()
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => alert('you have logged in'))
+      .then(() => this.props.history.push('/waitingroom'))
       .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message
