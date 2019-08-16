@@ -41,3 +41,52 @@ form div {
 #game-placeholder {
   height: 60vh;
 }
+
+.home-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: black;
+  background-color: yellow;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: black;
+  background-color: yellow;
+}
+
+.home-page-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#header,
+#header-sub {
+  text-align: left;
+  font-family: 'impact';
+}
+
+#header-sub {
+  font-size: x-large;
+}
+
+.main-btn {
+  margin: 30px;
+  border-color: black;
+  color: black;
+}
+
+.main-btn-text {
+  color: black;
+}
+
+.main-btn-text:hover {
+  color: black;
+}

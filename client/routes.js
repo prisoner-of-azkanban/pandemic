@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom'
-import {Chatroom, NewSignup, NewLogin, NewChat, Gamepage} from './components'
+import {Homepage, NewSignup, NewLogin, NewChat, Gamepage} from './components'
 
 /**
  * COMPONENT
@@ -15,6 +15,7 @@ class Routes extends Component {
         {/* Displays our Login component as a fallback */}
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
+        <Route exact path="/" component={Homepage} />
         <Route component={NewLogin} />
       </Switch>
     )

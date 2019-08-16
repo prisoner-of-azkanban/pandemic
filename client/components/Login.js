@@ -41,12 +41,14 @@ class Login extends React.Component {
       this.state.email.includes('@')
     )
     return (
-      <LoginSignup
-        displayName="Log In"
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        disabled={disabled}
-      />
+      <React.Fragment>
+        <LoginSignup
+          displayName="Log In"
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          disabled={disabled}
+        />
+      </React.Fragment>
     )
   }
 }
