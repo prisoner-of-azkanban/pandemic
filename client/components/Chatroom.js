@@ -155,7 +155,7 @@ class Chatroom extends React.Component {
             }}
           />
         </div>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           Message:
           <Form.Control
             type="text"
@@ -163,7 +163,7 @@ class Chatroom extends React.Component {
             value={this.state.message}
             onChange={this.handleChange}
           />
-          <Button onClick={this.handleSubmit}>Send</Button>
+          <Button type="submit">Send</Button>
         </Form>
       </React.Fragment>
     )
