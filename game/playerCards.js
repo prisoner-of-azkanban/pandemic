@@ -1,37 +1,37 @@
 export const playerCards = [
   {
-    title: 'government grant',
+    title: 'Government Grant',
     type: 'event',
     color: null,
-    description: 'add one research station to any city. no city card needed.'
+    description: 'Add one research station to any city. No city card needed.'
   },
   {
-    title: 'airlift',
+    title: 'Airlift',
     type: 'event',
     color: null,
     description:
-      "move any one pawn to any city. get permission before moving another player's pawn."
+      "Move any one pawn to any city. Get permission before moving another player's pawn."
   },
   {
-    title: 'forecast',
+    title: 'Forecast',
     type: 'event',
     color: null,
     description:
-      'draw, look at, and rearrange the top 6 cards of the infection deck. put them back on top.'
+      'Draw, look at, and rearrange the top 6 cards of the infection deck. Put them back on top.'
   },
   {
-    title: 'one quiet night',
+    title: 'One Quiet Night',
     type: 'event',
     color: null,
     description:
-      'skip the next infect cities step (do not flip over any infection cards).'
+      'Skip the next infect cities step (Do not flip over any infection cards).'
   },
   {
-    title: 'resilient population',
+    title: 'Resilient Population',
     type: 'event',
     color: null,
     description:
-      'remove any one card in the infection discard pile from the game. you may play this between the infect and intesify steps of an epidemic.'
+      'Remove any one card in the infection discard pile from the game. You may play this between the infect and intesify steps of an epidemic.'
   },
   {
     title: 'Bogotá',
@@ -300,7 +300,7 @@ export const playerCards = [
     population: 17311000
   },
   {
-    title: 'Ho Chi Mihn City',
+    title: 'Ho Chi Minh City',
     type: 'city',
     color: 'red',
     description: null,
