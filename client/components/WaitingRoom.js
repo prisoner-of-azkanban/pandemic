@@ -11,10 +11,11 @@ class WaitingRoom extends React.Component {
       games: []
     }
     this.games = db.collection('games')
+    this.games.onSnapshot(this.listenGames)
   }
 
   async componentDidMount() {
-    const games = []
+    let games = []
     await this.games
       .get()
       .then(function(doc) {
@@ -41,14 +42,26 @@ class WaitingRoom extends React.Component {
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
 
+  listenGames = () => {
+    let games = []
+    this.games.get().then(doc => {
+      doc.forEach(function(game) {
+        games.push(game.data())
+      })
+      this.setState({
+        games: games
+      })
+    })
+  }
+
   render() {
     return (
       <div className="waiting-room-page">
         <Row className="waiting-room-list">
-          {this.state.games.map(game => (
+          {this.state.games.filter(game => !game.isFull).map(game => (
             <Col key={game.name} md="3" className="waiting-room-game">
-              <h1 className="game-name">{game.name}</h1>
               <Link to={`/game/${game.name}`} className="game-join-link">
+                <h1 className="game-name">{game.name}</h1>
                 Join Game
               </Link>
             </Col>
