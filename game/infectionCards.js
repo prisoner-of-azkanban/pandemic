@@ -1,4 +1,4 @@
-export const roleCards = [
+export const infectionCards = [
   {
     city: 'Bogotá',
     country: 'Colombia',
