@@ -54,8 +54,8 @@ class WaitingRoom extends React.Component {
             </Col>
           ))}
         </Row>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Label>Game Name</Form.Label>
+        <Form onSubmit={this.handleSubmit} className="waiting-room-game">
+          <h1 className="game-name">New Game</h1>
           <Form.Control
             name="gamename"
             type="text"

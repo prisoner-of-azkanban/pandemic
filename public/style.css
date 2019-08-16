@@ -126,3 +126,7 @@ form div {
 .game-name {
   padding-top: 20px;
 }
+
+.gamenamelabel {
+  text-align: center;
+}
