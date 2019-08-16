@@ -40,17 +40,18 @@ class Signup extends React.Component {
   }
 
   render() {
-    const disabled =
-      !(this.state.password.length > 5 &&
+    const disabled = !(
+      this.state.password.length > 5 &&
       this.state.username.length &&
       this.state.email.length &&
-      this.state.email.includes('@'))
+      this.state.email.includes('@')
+    )
     return (
       <LoginSignup
         displayName="Sign Up"
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-        disabled={false}
+        disabled={disabled}
       />
     )
   }
