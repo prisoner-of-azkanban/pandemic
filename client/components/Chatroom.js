@@ -5,12 +5,12 @@ import firebase from 'firebase'
 import {randomNumGenerator} from './utils'
 
 class Chatroom extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {message: '', username: '', messages: []}
     this.chatroom = db
       .collection('games')
-      .doc('game1')
+      .doc(this.props.match.params.gamename)
       .collection('chatroom')
 
     this.chatroom.onSnapshot(this.listenMessages)

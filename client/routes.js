@@ -20,9 +20,17 @@ class Routes extends Component {
         <Route path="/login" render={props => <NewLogin {...props} />} />
         <Route path="/signup" render={props => <NewSignup {...props} />} />
         {/* Displays our Login component as a fallback */}
+        <Route
+          exact
+          path="/game/:gamename"
+          render={props => <NewChat {...props} />}
+        />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
-        <Route path="/waitingroom" component={WaitingRoom} />
+        <Route
+          path="/waitingroom"
+          render={props => <WaitingRoom {...props} />}
+        />
         <Route exact path="/" component={Homepage} />
         <Route component={NewLogin} />
       </Switch>
