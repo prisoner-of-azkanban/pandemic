@@ -1,13 +1,26 @@
 import React from 'react'
-import {Button, Form} from 'react-bootstrap'
+import {Button, Form, Col, Row} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
+import {Link} from 'react-router-dom'
 
 class WaitingRoom extends React.Component {
   constructor() {
     super()
     this.state = {
-      gamename: ''
+      gamename: '',
+      games: []
     }
+    this.games = db.collection('games')
+  }
+
+  async componentDidMount() {
+    const games = []
+    await this.games
+      .get()
+      .then(function(doc) {
+        doc.forEach(game => games.push(game.data()))
+      })
+      .then(() => this.setState({games: games}))
   }
 
   handleChange = event => {
@@ -30,7 +43,17 @@ class WaitingRoom extends React.Component {
 
   render() {
     return (
-      <div className="home-page">
+      <div className="waiting-room-page">
+        <Row className="waiting-room-list">
+          {this.state.games.map(game => (
+            <Col key={game.name} md="3" className="waiting-room-game">
+              <h1 className="game-name">{game.name}</h1>
+              <Link to={`/game/${game.name}`} className="game-join-link">
+                Join Game
+              </Link>
+            </Col>
+          ))}
+        </Row>
         <Form onSubmit={this.handleSubmit}>
           <Form.Label>Game Name</Form.Label>
           <Form.Control

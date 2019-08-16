@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Courier New';
 }
 
 a {
@@ -89,4 +89,40 @@ form div {
 
 .main-btn-text:hover {
   color: black;
+}
+
+.waiting-room-game {
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 10px;
+  align-self: center;
+  text-align: center;
+}
+
+.waiting-room-list {
+  justify-content: center;
+}
+
+.waiting-room-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: black;
+  background-color: yellow;
+}
+
+.game-join-link {
+  color: black;
+  padding-bottom: 10px;
+}
+
+.game-join-link:hover {
+  color: white;
+  padding-bottom: 10px;
+}
+
+.game-name {
+  padding-top: 20px;
 }
