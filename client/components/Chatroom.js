@@ -17,7 +17,6 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-    console.log('username', this.props)
     db
       .collection('games')
       .doc('game1')

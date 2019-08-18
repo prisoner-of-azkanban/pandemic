@@ -1,5 +1,5 @@
 import React from 'react'
-import {Chatroom, CanvasComponent, Test} from './index'
+import {Chatroom, CanvasComponent, Test, GamePlay} from './index'
 import firebase from 'firebase'
 import {randomNumGenerator} from './utils'
 import {app, db, config} from '../../firebase-server/firebase'
@@ -36,13 +36,16 @@ class Gamepage extends React.Component {
   render() {
     return this.state.username ? (
       <div id="gamepage">
-        <CanvasComponent gamename={this.props.match.params.gamename} />
+        <GamePlay
+          gamename={this.props.match.params.gamename}
+          username={this.state.username}
+        />
         <Chatroom
           gamename={this.props.match.params.gamename}
           username={this.state.username}
         />
 
-        <Test />
+        {/* <Test /> */}
       </div>
     ) : (
       <div />

@@ -16,3 +16,4 @@ export {default as Chatroom} from './Chatroom'
 export {default as CanvasComponent} from './canvas-component'
 export {default as Test} from './Test'
 
+export {default as GamePlay} from './Game'

@@ -37,7 +37,8 @@ class WaitingRoom extends React.Component {
       .doc(this.state.gamename)
       .set({
         name: this.state.gamename,
-        isFull: false
+        isFull: false,
+        players: []
       })
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
