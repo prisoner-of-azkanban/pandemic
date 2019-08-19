@@ -58,7 +58,7 @@ class Cards extends React.Component {
     this._isMounted = true
     const players = this.props.players
     this.props.game.get().then(doc => {
-      if (!doc.data().player1.id) {
+      if (!doc.data().player1.location) {
         this.props.game.set(
           {
             player1: {
@@ -100,6 +100,15 @@ class Cards extends React.Component {
           },
           {merge: true}
         )
+      } else if (this._isMounted) {
+        this.setState({
+          player1: doc.data().player1,
+          player2: doc.data().player2,
+          player3: doc.data().player3,
+          player4: doc.data().player4,
+          deck: doc.data().deck,
+          currentTurn: doc.data().currentTurn
+        })
       }
     })
   }
