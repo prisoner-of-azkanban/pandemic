@@ -53,6 +53,7 @@ class Gamepage extends React.Component {
         <Chatroom
           gamename={this.props.match.params.gamename}
           username={this.state.username}
+          className="chat-container"
         />
 
         {/* <Test /> */}

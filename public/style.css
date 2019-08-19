@@ -35,7 +35,7 @@ form div {
 #gamepage {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 100vh;
 }
 
 #game-placeholder {
@@ -143,4 +143,82 @@ form div {
 
 .gamenamelabel {
   text-align: center;
+}
+
+.game-container {
+  width: 100vw;
+  height: 80vh;
+}
+
+.chat-container {
+  height: 20vh;
+}
+
+#main-game-screen {
+  height: 100%;
+  width: 80%;
+}
+
+#game-menu {
+  width: 20%;
+  height: 80vh;
+  border: 1px solid black;
+  border-radius: 15px;
+  text-align: center;
+}
+
+#whole-game-screen {
+  display: flex;
+}
+
+#btn-menu {
+  width: 100%;
+}
+
+.game-menu-btn {
+  margin: 5px;
+}
+
+.game-menu-btn:hover {
+  background-color: yellow;
+  color: black;
+}
+
+.menu-header-1 {
+  text-decoration: underline;
+  padding-top: 10px;
+  font-family: impact;
+}
+
+#card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  text-align: left;
+}
+
+#your-cards-container,
+#other-cards-container {
+  margin: 0px;
+  padding-left: 0px;
+}
+
+.card-container-header {
+  font-style: italic;
+}
+
+.yellow {
+  text-shadow: 2px 2px 5px yellow;
+}
+
+.blue {
+  text-shadow: 2px 2px 5px blue;
+}
+
+.red {
+  text-shadow: 2px 2px 5px red;
+}
+
+.black {
+  text-shadow: 2px 2px 5px black;
 }

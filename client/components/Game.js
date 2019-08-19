@@ -112,9 +112,13 @@ class Game extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="game-container">
         {this.state.started ? (
-          <Cards players={this.state.players} game={this.game} />
+          <Cards
+            players={this.state.players}
+            game={this.game}
+            username={this.props.username}
+          />
         ) : this.state.isFull ? (
           <p>The room is full, start the game</p>
         ) : (
