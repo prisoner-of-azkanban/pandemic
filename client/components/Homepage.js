@@ -22,12 +22,6 @@ const Homepage = () => {
               <Nav.Link className="main-btn-text">Sign Up</Nav.Link>
             </LinkContainer>
           </Button>
-
-          <Button variant="outline-light" className="main-btn">
-            <LinkContainer to="/game">
-              <Nav.Link className="main-btn-text">Game (placeholder)</Nav.Link>
-            </LinkContainer>
-          </Button>
         </div>
       </Container>
     </div>
