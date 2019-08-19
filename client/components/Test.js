@@ -534,7 +534,12 @@ class Test extends React.Component {
     threeCubes.forEach(city => this.infectCity(city.city, city.color, 3))
     twoCubes.forEach(city => this.infectCity(city.city, city.color, 2))
     oneCubes.forEach(city => this.infectCity(city.city, city.color))
-    //set state for game start
+    //add cards to infect discard
+    const infectionDiscard = [threeCubes, twoCubes, oneCubes].flat()
+    this.setState({infectionCardDiscard: infectionDiscard})
+    //set state for infect card deck
+    this.setState({infectionCardDeck: shuffledInfectionDeck})
+    //set state for players
     this.setState({
       player1: {
         ...this.state.player1,
