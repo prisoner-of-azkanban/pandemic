@@ -10,9 +10,11 @@ class Gamepage extends React.Component {
     this.state = {
       username: ''
     }
+    this._isMounted = false
   }
 
   async componentDidMount() {
+    this._isMounted = true
     let userId = ''
     let username = 'Guest' + randomNumGenerator()
 
@@ -28,9 +30,17 @@ class Gamepage extends React.Component {
               username = doc.data().username
             }
           })
-          .then(() => this.setState({username: username}))
+          .then(() => {
+            if (this._isMounted) {
+              this.setState({username: username})
+            }
+          })
       }
     })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {
