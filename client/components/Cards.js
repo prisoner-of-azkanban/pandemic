@@ -8,6 +8,7 @@ import {cityList} from '../../game/cityList'
 const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
+import GameMenu from './GameMenu'
 
 class Cards extends React.Component {
   constructor(props) {
@@ -251,42 +252,53 @@ class Cards extends React.Component {
 
   render() {
     return this.state.player1.location ? (
-      <React.Fragment>
-        <p>First Player: {this.state.currentTurn}</p>
-        <ul>
-          {this.state.player1.name} event card in hand:
-          {this.state.player1.event.toString()} turn:
-          {this.state.player1.turn.toString()}
-          {this.state.player1.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player2.name} event card in hand:
-          {this.state.player2.event.toString()} turn:
-          {this.state.player2.turn.toString()}
-          {this.state.player2.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player3.name} event card in hand:
-          {this.state.player3.event.toString()} turn:
-          {this.state.player3.turn.toString()}
-          {this.state.player3.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player4.name} event card in hand:
-          {this.state.player4.event.toString()} turn:
-          {this.state.player4.turn.toString()}
-          {this.state.player4.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <Button onClick={this.startGame}>test shuffle</Button>
-      </React.Fragment>
+      <div id="whole-game-screen">
+        <div id="main-game-screen">
+          <p>First Player: {this.state.currentTurn}</p>
+          <ul>
+            {this.state.player1.name} event card in hand:
+            {this.state.player1.event.toString()} turn:
+            {this.state.player1.turn.toString()}
+            {this.state.player1.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player2.name} event card in hand:
+            {this.state.player2.event.toString()} turn:
+            {this.state.player2.turn.toString()}
+            {this.state.player2.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player3.name} event card in hand:
+            {this.state.player3.event.toString()} turn:
+            {this.state.player3.turn.toString()}
+            {this.state.player3.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player4.name} event card in hand:
+            {this.state.player4.event.toString()} turn:
+            {this.state.player4.turn.toString()}
+            {this.state.player4.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <Button onClick={this.startGame}>test shuffle</Button>
+        </div>
+        <GameMenu
+          players={[
+            this.state.player1,
+            this.state.player2,
+            this.state.player3,
+            this.state.player4
+          ]}
+          username={this.props.username}
+        />
+      </div>
     ) : (
       <div />
     )
