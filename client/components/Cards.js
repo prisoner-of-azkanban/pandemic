@@ -67,7 +67,48 @@ class Cards extends React.Component {
     const players = this.props.players
     this.props.game.get().then(doc => {
       if (!doc.data().player1.location) {
-        this.props.game.set({cities: cityList}, {merge: true})
+        this.props.game.set(
+          {
+            cities: cityList,
+            player1: {
+              id: 0,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[0]
+            },
+            player2: {
+              id: 1,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[1]
+            },
+            player3: {
+              id: 2,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[2]
+            },
+            player4: {
+              id: 3,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[3]
+            }
+          },
+          {merge: true}
+        )
       } else if (this._isMounted) {
         this.setState({
           player1: doc.data().player1,
@@ -300,7 +341,7 @@ class Cards extends React.Component {
         />
       </div>
     ) : (
-      <div />
+      <div>Getting location</div>
     )
   }
 }

@@ -22,12 +22,12 @@ class GameMenu extends React.Component {
 
     return (
       <div id="game-menu">
-        <h3>Moves</h3>
+        <h3 className="menu-header-1">Moves</h3>
         <MainMoves
           showMoveMenu={this.showMoveMenu}
           showMoves={this.state.showMoves}
         />
-        <h3>Special</h3>
+        <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
           <Button variant="outline-dark" className="game-menu-btn">
             Event
@@ -36,33 +36,44 @@ class GameMenu extends React.Component {
             Role
           </Button>
         </div>
-        <h3>Your Cards</h3>
-        {currentUser ? (
-          <ul>
-            {currentUser.hand.map(card => (
-              <li key={card.title}>{card.title}</li>
-            ))}
-          </ul>
-        ) : (
-          <div />
-        )}
-        <h3>Other Cards</h3>
-        {otherUsers ? (
-          <div>
-            {otherUsers.map(user => {
-              return (
-                <div key={user.name}>
-                  <h5>{user.name}</h5>
-                  {user.hand.map(card => (
-                    <li key={card.title}>{card.title}</li>
-                  ))}
-                </div>
-              )
-            })}
+        <h3 className="menu-header-1">Cards</h3>
+        <div id="card-container">
+          <div id="your-cards">
+            <h4 className="card-container-header">Yours</h4>
+            {currentUser ? (
+              <ul id="your-cards-container">
+                {currentUser.hand.map(card => (
+                  <li key={card.title} className={card.color}>
+                    {card.title}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div />
+            )}
           </div>
-        ) : (
-          <div />
-        )}
+          <div id="others-cards">
+            <h4 className="card-container-header">Others</h4>
+            {otherUsers ? (
+              <div id="other-cards-container">
+                {otherUsers.map(user => {
+                  return (
+                    <div key={user.name}>
+                      <h5>{user.name}</h5>
+                      {user.hand.map(card => (
+                        <li key={card.title} className={card.color}>
+                          {card.title}
+                        </li>
+                      ))}
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <div />
+            )}
+          </div>
+        </div>
       </div>
     )
   }

@@ -183,3 +183,42 @@ form div {
   background-color: yellow;
   color: black;
 }
+
+.menu-header-1 {
+  text-decoration: underline;
+  padding-top: 10px;
+  font-family: impact;
+}
+
+#card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  text-align: left;
+}
+
+#your-cards-container,
+#other-cards-container {
+  margin: 0px;
+  padding-left: 0px;
+}
+
+.card-container-header {
+  font-style: italic;
+}
+
+.yellow {
+  text-shadow: 2px 2px 5px yellow;
+}
+
+.blue {
+  text-shadow: 2px 2px 5px blue;
+}
+
+.red {
+  text-shadow: 2px 2px 5px red;
+}
+
+.black {
+  text-shadow: 2px 2px 5px black;
+}
