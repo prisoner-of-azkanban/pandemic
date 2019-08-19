@@ -50,7 +50,14 @@ class WaitingRoom extends React.Component {
       .set({
         name: this.state.gamename,
         isFull: false,
-        players: []
+        started: false,
+        players: [],
+        deck: [],
+        currentTurn: 0,
+        player1: {},
+        player2: {},
+        player3: {},
+        player4: {}
       })
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
@@ -74,7 +81,13 @@ class WaitingRoom extends React.Component {
       <div className="waiting-room-page">
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
-            <Col key={game.name} md="3" className="waiting-room-game">
+            <Col
+              key={game.name}
+              md="4"
+              lg="2"
+              sm="12"
+              className="waiting-room-game"
+            >
               <Link to={`/game/${game.name}`} className="game-join-link">
                 <h1 className="game-name">{game.name}</h1>
                 Join Game
@@ -82,14 +95,19 @@ class WaitingRoom extends React.Component {
             </Col>
           ))}
         </Row>
-        <Form onSubmit={this.handleSubmit} className="waiting-room-game">
+        <Form onSubmit={this.handleSubmit} className="waiting-make-game">
           <h1 className="game-name">New Game</h1>
           <Form.Control
             name="gamename"
             type="text"
             onChange={this.handleChange}
           />
-          <Button type="submit" variant="outline-dark" className="main-btn">
+          <Button
+            type="submit"
+            variant="outline-dark"
+            className="main-btn"
+            disabled={!this.state.gamename.length}
+          >
             Create a new game
           </Button>
         </Form>

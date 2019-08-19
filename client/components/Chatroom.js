@@ -6,6 +6,7 @@ import firebase from 'firebase'
 class Chatroom extends React.Component {
   constructor(props) {
     super(props)
+    this._isMounted = false
     this.state = {message: '', username: this.props.username, messages: []}
     this.chatroom = db
       .collection('games')
@@ -16,12 +17,7 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-    db
-      .collection('games')
-      .doc('game1')
-      .collection('participants')
-      .doc(this.props.username)
-      .set({username: this.props.username})
+    this._isMounted = true
   }
 
   componentDidUpdate() {
@@ -31,15 +27,7 @@ class Chatroom extends React.Component {
   componentWillUnmount() {
     const unsubscribe = this.chatroom.onSnapshot(this.listenMessages)
     unsubscribe()
-    db
-      .collection('games')
-      .doc('game1')
-      .collection('participants')
-      .doc(this.props.username)
-      .delete()
-      .then(function() {
-        console.log('doc successfully deleted')
-      })
+    this._isMounted = false
   }
 
   handleChange = event => {
@@ -57,11 +45,12 @@ class Chatroom extends React.Component {
           message: this.state.message,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date())
         })
-        .then(
-          this.setState({
-            message: ''
-          })
-        )
+        .then(() => {
+          if (this._isMounted)
+            this.setState({
+              message: ''
+            })
+        })
     }
   }
 
@@ -78,9 +67,10 @@ class Chatroom extends React.Component {
         doc.forEach(function(msg) {
           messages.push(msg.data())
         })
-        this.setState({
-          messages: messages
-        })
+        if (this._isMounted)
+          this.setState({
+            messages: messages
+          })
       })
   }
 
