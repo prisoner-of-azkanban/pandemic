@@ -7,7 +7,7 @@ import {randomNumGenerator} from './utils'
 class Chatroom extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {message: '', username: '', messages: []}
+    this.state = {message: '', username: this.props.username, messages: []}
     this.chatroom = db
       .collection('games')
       .doc(this.props.gamename)
@@ -16,53 +16,13 @@ class Chatroom extends React.Component {
     this.chatroom.onSnapshot(this.listenMessages)
   }
 
-  async componentDidMount() {
-    let userId = ''
-    let username = 'Guest' + randomNumGenerator()
-
-    await firebase.auth().onAuthStateChanged(loggedinUser => {
-      if (loggedinUser) {
-        userId = loggedinUser.uid
-        db
-          .collection('users')
-          .doc(userId)
-          .get()
-          .then(doc => {
-            if (doc.exists) {
-              username = doc.data().username
-              this.setState({username: username})
-            }
-          })
-          .then(() =>
-            this.chatroom.add({
-              username: 'Admin',
-              message: `${username} has entered the room`,
-              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-            })
-          )
-      }
-    })
+  componentDidMount() {
     db
       .collection('games')
       .doc('game1')
       .collection('participants')
-      .doc(username)
-      .set({username: username})
-
-    window.addEventListener('beforeunload', ev => {
-      ev.preventDefault()
-      db
-        .collection('games')
-        .doc('game1')
-        .collection('participants')
-        .doc(this.state.username)
-        .delete()
-      this.chatroom.add({
-        username: 'Admin',
-        message: `${username} has left the room`,
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-    })
+      .doc(this.props.username)
+      .set({username: this.props.username})
   }
 
   componentDidUpdate() {
@@ -76,25 +36,11 @@ class Chatroom extends React.Component {
       .collection('games')
       .doc('game1')
       .collection('participants')
-      .doc(this.state.username)
+      .doc(this.props.username)
       .delete()
       .then(function() {
         console.log('doc successfully deleted')
       })
-    window.removeEventListener('beforeunload', ev => {
-      ev.preventDefault()
-      db
-        .collection('games')
-        .doc('game1')
-        .collection('participants')
-        .doc(this.state.username)
-        .delete()
-      this.chatroom.add({
-        username: 'Admin',
-        message: `${this.state.username} has left the room`,
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-    })
   }
 
   handleChange = event => {
@@ -108,7 +54,7 @@ class Chatroom extends React.Component {
     if (this.state.username && this.state.message) {
       this.chatroom
         .add({
-          username: this.state.username,
+          username: this.props.username,
           message: this.state.message,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date())
         })

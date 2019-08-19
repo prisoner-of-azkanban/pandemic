@@ -54,8 +54,6 @@ class MyRect extends React.Component {
 
   render() {
     console.log('rect.js props', this.props)
-    // console.log('what is a color', this.state.color)
-    // console.log('cahtroom', this.chatroom)
     return (
       <Rect
         x={10}
