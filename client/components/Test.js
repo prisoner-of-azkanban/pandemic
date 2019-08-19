@@ -105,7 +105,7 @@ class Test extends React.Component {
           research: false
         },
 
-        'Los Angelos': {
+        'Los Angeles': {
           red: 0,
           blue: 0,
           yellow: 0,

@@ -35,7 +35,7 @@ export const infectionCards = [
     color: 'yellow'
   },
   {
-    city: 'Los Angelos',
+    city: 'Los Angeles',
     country: 'United States',
     color: 'yellow'
   },
