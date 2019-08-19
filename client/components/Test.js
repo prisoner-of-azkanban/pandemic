@@ -41,6 +41,342 @@ class Test extends React.Component {
         turn: false,
         location: 'Atlanta',
         hand: []
+      },
+
+      Bogotá: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'Buenos Aires': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Johannesburg: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Khartoum: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Kinshasa: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Lagos: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Lima: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'Los Angelos': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'Mexico City': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Miami: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Santiago: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'São Paulo': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Algiers: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Baghdad: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Cairo: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Chennai: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Delhi: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Istanbul: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Karachi: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Kolkata: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Moscow: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Mumbai: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Riyadh: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Tehran: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Bangkok: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Beijing: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'Ho Chi Minh City': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'Hong Kong': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Jakarta: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Manila: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Osaka: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Seoul: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Shanghai: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Sydney: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Taipei: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Tokyo: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Atlanta: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Chicago: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Essen: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      London: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Madrid: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Milan: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'New York': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Paris: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'San Francisco': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      'St. Petersburg': {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Montréal: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
+      },
+
+      Washington: {
+        red: 0,
+        blue: 0,
+        yellow: 0,
+        black: 0
       }
     }
   }
