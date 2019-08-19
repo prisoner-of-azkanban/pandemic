@@ -13,11 +13,13 @@ class Game extends React.Component {
       username: this.props.username,
       isFull: false
     }
+    this._isMounted = false
     this.game = db.collection('games').doc(this.props.gamename)
     this.game.onSnapshot(this.listenPlayers)
   }
 
   async componentDidMount() {
+    this._isMounted = true
     let players = []
     let isFull = false
     await this.game
@@ -26,10 +28,15 @@ class Game extends React.Component {
         players = doc.data().players
         isFull = doc.data().isFull
       })
-      .then(() => this.setState({players: players, isFull: isFull}))
+      .then(() => {
+        if (this._isMounted) {
+          this.setState({players: players, isFull: isFull})
+        }
+      })
   }
 
   componentWillUnmount() {
+    this._isMounted = false
     const unsubscribe = this.game.onSnapshot(this.listenPlayers)
     unsubscribe()
   }

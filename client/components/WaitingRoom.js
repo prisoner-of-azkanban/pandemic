@@ -10,18 +10,30 @@ class WaitingRoom extends React.Component {
       gamename: '',
       games: []
     }
+    this._isMounted = false
     this.games = db.collection('games')
     this.games.onSnapshot(this.listenGames)
   }
 
   async componentDidMount() {
+    this._isMounted = true
     let games = []
     await this.games
       .get()
       .then(function(doc) {
         doc.forEach(game => games.push(game.data()))
       })
-      .then(() => this.setState({games: games}))
+      .then(() => {
+        if (this._isMounted) {
+          this.setState({games: games})
+        }
+      })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+    const unsubscribe = this.games.onSnapshot(this.listenGames)
+    unsubscribe()
   }
 
   handleChange = event => {
@@ -49,9 +61,11 @@ class WaitingRoom extends React.Component {
       doc.forEach(function(game) {
         games.push(game.data())
       })
-      this.setState({
-        games: games
-      })
+      if (this._isMounted) {
+        this.setState({
+          games: games
+        })
+      }
     })
   }
 

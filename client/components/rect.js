@@ -53,7 +53,6 @@ class MyRect extends React.Component {
   }
 
   render() {
-    console.log('rect.js props', this.props)
     return (
       <Rect
         x={10}
