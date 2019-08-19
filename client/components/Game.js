@@ -2,6 +2,7 @@ import React from 'react'
 import {Button} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
 import firebase from 'firebase'
+import Cards from './Cards'
 
 const MAXPLAYERS = 4
 
@@ -91,25 +92,29 @@ class Game extends React.Component {
       .then(doc => {
         players = doc.data().players
       })
-      .then(() => this.setState({players: players}))
+      .then(() => {
+        if (this._isMounted) {
+          this.setState({players: players})
+        }
+      })
       .then(() => {
         if (this.state.players.length === MAXPLAYERS) {
-          this.game.set({isFull: true}, {merge: true}).then(() =>
-            this.setState({
-              isFull: true
-            })
-          )
+          this.game.set({isFull: true}, {merge: true}).then(() => {
+            if (this._isMounted) {
+              this.setState({
+                isFull: true
+              })
+            }
+          })
         }
       })
   }
 
   render() {
-    const disabled = this.state.players.includes(this.state.username)
-
     return (
       <div>
         {this.state.started ? (
-          <h1>The game has started</h1>
+          <Cards players={this.state.players} game={this.game} />
         ) : this.state.isFull ? (
           <p>The room is full, start the game</p>
         ) : (
@@ -131,7 +136,7 @@ class Game extends React.Component {
               <Button
                 variant="outline-dark"
                 onClick={this.handleClick}
-                disabled={disabled}
+                disabled={this.state.players.includes(this.state.username)}
               >
                 Join the Game
               </Button>

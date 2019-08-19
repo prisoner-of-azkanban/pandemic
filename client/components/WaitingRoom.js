@@ -50,7 +50,14 @@ class WaitingRoom extends React.Component {
       .set({
         name: this.state.gamename,
         isFull: false,
-        players: []
+        started: false,
+        players: [],
+        deck: [],
+        currentTurn: 0,
+        player1: {},
+        player2: {},
+        player3: {},
+        player4: {}
       })
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
