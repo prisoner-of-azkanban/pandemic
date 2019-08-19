@@ -11,34 +11,40 @@ class Game extends React.Component {
     this.state = {
       players: [],
       username: this.props.username,
-      isFull: false
+      isFull: false,
+      started: false
     }
     this._isMounted = false
     this.game = db.collection('games').doc(this.props.gamename)
     this.game.onSnapshot(this.listenPlayers)
+    this.game.onSnapshot(this.listenStart)
   }
 
   async componentDidMount() {
     this._isMounted = true
     let players = []
     let isFull = false
+    let started = false
     await this.game
       .get()
       .then(doc => {
         players = doc.data().players
         isFull = doc.data().isFull
+        started = doc.data().started
       })
       .then(() => {
         if (this._isMounted) {
-          this.setState({players: players, isFull: isFull})
+          this.setState({players: players, isFull: isFull, started: started})
         }
       })
   }
 
   componentWillUnmount() {
     this._isMounted = false
-    const unsubscribe = this.game.onSnapshot(this.listenPlayers)
-    unsubscribe()
+    const unsubscribePlayer = this.game.onSnapshot(this.listenPlayers)
+    const unsubscribeStart = this.game.onSnapshot(this.listenStart)
+    unsubscribePlayer()
+    unsubscribeStart()
   }
 
   handleClick = () => {
@@ -53,6 +59,29 @@ class Game extends React.Component {
       message: this.state.username + ' has joined the game',
       createdAt: firebase.firestore.Timestamp.fromDate(new Date())
     })
+  }
+
+  handleStart = () => {
+    this.game.set(
+      {
+        started: true
+      },
+      {merge: true}
+    )
+  }
+
+  listenStart = () => {
+    let started = false
+    this.game
+      .get()
+      .then(doc => {
+        started = doc.data().started
+      })
+      .then(() => {
+        if (this._isMounted) {
+          this.setState({started: started})
+        }
+      })
   }
 
   listenPlayers = () => {
@@ -79,26 +108,35 @@ class Game extends React.Component {
 
     return (
       <div>
-        {this.state.isFull ? (
-          <p>The room is full</p>
+        {this.state.started ? (
+          <h1>The game has started</h1>
+        ) : this.state.isFull ? (
+          <p>The room is full, start the game</p>
         ) : (
           <p>{MAXPLAYERS - this.state.players.length} may join the game</p>
         )}
-
-        <h4>Current players:</h4>
-        <ul>
-          {this.state.players.map(player => <li key={player}>{player}</li>)}
-        </ul>
-        {this.state.isFull ? (
-          <Button variant="outline-dark">Start the Game</Button>
+        {this.state.started ? (
+          <div />
         ) : (
-          <Button
-            variant="outline-dark"
-            onClick={this.handleClick}
-            disabled={disabled}
-          >
-            Join the Game
-          </Button>
+          <div>
+            <h4>Current players:</h4>
+            <ul>
+              {this.state.players.map(player => <li key={player}>{player}</li>)}
+            </ul>
+            {this.state.isFull ? (
+              <Button variant="outline-dark" onClick={this.handleStart}>
+                Start the Game
+              </Button>
+            ) : (
+              <Button
+                variant="outline-dark"
+                onClick={this.handleClick}
+                disabled={disabled}
+              >
+                Join the Game
+              </Button>
+            )}
+          </div>
         )}
       </div>
     )
