@@ -23,21 +23,6 @@ class Chatroom extends React.Component {
       .collection('participants')
       .doc(this.props.username)
       .set({username: this.props.username})
-
-    window.addEventListener('beforeunload', ev => {
-      ev.preventDefault()
-      db
-        .collection('games')
-        .doc('game1')
-        .collection('participants')
-        .doc(this.props.username)
-        .delete()
-      this.chatroom.add({
-        username: 'Admin',
-        message: `${this.props.username} has left the room`,
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-    })
   }
 
   componentDidUpdate() {
@@ -56,20 +41,6 @@ class Chatroom extends React.Component {
       .then(function() {
         console.log('doc successfully deleted')
       })
-    window.removeEventListener('beforeunload', ev => {
-      ev.preventDefault()
-      db
-        .collection('games')
-        .doc('game1')
-        .collection('participants')
-        .doc(this.props.username)
-        .delete()
-      this.chatroom.add({
-        username: 'Admin',
-        message: `${this.props.username} has left the room`,
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-    })
   }
 
   handleChange = event => {

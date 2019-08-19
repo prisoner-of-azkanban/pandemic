@@ -1,6 +1,7 @@
 import React from 'react'
 import {Button} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
+import firebase from 'firebase'
 
 const MAXPLAYERS = 4
 
@@ -40,6 +41,11 @@ class Game extends React.Component {
       },
       {merge: true}
     )
+    this.game.collection('chatroom').add({
+      username: 'Admin',
+      message: this.state.username + ' has joined the game',
+      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+    })
   }
 
   listenPlayers = () => {
@@ -77,9 +83,7 @@ class Game extends React.Component {
           {this.state.players.map(player => <li key={player}>{player}</li>)}
         </ul>
         {this.state.isFull ? (
-          <Button variant="outline-dark" disabled={true}>
-            Room full
-          </Button>
+          <Button variant="outline-dark">Start the Game</Button>
         ) : (
           <Button
             variant="outline-dark"
