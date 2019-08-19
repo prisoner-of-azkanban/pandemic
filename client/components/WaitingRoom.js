@@ -61,9 +61,11 @@ class WaitingRoom extends React.Component {
       doc.forEach(function(game) {
         games.push(game.data())
       })
-      this.setState({
-        games: games
-      })
+      if (this._isMounted) {
+        this.setState({
+          games: games
+        })
+      }
     })
   }
 
