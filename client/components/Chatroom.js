@@ -2,7 +2,6 @@ import React from 'react'
 import {app, db, config} from '../../firebase-server/firebase'
 import {Form, Button} from 'react-bootstrap'
 import firebase from 'firebase'
-import {randomNumGenerator} from './utils'
 
 class Chatroom extends React.Component {
   constructor(props) {
