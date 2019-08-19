@@ -7,7 +7,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   'Buenos Aires': {
@@ -18,7 +19,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Johannesburg: {
@@ -29,7 +31,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Khartoum: {
@@ -40,7 +43,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Kinshasa: {
@@ -51,7 +55,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Lagos: {
@@ -62,7 +67,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Lima: {
@@ -73,7 +79,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   'Los Angeles': {
@@ -84,7 +91,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   'Mexico City': {
@@ -95,7 +103,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Miami: {
@@ -106,7 +115,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Santiago: {
@@ -117,7 +127,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   'São Paulo': {
@@ -128,7 +139,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'yellow'
   },
 
   Algiers: {
@@ -139,7 +151,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Baghdad: {
@@ -150,7 +163,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Cairo: {
@@ -161,7 +175,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Chennai: {
@@ -172,7 +187,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Delhi: {
@@ -183,7 +199,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Istanbul: {
@@ -194,7 +211,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Karachi: {
@@ -205,7 +223,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Kolkata: {
@@ -216,7 +235,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Moscow: {
@@ -227,7 +247,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Mumbai: {
@@ -238,7 +259,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Riyadh: {
@@ -249,7 +271,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Tehran: {
@@ -260,7 +283,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'black'
   },
 
   Bangkok: {
@@ -271,7 +295,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Beijing: {
@@ -282,7 +307,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   'Ho Chi Minh City': {
@@ -293,7 +319,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   'Hong Kong': {
@@ -304,7 +331,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Jakarta: {
@@ -315,7 +343,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Manila: {
@@ -326,7 +355,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Osaka: {
@@ -337,7 +367,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Seoul: {
@@ -348,7 +379,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Shanghai: {
@@ -359,7 +391,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Sydney: {
@@ -370,7 +403,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Taipei: {
@@ -381,7 +415,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Tokyo: {
@@ -392,7 +427,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'red'
   },
 
   Atlanta: {
@@ -403,7 +439,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: ['player1', 'player2', 'player3', 'player4']
+    player: ['player1', 'player2', 'player3', 'player4'],
+    color: 'blue'
   },
 
   Chicago: {
@@ -414,7 +451,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Essen: {
@@ -425,7 +463,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   London: {
@@ -436,7 +475,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Madrid: {
@@ -447,7 +487,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Milan: {
@@ -458,7 +499,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   'New York': {
@@ -469,7 +511,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Paris: {
@@ -480,7 +523,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   'San Francisco': {
@@ -491,7 +535,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   'St. Petersburg': {
@@ -502,7 +547,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Montréal: {
@@ -513,7 +559,8 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   },
 
   Washington: {
@@ -524,6 +571,7 @@ export const cityList = {
     black: 0,
     research: false,
     coords: [0, 0],
-    player: []
+    player: [],
+    color: 'blue'
   }
 }
