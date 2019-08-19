@@ -56,6 +56,52 @@ class Cards extends React.Component {
 
   componentDidMount() {
     this._isMounted = true
+    const players = this.props.players
+    this.props.game.get().then(doc => {
+      if (!doc.data().player1.id) {
+        this.props.game.set(
+          {
+            player1: {
+              id: 0,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[0]
+            },
+            player2: {
+              id: 1,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[1]
+            },
+            player3: {
+              id: 2,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[2]
+            },
+            player4: {
+              id: 3,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[3]
+            }
+          },
+          {merge: true}
+        )
+      }
+    })
   }
 
   listenStart = () => {
@@ -167,7 +213,7 @@ class Cards extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.player1.location ? (
       <React.Fragment>
         <p>First Player: {this.state.currentTurn}</p>
         <ul>
@@ -204,6 +250,8 @@ class Cards extends React.Component {
         </ul>
         <Button onClick={this.startGame}>test shuffle</Button>
       </React.Fragment>
+    ) : (
+      <div />
     )
   }
 }
