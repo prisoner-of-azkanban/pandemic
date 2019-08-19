@@ -48,454 +48,409 @@ class Test extends React.Component {
         hand: []
       },
 
-      cities: [
-        {
-          Bogotá: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+      cities: {
+        Bogotá: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'Buenos Aires': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'Buenos Aires': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Johannesburg: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Johannesburg: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Khartoum: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Khartoum: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Kinshasa: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Kinshasa: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Lagos: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Lagos: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Lima: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Lima: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'Los Angelos': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'Los Angelos': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'Mexico City': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'Mexico City': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Miami: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Miami: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Santiago: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Santiago: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'São Paulo': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'São Paulo': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Algiers: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Algiers: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Baghdad: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Baghdad: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Cairo: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Cairo: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Chennai: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Chennai: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Delhi: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Delhi: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Istanbul: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Istanbul: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Karachi: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Karachi: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Kolkata: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Kolkata: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Moscow: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Moscow: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Mumbai: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Mumbai: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Riyadh: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Riyadh: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Tehran: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Tehran: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Bangkok: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Bangkok: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Beijing: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Beijing: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'Ho Chi Minh City': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'Ho Chi Minh City': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'Hong Kong': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'Hong Kong': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Jakarta: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Jakarta: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Manila: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Manila: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Osaka: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Osaka: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Seoul: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Seoul: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Shanghai: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Shanghai: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Sydney: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Sydney: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Taipei: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Taipei: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Tokyo: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Tokyo: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Atlanta: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Atlanta: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Chicago: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Chicago: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Essen: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Essen: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          London: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        London: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Madrid: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Madrid: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Milan: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Milan: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'New York': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'New York': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Paris: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Paris: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'San Francisco': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'San Francisco': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          'St. Petersburg': {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        'St. Petersburg': {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Montréal: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Montréal: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         },
-        {
-          Washington: {
-            red: 0,
-            blue: 0,
-            yellow: 0,
-            black: 0,
-            research: False
-          }
+
+        Washington: {
+          red: 0,
+          blue: 0,
+          yellow: 0,
+          black: 0,
+          research: false
         }
-      ]
+      }
     }
   }
 
   outbreakCheck = (city, color) => {
-    return this.state[city][color] === 3
+    return this.state.cities[city][color] === 3
   }
 
   infectCity = (city, color, number = 1, epidemic = false) => {
     if (epidemic) {
       const cubes = 3
-      this.setState({[city]: {...this.state[city], [color]: cubes}})
+      let cities = this.state.cities
+      cities[city][color] = cubes
+      this.setState({cities: cities})
     } else if (!this.outbreakCheck(city, color)) {
-      const cubes = this.state[city][color] + number
-      this.setState({[city]: {...this.state[city], [color]: cubes}})
+      const cubes = this.state.cities[city][color] + number
+      let cities = this.state.cities
+      cities[city][color] = cubes
+      this.setState({cities: cities})
     }
     //else wwe outbreak, need a new funciton for that, need connections
   }
@@ -503,10 +458,10 @@ class Test extends React.Component {
   startGame = () => {
     //shuffle roles
     let shuffledRoles = shuffle(roleCards, {copy: true})
-    const player1Role = shift(shuffledRoles)
-    const player2Role = shift(shuffledRoles)
-    const player3Role = shift(shuffledRoles)
-    const player4Role = shift(shuffledRoles)
+    const player1Role = shuffledRoles.shift()
+    const player2Role = shuffledRoles.shift()
+    const player3Role = shuffledRoles.shift()
+    const player4Role = shuffledRoles.shift()
 
     //shuffle player playerCardDeck
     let shuffledPlayerCardDeck = shuffle(playerCards, {copy: true})
@@ -573,10 +528,12 @@ class Test extends React.Component {
     let threeCubes = shuffledInfectionDeck.splice(0, 3)
     let twoCubes = shuffledInfectionDeck.splice(0, 3)
     let oneCubes = shuffledInfectionDeck.splice(0, 3)
-    threeCubes.forEach(city => this.infectCity(city, city.color, 3))
-    twoCubes.forEach(city => this.infectCity(city, city.color, 2))
-    oneCubes.forEach(city => this.infectCity(city, city.color))
-
+    console.log('three', threeCubes)
+    console.log('two', twoCubes)
+    console.log('one', oneCubes)
+    threeCubes.forEach(city => this.infectCity(city.city, city.color, 3))
+    twoCubes.forEach(city => this.infectCity(city.city, city.color, 2))
+    oneCubes.forEach(city => this.infectCity(city.city, city.color))
     //set state for game start
     this.setState({
       player1: {
@@ -613,6 +570,7 @@ class Test extends React.Component {
   }
 
   render() {
+    console.log(this.state.cities)
     return (
       <React.Fragment>
         <p>First Player: {this.state.currentTurn}</p>
