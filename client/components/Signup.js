@@ -36,6 +36,7 @@ class Signup extends React.Component {
         var errorCode = error.code
         var errorMessage = error.message
         console.log(errorCode, errorMessage)
+        alert(errorMessage)
       })
   }
 
