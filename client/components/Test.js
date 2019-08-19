@@ -13,10 +13,16 @@ class Test extends React.Component {
     console.log('i was clicked')
     const canvas = this.canvasRef.current
     const ctx = canvas.getContext('2d')
+    ctx.font = '10px Courier New'
     Object.keys(this.state.cityList).forEach(cityKey => {
       const city = this.state.cityList[cityKey]
-      ctx.rect(city.coords[0], city.coords[1], 50, 100)
+      ctx.beginPath()
+      ctx.arc(city.coords[0], city.coords[1], 10, 0, 2 * Math.PI)
+      ctx.fillStyle = city.color
+      ctx.fill()
       ctx.stroke()
+      ctx.fillStyle = 'black'
+      ctx.fillText(city.name, city.coords[0] - 20, city.coords[1] - 15)
     })
   }
   render() {
@@ -24,8 +30,8 @@ class Test extends React.Component {
       <React.Fragment>
         <canvas
           ref={this.canvasRef}
-          width="1200"
-          height="800"
+          width="1000"
+          height="600"
           style={{border: '5px solid #d3d3d3', margin: '10'}}
         />
         <button onClick={this.drawRect}>click me</button>
