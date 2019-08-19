@@ -97,6 +97,16 @@ form div {
   margin: 10px;
   align-self: center;
   text-align: center;
+  height: 10vh;
+  align-content: center;
+}
+
+.waiting-make-game {
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 10px;
+  align-self: center;
+  text-align: center;
   height: 20vh;
   align-content: center;
 }

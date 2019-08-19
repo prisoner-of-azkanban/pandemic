@@ -95,14 +95,19 @@ class WaitingRoom extends React.Component {
             </Col>
           ))}
         </Row>
-        <Form onSubmit={this.handleSubmit} className="waiting-room-game">
+        <Form onSubmit={this.handleSubmit} className="waiting-make-game">
           <h1 className="game-name">New Game</h1>
           <Form.Control
             name="gamename"
             type="text"
             onChange={this.handleChange}
           />
-          <Button type="submit" variant="outline-dark" className="main-btn">
+          <Button
+            type="submit"
+            variant="outline-dark"
+            className="main-btn"
+            disabled={!this.state.gamename.length}
+          >
             Create a new game
           </Button>
         </Form>
