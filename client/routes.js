@@ -6,7 +6,8 @@ import {
   NewLogin,
   NewChat,
   Gamepage,
-  WaitingRoom
+  WaitingRoom,
+  Test
 } from './components'
 
 import CanvasComp from './components/canvas-component'
@@ -29,6 +30,7 @@ class Routes extends Component {
         />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
+        <Route path="/test" component={Test} />
         <Route
           path="/waitingroom"
           render={props => <WaitingRoom {...props} />}
