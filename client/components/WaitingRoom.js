@@ -81,7 +81,13 @@ class WaitingRoom extends React.Component {
       <div className="waiting-room-page">
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
-            <Col key={game.name} md="3" className="waiting-room-game">
+            <Col
+              key={game.name}
+              md="4"
+              lg="2"
+              sm="12"
+              className="waiting-room-game"
+            >
               <Link to={`/game/${game.name}`} className="game-join-link">
                 <h1 className="game-name">{game.name}</h1>
                 Join Game

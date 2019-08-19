@@ -97,10 +97,13 @@ form div {
   margin: 10px;
   align-self: center;
   text-align: center;
+  height: 20vh;
+  align-content: center;
 }
 
 .waiting-room-list {
   justify-content: center;
+  width: 100vw;
 }
 
 .waiting-room-page {
@@ -125,6 +128,7 @@ form div {
 
 .game-name {
   padding-top: 20px;
+  font-size: 24px;
 }
 
 .gamenamelabel {
