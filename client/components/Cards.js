@@ -8,6 +8,7 @@ import {cityList} from '../../game/cityList'
 const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
+import GameMenu from './GameMenu'
 
 class Cards extends React.Component {
   constructor(props) {
@@ -66,7 +67,48 @@ class Cards extends React.Component {
     const players = this.props.players
     this.props.game.get().then(doc => {
       if (!doc.data().player1.location) {
-        this.props.game.set({cities: cityList}, {merge: true})
+        this.props.game.set(
+          {
+            cities: cityList,
+            player1: {
+              id: 0,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[0]
+            },
+            player2: {
+              id: 1,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[1]
+            },
+            player3: {
+              id: 2,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[2]
+            },
+            player4: {
+              id: 3,
+              event: false,
+              role: '',
+              turn: false,
+              location: 'Atlanta',
+              hand: [],
+              name: players[3]
+            }
+          },
+          {merge: true}
+        )
       } else if (this._isMounted) {
         this.setState({
           player1: doc.data().player1,
@@ -107,6 +149,7 @@ class Cards extends React.Component {
     const unsubscribe = this.props.game.onSnapshot(this.listenStart)
     unsubscribe()
   }
+
   outbreakCheck = (city, color) => {
     return this.state.cities[city][color] === 3
   }
@@ -123,77 +166,77 @@ class Cards extends React.Component {
       cities[city][color] = cubes
       this.props.game.set({cities: cities}, {merge: true})
     }
-    //else wwe outbreak, need a new funciton for that, need connections
+    //else we outbreak, need a new funciton for that, need connections
+  }
+
+  setupPlayerRoles = (players, roleDeck) => {
+    let shuffledRoles = shuffle(roleDeck, {copy: true})
+    return players.map(role => (role = shuffledRoles.shift()))
+  }
+
+  setupPlayerCards = (players, cardDeck) => {
+    let shuffledPlayerCardDeck = shuffle(cardDeck, {copy: true})
+    return players.map(player => (player = shuffledPlayerCardDeck.splice(0, 2)))
+  }
+
+  //see who goes first
+  findMaxPop = playerHands => {
+    let playerPop = playerHands.map(hand =>
+      hand.map(card => parseInt(card.population, 10))
+    )
+    let turns = playerPop.map(pop => Math.max(...pop))
+    return [Math.max(...playerPop.map(pop => Math.max(...pop))), turns]
+  }
+
+  //sets up player
+  setupPlayer = (player, playerHand, roles, turns, index) => {
+    return {
+      ...player,
+      turn: turns[index],
+      event: playerHand.filter(card => card.type === 'event').length > 0,
+      hand: playerHand,
+      role: roles[index]
+    }
   }
 
   // eslint-disable-next-line max-statements
   startGame = () => {
     //shuffle roles
-    let shuffledRoles = shuffle(roleCards, {copy: true})
-    const player1Role = shuffledRoles.shift()
-    const player2Role = shuffledRoles.shift()
-    const player3Role = shuffledRoles.shift()
-    const player4Role = shuffledRoles.shift()
+    let roles = this.setupPlayerRoles(this.props.players, roleCards)
 
     //shuffle player deck
     let shuffledPlayerCardDeck = shuffle(playerCards, {copy: true})
+
     //deal out player cards
-    const player1Hand = shuffledPlayerCardDeck.splice(0, 2)
-    const player2Hand = shuffledPlayerCardDeck.splice(0, 2)
-    const player3Hand = shuffledPlayerCardDeck.splice(0, 2)
-    const player4Hand = shuffledPlayerCardDeck.splice(0, 2)
-    //find out who goes first
-    const pop1 = player1Hand.map(card => card.population)
-    const pop2 = player2Hand.map(card => card.population)
-    const pop3 = player3Hand.map(card => card.population)
-    const pop4 = player4Hand.map(card => card.population)
-    let turns = [
-      Math.max(...pop1),
-      Math.max(...pop2),
-      Math.max(...pop3),
-      Math.max(...pop4)
-    ]
-    const maxPop = Math.max(...turns)
+    let hands = []
+    for (let i = 0; i < 4; i++) {
+      hands.push(shuffledPlayerCardDeck.splice(0, 2))
+    }
+
+    //find max population
+    const turnsMapPop = this.findMaxPop(hands)
+    console.log(turnsMapPop)
+    const maxPop = turnsMapPop[0]
+    let turns = turnsMapPop[1]
     turns = turns.map(pop => pop === maxPop)
     const playerFirst = turns.indexOf(true)
-    //does hand have event cards
-    const player1Event = !!player1Hand.filter(card => card.type === 'event')
-      .length
-    const player2Event = !!player2Hand.filter(card => card.type === 'event')
-      .length
-    const player3Event = !!player3Hand.filter(card => card.type === 'event')
-      .length
-    const player4Event = !!player4Hand.filter(card => card.type === 'event')
-      .length
 
-    //3 piles have 7, 3 piles have 8
-    let pile1 = shuffledPlayerCardDeck.splice(0, 7)
-    pile1.push(epidemicCard)
-    shuffle(pile1)
-    let pile2 = shuffledPlayerCardDeck.splice(0, 7)
-    pile2.push(epidemicCard)
-    shuffle(pile2)
-    let pile3 = shuffledPlayerCardDeck.splice(0, 7)
-    pile3.push(epidemicCard)
-    shuffle(pile3)
-    let pile4 = shuffledPlayerCardDeck.splice(0, 8)
-    pile4.push(epidemicCard)
-    shuffle(pile4)
-    let pile5 = shuffledPlayerCardDeck.splice(0, 8)
-    pile5.push(epidemicCard)
-    shuffle(pile5)
-    let pile6 = shuffledPlayerCardDeck.splice(0, 8)
-    pile6.push(epidemicCard)
-    shuffle(pile6)
-    const playerCardDeck = shuffle([
-      pile1,
-      pile2,
-      pile3,
-      pile4,
-      pile5,
-      pile6
-    ]).flat() //shuffle pile order and combine
-    playerCardDeck.map((card, index) => console.log(index + 1, card.title)) // check and make sure piles are properly split
+    let pile = []
+    for (let i = 0; i < 6; i++) {
+      let shuffledIndex
+      if (i > 3) {
+        shuffledIndex = 8
+      } else {
+        shuffledIndex = 7
+      }
+      let tempPile = shuffledPlayerCardDeck.splice(0, shuffledIndex)
+      tempPile.push(epidemicCard)
+      shuffle(tempPile)
+      pile.push(tempPile)
+    }
+
+    const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
+    // playerCardDeck.map((card, index) => console.log(index + 1, card.title)) // check and make sure piles are properly split
     //shuffle infection cards
     let shuffledInfectionDeck = shuffle(infectionCards, {copy: true})
     let threeCubes = shuffledInfectionDeck.splice(0, 3)
@@ -208,36 +251,37 @@ class Cards extends React.Component {
     //add cards to infect discard
     const infectionDiscard = [threeCubes, twoCubes, oneCubes].flat()
     //set state for game start
+
     this.props.game.set(
       {
-        player1: {
-          ...this.state.player1,
-          turn: turns[0],
-          event: player1Event,
-          hand: player1Hand,
-          role: player1Role
-        },
-        player2: {
-          ...this.state.player2,
-          turn: turns[1],
-          event: player2Event,
-          hand: player2Hand,
-          role: player2Role
-        },
-        player3: {
-          ...this.state.player3,
-          turn: turns[2],
-          event: player3Event,
-          hand: player3Hand,
-          role: player3Role
-        },
-        player4: {
-          ...this.state.player4,
-          turn: turns[3],
-          event: player4Event,
-          hand: player4Hand,
-          role: player4Role
-        },
+        player1: this.setupPlayer(
+          this.state.player1,
+          hands[0],
+          roles,
+          turns,
+          0
+        ),
+        player2: this.setupPlayer(
+          this.state.player2,
+          hands[1],
+          roles,
+          turns,
+          1
+        ),
+        player3: this.setupPlayer(
+          this.state.player3,
+          hands[2],
+          roles,
+          turns,
+          2
+        ),
+        player4: this.setupPlayer(
+          this.state.player4,
+          hands[3],
+          roles,
+          turns,
+          3
+        ),
         playerCardDeck: playerCardDeck,
         currentTurn: playerFirst,
         infectionCardDiscard: infectionDiscard,
@@ -248,46 +292,56 @@ class Cards extends React.Component {
   }
 
   render() {
-    console.log('render state', this.state)
     return this.state.player1.location ? (
-      <React.Fragment>
-        <p>First Player: {this.state.currentTurn}</p>
-        <ul>
-          {this.state.player1.name} event card in hand:
-          {this.state.player1.event.toString()} turn:
-          {this.state.player1.turn.toString()}
-          {this.state.player1.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player2.name} event card in hand:
-          {this.state.player2.event.toString()} turn:
-          {this.state.player2.turn.toString()}
-          {this.state.player2.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player3.name} event card in hand:
-          {this.state.player3.event.toString()} turn:
-          {this.state.player3.turn.toString()}
-          {this.state.player3.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <ul>
-          {this.state.player4.name} event card in hand:
-          {this.state.player4.event.toString()} turn:
-          {this.state.player4.turn.toString()}
-          {this.state.player4.hand.map(card => (
-            <li key={card.title}>{card.title}</li>
-          ))}
-        </ul>
-        <Button onClick={this.startGame}>test shuffle</Button>
-      </React.Fragment>
+      <div id="whole-game-screen">
+        <div id="main-game-screen">
+          <p>First Player: {this.state.currentTurn}</p>
+          <ul>
+            {this.state.player1.name} event card in hand:
+            {this.state.player1.event.toString()} turn:
+            {this.state.player1.turn.toString()}
+            {this.state.player1.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player2.name} event card in hand:
+            {this.state.player2.event.toString()} turn:
+            {this.state.player2.turn.toString()}
+            {this.state.player2.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player3.name} event card in hand:
+            {this.state.player3.event.toString()} turn:
+            {this.state.player3.turn.toString()}
+            {this.state.player3.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <ul>
+            {this.state.player4.name} event card in hand:
+            {this.state.player4.event.toString()} turn:
+            {this.state.player4.turn.toString()}
+            {this.state.player4.hand.map(card => (
+              <li key={card.title}>{card.title}</li>
+            ))}
+          </ul>
+          <Button onClick={this.startGame}>test shuffle</Button>
+        </div>
+        <GameMenu
+          players={[
+            this.state.player1,
+            this.state.player2,
+            this.state.player3,
+            this.state.player4
+          ]}
+          username={this.props.username}
+        />
+      </div>
     ) : (
-      <div />
+      <div>Getting location</div>
     )
   }
 }
