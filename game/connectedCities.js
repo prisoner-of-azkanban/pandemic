@@ -1,4 +1,4 @@
-connectedCities = {
+export const connectedCities = {
   Paris: ['Essen', 'London', 'Madrid', 'Milan', 'Algiers'],
   Chicago: [
     'Atlanta',
