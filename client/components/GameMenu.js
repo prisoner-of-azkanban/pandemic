@@ -19,9 +19,10 @@ class GameMenu extends React.Component {
     const otherUsers = this.props.players.filter(
       player => player.name !== this.props.username
     )
-
+    console.log(this.props.turn)
     return (
       <div id="game-menu">
+        <h3 className="menu-header-1">Current Turn: {this.props.turn}</h3>
         <h3 className="menu-header-1">Moves</h3>
         <MainMoves
           showMoveMenu={this.showMoveMenu}

@@ -22,44 +22,51 @@ class MainGame extends React.Component {
       infectionCardDeck: [],
       infectionCardDiscard: [],
       currentTurn: 0,
-      player1: {
-        id: 0,
-        event: false,
-        role: '',
-        turn: false,
-        location: 'Atlanta',
-        hand: [],
-        name: players[0]
-      },
-      player2: {
-        id: 1,
-        event: false,
-        role: '',
-        turn: false,
-        location: 'Atlanta',
-        hand: [],
-        name: players[1]
-      },
-      player3: {
-        id: 2,
-        event: false,
-        role: '',
-        turn: false,
-        location: 'Atlanta',
-        hand: [],
-        name: players[2]
-      },
-      player4: {
-        id: 3,
-        event: false,
-        role: '',
-        turn: false,
-        location: 'Atlanta',
-        hand: [],
-        name: players[3]
-      },
+      playerList: [
+        {
+          id: 0,
+          event: false,
+          role: '',
+          turn: false,
+          location: 'Atlanta',
+          hand: [],
+          name: players[0]
+        },
+        {
+          id: 1,
+          event: false,
+          role: '',
+          turn: false,
+          location: 'Atlanta',
+          hand: [],
+          name: players[1]
+        },
+        {
+          id: 2,
+          event: false,
+          role: '',
+          turn: false,
+          location: 'Atlanta',
+          hand: [],
+          name: players[2]
+        },
+        {
+          id: 3,
+          event: false,
+          role: '',
+          turn: false,
+          location: 'Atlanta',
+          hand: [],
+          name: players[3]
+        }
+      ],
       cities: cityList,
-      outbreak: new Set()
+      outbreak: new Set(),
+      win: false,
+      lose: false,
+      actionCount: 0,
+      infectionRate: 0,
+      outbreaks: 0
     }
     this.props.game.onSnapshot(this.listenStart)
   }
@@ -68,61 +75,62 @@ class MainGame extends React.Component {
     this._isMounted = true
     const players = this.props.players
     this.props.game.get().then(doc => {
-      if (!doc.data().player1.location) {
+      if (!doc.data().playerList[0]) {
         this.props.game.set(
           {
             cities: cityList,
-            player1: {
-              id: 0,
-              event: false,
-              role: '',
-              turn: false,
-              location: 'Atlanta',
-              hand: [],
-              name: players[0]
-            },
-            player2: {
-              id: 1,
-              event: false,
-              role: '',
-              turn: false,
-              location: 'Atlanta',
-              hand: [],
-              name: players[1]
-            },
-            player3: {
-              id: 2,
-              event: false,
-              role: '',
-              turn: false,
-              location: 'Atlanta',
-              hand: [],
-              name: players[2]
-            },
-            player4: {
-              id: 3,
-              event: false,
-              role: '',
-              turn: false,
-              location: 'Atlanta',
-              hand: [],
-              name: players[3]
-            }
+            playerList: [
+              {
+                id: 0,
+                event: false,
+                role: '',
+                turn: false,
+                location: 'Atlanta',
+                hand: [],
+                name: players[0]
+              },
+              {
+                id: 1,
+                event: false,
+                role: '',
+                turn: false,
+                location: 'Atlanta',
+                hand: [],
+                name: players[1]
+              },
+              {
+                id: 2,
+                event: false,
+                role: '',
+                turn: false,
+                location: 'Atlanta',
+                hand: [],
+                name: players[2]
+              },
+              {
+                id: 3,
+                event: false,
+                role: '',
+                turn: false,
+                location: 'Atlanta',
+                hand: [],
+                name: players[3]
+              }
+            ]
           },
           {merge: true}
         )
       } else if (this._isMounted) {
         this.setState({
-          player1: doc.data().player1,
-          player2: doc.data().player2,
-          player3: doc.data().player3,
-          player4: doc.data().player4,
+          playerList: doc.data().playerList,
           playerCardDeck: doc.data().playerCardDeck,
           playerCardDiscard: doc.data().playerCardDiscard,
           infectionCardDeck: doc.data().infectionCardDeck,
           infectionCardDiscard: doc.data().infectionCardDiscard,
           currentTurn: doc.data().currentTurn,
-          cities: doc.data().cities
+          cities: doc.data().cities,
+          win: doc.data().win,
+          lose: doc.data().lose
         })
       }
     })
@@ -132,16 +140,16 @@ class MainGame extends React.Component {
     this.props.game.get().then(doc => {
       if (this._isMounted)
         this.setState({
-          player1: doc.data().player1,
-          player2: doc.data().player2,
-          player3: doc.data().player3,
-          player4: doc.data().player4,
+          playerList: doc.data().playerList,
           playerCardDeck: doc.data().playerCardDeck,
           playerCardDiscard: doc.data().playerCardDiscard,
           infectionCardDeck: doc.data().infectionCardDeck,
           infectionCardDiscard: doc.data().infectionCardDiscard,
           currentTurn: doc.data().currentTurn,
-          cities: doc.data().cities
+          cities: doc.data().cities,
+          actionCount: doc.data().actionCount,
+          infectionRate: doc.data().infectionRate,
+          outbreaks: doc.data().outbreaks
         })
     })
   }
@@ -171,15 +179,20 @@ class MainGame extends React.Component {
 
   //************PLAYER TURN START**************
 
-  playerTurn = () => {
+  playerTurn = index => {
     this.resetOutbreakSet() //must reset outbreak set first
     //actions
 
     //draw cards
     let playerCardDeck = this.state.playerCardDeck
     let playerCardDiscard = this.state.playerCardDiscard
+    let infectionCardDeck = this.state.infectionCardDeck
     const card1 = playerCardDeck.shift()
     const card2 = playerCardDeck.shift()
+    if (card1.type === 'epidemic' || card2.type === 'epidemic') {
+      const epidemic = infectionCardDeck.pop()
+      this.infectCity(epidemic.city, epidemic.color, 3, true)
+    }
 
     //infect
   }
@@ -301,37 +314,22 @@ class MainGame extends React.Component {
     //add cards to infect discard
     const infectionDiscard = [threeCubes, twoCubes, oneCubes].flat()
     //set state for game start
-
+    let playerList = []
+    playerList.push(
+      this.setupPlayer(this.state.playerList[0], hands[0], roles, turns, 0)
+    )
+    playerList.push(
+      this.setupPlayer(this.state.playerList[1], hands[1], roles, turns, 1)
+    )
+    playerList.push(
+      this.setupPlayer(this.state.playerList[2], hands[2], roles, turns, 2)
+    )
+    playerList.push(
+      this.setupPlayer(this.state.playerList[3], hands[3], roles, turns, 3)
+    )
     this.props.game.set(
       {
-        player1: this.setupPlayer(
-          this.state.player1,
-          hands[0],
-          roles,
-          turns,
-          0
-        ),
-        player2: this.setupPlayer(
-          this.state.player2,
-          hands[1],
-          roles,
-          turns,
-          1
-        ),
-        player3: this.setupPlayer(
-          this.state.player3,
-          hands[2],
-          roles,
-          turns,
-          2
-        ),
-        player4: this.setupPlayer(
-          this.state.player4,
-          hands[3],
-          roles,
-          turns,
-          3
-        ),
+        playerList: playerList,
         playerCardDeck: playerCardDeck,
         currentTurn: playerFirst,
         infectionCardDiscard: infectionDiscard,
@@ -343,7 +341,7 @@ class MainGame extends React.Component {
   //**************GAME SET UP END**************
 
   render() {
-    return this.state.player1.location ? (
+    return this.state.playerList[0] ? (
       <div id="whole-game-screen">
         <div id="main-game-screen">
           <PandemicMap cityList={this.state.cities} />
@@ -352,13 +350,9 @@ class MainGame extends React.Component {
         <Button onClick={this.testOutbreak}>test outbreak</Button>
         <Button onClick={this.reset}>reset cities</Button>
         <GameMenu
-          players={[
-            this.state.player1,
-            this.state.player2,
-            this.state.player3,
-            this.state.player4
-          ]}
+          players={this.state.playerList}
           username={this.props.username}
+          turn={this.state.currentTurn}
         />
       </div>
     ) : (
