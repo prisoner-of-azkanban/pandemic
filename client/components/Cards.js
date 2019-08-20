@@ -5,6 +5,7 @@ import {epidemicCard} from '../../game/epidemic'
 import {infectionCards} from '../../game/infectionCards'
 import {roleCards} from '../../game/roleCards'
 import {cityList} from '../../game/cityList'
+import {connectedCities} from '../../game/connectedCities'
 const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
@@ -57,7 +58,8 @@ class Cards extends React.Component {
         hand: [],
         name: players[3]
       },
-      cities: cityList
+      cities: cityList,
+      outbreak: new Set()
     }
     this.props.game.onSnapshot(this.listenStart)
   }
@@ -149,26 +151,74 @@ class Cards extends React.Component {
     const unsubscribe = this.props.game.onSnapshot(this.listenStart)
     unsubscribe()
   }
+  //*******lara testing functions START*******
+  testOutbreak = () => {
+    let cities = this.state.cities
+    cities.Tokyo.red = 3
+    cities.Osaka.red = 3
+    cities['San Francisco'].blue = 3
+    this.props.game.set({cities: cities}, {merge: true})
+    console.log(this.state.cities)
+    this.infectCity('Tokyo', 'red')
+    console.log('after outbreak', this.state.cities)
+  }
 
+  reset = () => {
+    this.props.game.set({cities: cityList}, {merge: true})
+    console.log(this.state.cities)
+  }
+  //*******lara testing functions END*******
+
+  //************PLAYER TURN START**************
+
+  playerTurn = () => {
+    this.resetOutbreakSet() //must reset outbreak set first
+    //actions
+
+    //draw cards
+    let playerCardDeck = this.state.playerCardDeck
+    let playerCardDiscard = this.state.playerCardDiscard
+    const card1 = playerCardDeck.shift()
+    const card2 = playerCardDeck.shift()
+
+    //infect
+  }
+
+  //************PLAYER TURN END**************
+
+  //infect step
+  resetOutbreakSet = () => this.setState({outbreak: new Set()})
   outbreakCheck = (city, color) => {
     return this.state.cities[city][color] === 3
   }
 
   infectCity = (city, color, number = 1, epidemic = false) => {
     if (epidemic) {
+      //epidemic card
       const cubes = 3
       let cities = this.state.cities
       cities[city][color] = cubes
       this.props.game.set({cities: cities}, {merge: true})
     } else if (!this.outbreakCheck(city, color)) {
+      //normal infect
       const cubes = this.state.cities[city][color] + number
       let cities = this.state.cities
       cities[city][color] = cubes
       this.props.game.set({cities: cities}, {merge: true})
+    } else {
+      //outbreak
+      if (!this.state.outbreak.has(city)) {
+        const cityConnections = connectedCities[city]
+        this.state.outbreak.add(city)
+        console.log(this.state.outbreak)
+        for (let i = 0; i < cityConnections.length; i++) {
+          this.infectCity(cityConnections[i], color)
+        }
+      }
     }
-    //else we outbreak, need a new funciton for that, need connections
   }
 
+  //*********GAME SET UP START****************
   setupPlayerRoles = (players, roleDeck) => {
     let shuffledRoles = shuffle(roleDeck, {copy: true})
     return players.map(role => (role = shuffledRoles.shift()))
@@ -215,7 +265,6 @@ class Cards extends React.Component {
 
     //find max population
     const turnsMapPop = this.findMaxPop(hands)
-    console.log(turnsMapPop)
     const maxPop = turnsMapPop[0]
     let turns = turnsMapPop[1]
     turns = turns.map(pop => pop === maxPop)
@@ -237,6 +286,7 @@ class Cards extends React.Component {
 
     const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
     // playerCardDeck.map((card, index) => console.log(index + 1, card.title)) // check and make sure piles are properly split
+
     //shuffle infection cards
     let shuffledInfectionDeck = shuffle(infectionCards, {copy: true})
     let threeCubes = shuffledInfectionDeck.splice(0, 3)
@@ -290,6 +340,7 @@ class Cards extends React.Component {
       {merge: true}
     )
   }
+  //**************GAME SET UP END**************
 
   render() {
     return this.state.player1.location ? (
@@ -329,6 +380,8 @@ class Cards extends React.Component {
             ))}
           </ul>
           <Button onClick={this.startGame}>test shuffle</Button>
+          <Button onClick={this.testOutbreak}>test outbreak</Button>
+          <Button onClick={this.reset}>reset cities</Button>
         </div>
         <GameMenu
           players={[
