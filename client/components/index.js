@@ -8,12 +8,11 @@ export {default as NewSignup} from './Signup'
 export {default as NewLogin} from './Login'
 export {default as NewChat} from './Chatroom'
 export {default as Gamepage} from './Gamepage'
-
+export {default as MainGame} from './MainGame'
 export {default as Homepage} from './Homepage'
 export {default as WaitingRoom} from './WaitingRoom'
 
 export {default as Chatroom} from './Chatroom'
-export {default as CanvasComponent} from './canvas-component'
-export {default as Test} from './Test'
-
+export {default as PandemicMap} from './PandemicMap'
+export {default as GameMenu} from './GameMenu'
 export {default as GamePlay} from './Game'

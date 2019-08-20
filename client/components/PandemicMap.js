@@ -1,13 +1,14 @@
 import {cityList} from '../../game/cityList'
 import React from 'react'
 
-class Test extends React.Component {
-  constructor() {
-    super()
+class PandemicMap extends React.Component {
+  constructor(props) {
+    super(props)
     this.canvasRef = React.createRef()
-    this.state = {
-      cityList: cityList
-    }
+    this.cityList = this.props.cityList ? this.props.cityList : cityList
+  }
+  componentDidMount() {
+    this.drawRect()
   }
   drawRect = () => {
     console.log('i was clicked')
@@ -15,8 +16,8 @@ class Test extends React.Component {
     const ctx = canvas.getContext('2d')
     const image = this.refs.image
     ctx.font = '10px Courier New'
-    Object.keys(this.state.cityList).forEach(cityKey => {
-      const city = this.state.cityList[cityKey]
+    Object.keys(this.cityList).forEach(cityKey => {
+      const city = this.cityList[cityKey]
       ctx.beginPath()
       ctx.fillStyle = 'rgba(255, 255, 255, 1)'
       ctx.arc(city.coords[0], city.coords[1], 10, 0, 2 * Math.PI)
@@ -37,12 +38,12 @@ class Test extends React.Component {
           height="708"
           style={{border: '5px solid #d3d3d3', margin: '10'}}
         />
-        <button className="map-button" onClick={this.drawRect}>
+        {/* <button className="map-button" onClick={this.drawRect}>
           click me
-        </button>
+        </button> */}
       </React.Fragment>
     )
   }
 }
 
-export default Test
+export default PandemicMap

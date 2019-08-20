@@ -7,10 +7,8 @@ import {
   NewChat,
   Gamepage,
   WaitingRoom,
-  Test
+  PandemicMap
 } from './components'
-
-import CanvasComp from './components/canvas-component'
 
 /**
  * COMPONENT
@@ -30,7 +28,7 @@ class Routes extends Component {
         />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
-        <Route path="/test" component={Test} />
+        <Route path="/test" component={PandemicMap} />
         <Route
           path="/waitingroom"
           render={props => <WaitingRoom {...props} />}
