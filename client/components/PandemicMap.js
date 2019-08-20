@@ -5,6 +5,7 @@ class PandemicMap extends React.Component {
   constructor(props) {
     super(props)
     this.canvasRef = React.createRef()
+    this.cityList = this.props.cityList ? this.props.cityList : cityList
   }
   componentDidMount() {
     this.drawRect()
@@ -15,8 +16,8 @@ class PandemicMap extends React.Component {
     const ctx = canvas.getContext('2d')
     const image = this.refs.image
     ctx.font = '10px Courier New'
-    Object.keys(this.props.cityList).forEach(cityKey => {
-      const city = this.props.cityList[cityKey]
+    Object.keys(this.cityList).forEach(cityKey => {
+      const city = this.cityList[cityKey]
       ctx.beginPath()
       ctx.fillStyle = 'rgba(255, 255, 255, 1)'
       ctx.arc(city.coords[0], city.coords[1], 10, 0, 2 * Math.PI)
