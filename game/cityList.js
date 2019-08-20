@@ -6,7 +6,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [250, 300],
+    coords: [231, 393],
     player: [],
     color: 'yellow'
   },
@@ -18,7 +18,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [300, 450],
+    coords: [287, 529],
     player: [],
     color: 'yellow'
   },
@@ -30,7 +30,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 425],
+    coords: [545, 495],
     player: [],
     color: 'yellow'
   },
@@ -42,7 +42,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 290],
+    coords: [550, 368],
     player: [],
     color: 'yellow'
   },
@@ -54,7 +54,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [450, 360],
+    coords: [505, 428],
     player: [],
     color: 'yellow'
   },
@@ -66,7 +66,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [425, 300],
+    coords: [462, 378],
     player: [],
     color: 'yellow'
   },
@@ -78,7 +78,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [225, 400],
+    coords: [205, 466],
     player: [],
     color: 'yellow'
   },
@@ -90,7 +90,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [100, 200],
+    coords: [93, 310],
     player: [],
     color: 'yellow'
   },
@@ -102,7 +102,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [150, 225],
+    coords: [158, 334],
     player: [],
     color: 'yellow'
   },
@@ -114,7 +114,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [260, 215],
+    coords: [236, 323],
     player: [],
     color: 'yellow'
   },
@@ -126,7 +126,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [250, 460],
+    coords: [215, 543],
     player: [],
     color: 'yellow'
   },
@@ -138,7 +138,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [350, 415],
+    coords: [330, 477],
     player: [],
     color: 'yellow'
   },
@@ -150,7 +150,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [450, 300],
+    coords: [483, 287],
     player: [],
     color: 'black'
   },
@@ -162,7 +162,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [560, 300],
+    coords: [595, 278],
     player: [],
     color: 'black'
   },
@@ -174,7 +174,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [540, 270],
+    coords: [536, 300],
     player: [],
     color: 'black'
   },
@@ -186,7 +186,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 400],
+    coords: [720, 388],
     player: [],
     color: 'black'
   },
@@ -198,7 +198,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 400],
+    coords: [710, 280],
     player: [],
     color: 'black'
   },
@@ -210,7 +210,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [520, 200],
+    coords: [543, 243],
     player: [],
     color: 'black'
   },
@@ -222,7 +222,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [700, 275],
+    coords: [660, 300],
     player: [],
     color: 'black'
   },
@@ -234,7 +234,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 400],
+    coords: [758, 297],
     player: [],
     color: 'black'
   },
@@ -258,7 +258,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 700],
+    coords: [665, 350],
     player: [],
     color: 'black'
   },
@@ -270,7 +270,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [600, 470],
+    coords: [605, 337],
     player: [],
     color: 'black'
   },
@@ -282,7 +282,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [600, 175],
+    coords: [646, 233],
     player: [],
     color: 'black'
   },
@@ -294,7 +294,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 300],
+    coords: [767, 355],
     player: [],
     color: 'red'
   },
@@ -306,7 +306,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 175],
+    coords: [798, 217],
     player: [],
     color: 'red'
   },
@@ -318,7 +318,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 425],
+    coords: [812, 403],
     player: [],
     color: 'red'
   },
@@ -330,7 +330,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 290],
+    coords: [808, 323],
     player: [],
     color: 'red'
   },
@@ -342,7 +342,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [750, 400],
+    coords: [768, 447],
     player: [],
     color: 'red'
   },
@@ -354,7 +354,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [850, 350],
+    coords: [878, 398],
     player: [],
     color: 'red'
   },
@@ -366,7 +366,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [900, 250],
+    coords: [913, 293],
     player: [],
     color: 'red'
   },
@@ -378,7 +378,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [900, 175],
+    coords: [859, 214],
     player: [],
     color: 'red'
   },
@@ -390,7 +390,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [800, 200],
+    coords: [802, 265],
     player: [],
     color: 'red'
   },
@@ -402,7 +402,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [900, 525],
+    coords: [918, 540],
     player: [],
     color: 'red'
   },
@@ -414,7 +414,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [850, 280],
+    coords: [863, 313],
     player: [],
     color: 'red'
   },
@@ -426,7 +426,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [880, 180],
+    coords: [906, 241],
     player: [],
     color: 'red'
   },
@@ -438,7 +438,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [250, 200],
+    coords: [192, 268],
     player: ['player1', 'player2', 'player3', 'player4'],
     color: 'blue'
   },
@@ -450,7 +450,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [190, 190],
+    coords: [168, 216],
     player: [],
     color: 'blue'
   },
@@ -462,7 +462,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [500, 150],
+    coords: [485, 167],
     player: [],
     color: 'blue'
   },
@@ -474,7 +474,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [480, 160],
+    coords: [417, 180],
     player: [],
     color: 'blue'
   },
@@ -486,7 +486,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [470, 220],
+    coords: [407, 249],
     player: [],
     color: 'blue'
   },
@@ -498,7 +498,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [550, 210],
+    coords: [516, 203],
     player: [],
     color: 'blue'
   },
@@ -510,7 +510,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [250, 210],
+    coords: [289, 222],
     player: [],
     color: 'blue'
   },
@@ -522,7 +522,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [490, 210],
+    coords: [468, 215],
     player: [],
     color: 'blue'
   },
@@ -534,7 +534,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [10, 220],
+    coords: [78, 242],
     player: [],
     color: 'blue'
   },
@@ -546,7 +546,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [600, 180],
+    coords: [560, 156],
     player: [],
     color: 'blue'
   },
@@ -558,7 +558,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [210, 210],
+    coords: [237, 214],
     player: [],
     color: 'blue'
   },
@@ -570,7 +570,7 @@ export const cityList = {
     yellow: 0,
     black: 0,
     research: false,
-    coords: [215, 250],
+    coords: [265, 262],
     player: [],
     color: 'blue'
   }

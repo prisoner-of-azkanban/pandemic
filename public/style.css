@@ -144,3 +144,21 @@ form div {
 .gamenamelabel {
   text-align: center;
 }
+
+.map {
+  background-image: url(https://i.imgur.com/BLeOLvU.jpg?1);
+  opacity: 0.25;
+  filter: alpha(opacity=100);
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.map-button {
+  position: absolute;
+  top: 1010;
+  left: 1010;
+}
