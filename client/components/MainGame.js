@@ -9,9 +9,9 @@ import {connectedCities} from '../../game/connectedCities'
 const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
-import GameMenu from './GameMenu'
+import {GameMenu, PandemicMap} from './index'
 
-class Cards extends React.Component {
+class MainGame extends React.Component {
   constructor(props) {
     super(props)
     this._isMounted = false
@@ -346,43 +346,11 @@ class Cards extends React.Component {
     return this.state.player1.location ? (
       <div id="whole-game-screen">
         <div id="main-game-screen">
-          <p>First Player: {this.state.currentTurn}</p>
-          <ul>
-            {this.state.player1.name} event card in hand:
-            {this.state.player1.event.toString()} turn:
-            {this.state.player1.turn.toString()}
-            {this.state.player1.hand.map(card => (
-              <li key={card.title}>{card.title}</li>
-            ))}
-          </ul>
-          <ul>
-            {this.state.player2.name} event card in hand:
-            {this.state.player2.event.toString()} turn:
-            {this.state.player2.turn.toString()}
-            {this.state.player2.hand.map(card => (
-              <li key={card.title}>{card.title}</li>
-            ))}
-          </ul>
-          <ul>
-            {this.state.player3.name} event card in hand:
-            {this.state.player3.event.toString()} turn:
-            {this.state.player3.turn.toString()}
-            {this.state.player3.hand.map(card => (
-              <li key={card.title}>{card.title}</li>
-            ))}
-          </ul>
-          <ul>
-            {this.state.player4.name} event card in hand:
-            {this.state.player4.event.toString()} turn:
-            {this.state.player4.turn.toString()}
-            {this.state.player4.hand.map(card => (
-              <li key={card.title}>{card.title}</li>
-            ))}
-          </ul>
-          <Button onClick={this.startGame}>test shuffle</Button>
-          <Button onClick={this.testOutbreak}>test outbreak</Button>
-          <Button onClick={this.reset}>reset cities</Button>
+          <PandemicMap cityList={this.state.cities} />
         </div>
+        <Button onClick={this.startGame}>test shuffle</Button>
+        <Button onClick={this.testOutbreak}>test outbreak</Button>
+        <Button onClick={this.reset}>reset cities</Button>
         <GameMenu
           players={[
             this.state.player1,
@@ -399,4 +367,4 @@ class Cards extends React.Component {
   }
 }
 
-export default Cards
+export default MainGame

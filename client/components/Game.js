@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
 import firebase from 'firebase'
-import Cards from './Cards'
+import {MainGame, PandemicMap} from './index'
 
 const MAXPLAYERS = 4
 
@@ -114,7 +114,7 @@ class Game extends React.Component {
     return (
       <div className="game-container">
         {this.state.started ? (
-          <Cards
+          <MainGame
             players={this.state.players}
             game={this.game}
             username={this.props.username}
