@@ -23,6 +23,7 @@ class PandemicMap extends React.Component {
   drawRect = () => {
     const canvas = this.canvasRef.current
     const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     // Font Size for Tokens
     ctx.font = '30px Courier New'
 
