@@ -27,16 +27,33 @@ const MainMoves = props => {
           >
             Move
           </Button>
-          <Button variant="outline-dark" className="game-menu-btn">
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={() => props.showMenuToggle('research')}
+            disabled={!canTakeCharter}
+          >
             Research
           </Button>
-          <Button variant="outline-dark" className="game-menu-btn">
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={() => props.showMenuToggle('treat')}
+          >
             Treat
           </Button>
-          <Button variant="outline-dark" className="game-menu-btn">
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={() => props.showMenuToggle('knowledge')}
+          >
             Knowledge
           </Button>
-          <Button variant="outline-dark" className="game-menu-btn">
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={() => props.showMenuToggle('cure')}
+          >
             Cure
           </Button>
         </div>
@@ -178,7 +195,9 @@ const MainMoves = props => {
     case 'research':
       menuReturn = (
         <div id="btn-menu">
-          Build Research Center
+          <Button variant="outline-dark" className="game-menu-btn">
+            Build research center
+          </Button>
           <Button
             variant="outline-dark"
             className="game-menu-btn"

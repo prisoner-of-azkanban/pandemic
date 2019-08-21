@@ -47,7 +47,7 @@ const HelpModal = props => {
         <h4 className="help-modal-header">Share Knowledge</h4>
         <p>
           Either give the City card that matches the city you are in to another
-          poayer or take the City card that matches the city you are in from
+          player or take the City card that matches the city you are in from
           another player. The other player must also be in the city with you.
         </p>
         <h4 className="help-modal-header">Cure</h4>
