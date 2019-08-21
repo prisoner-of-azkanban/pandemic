@@ -198,13 +198,14 @@ class MainGame extends React.Component {
   }
   //*******lara testing functions START*******
   testOutbreak = () => {
-    let cities = this.state.cities
-    cities.Tokyo.red = 3
+    // let cities = this.state.cities
+    // cities.Tokyo.red = 3
     // cities.Seoul.red = 1
-    cities.Osaka.red = 3
-    cities['San Francisco'].blue = 3
-    this.props.game.set({cities: cities}, {merge: true})
-    this.infectWrapper('Tokyo', 'red')
+    // cities.Osaka.red = 3
+    // cities['San Francisco'].blue = 3
+    // this.props.game.set({cities: cities}, {merge: true})
+    // this.infectWrapper('Tokyo', 'red')
+    this.loseCheck()
     // this.infectWrapper('Seoul', 'red', 3, true)
     // this.infectWrapper('Manila', 'red', 1)
     // this.infectWrapper('Beijing', 'red', 3)
@@ -227,7 +228,7 @@ class MainGame extends React.Component {
         blackCubes: 24,
         outbreaks: 0,
         infectionRate: 0,
-        playerCardDeck: [],
+        playerCardDeck: [1],
         playerCardDiscard: [],
         infectionCardDeck: [],
         infectionCardDiscard: []
@@ -243,9 +244,8 @@ class MainGame extends React.Component {
     console.log('in lose check')
     const updateLose = firebase.firestore.FieldValue.increment(1)
     if (this.state.outbreaks > 7) {
-      console.log('outbreaks ded')
       this.props.game.update({lose: updateLose}).then(() => true)
-    } else if (this.state.playerCardDeck.length < 1) {
+    } else if (this.state.playerCardDeck.length < 2) {
       this.props.game.update({lose: updateLose}).then(() => true)
     } else if (
       this.state.redCubes < 0 ||
