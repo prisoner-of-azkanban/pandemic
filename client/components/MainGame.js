@@ -6,6 +6,7 @@ import {infectionCards} from '../../game/infectionCards'
 import {roleCards} from '../../game/roleCards'
 import {cityList} from '../../game/cityList'
 import {connectedCities} from '../../game/connectedCities'
+import {infectionRateNumber} from '../../game/infectionRateToken'
 const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
@@ -71,7 +72,11 @@ class MainGame extends React.Component {
       blueCubes: 0,
       redCubes: 0,
       blackCubes: 0,
-      yellowCubes: 0
+      yellowCubes: 0,
+      redCure: 0,
+      blueCure: 0,
+      blackCure: 0,
+      yellowCure: 0
     }
     this.props.game.onSnapshot(this.listenStart)
   }
@@ -130,7 +135,11 @@ class MainGame extends React.Component {
             blueCubes: 24,
             redCubes: 24,
             blackCubes: 24,
-            yellowCubes: 24
+            yellowCubes: 24,
+            redCure: 0,
+            blueCure: 0,
+            blackCure: 0,
+            yellowCure: 0
           },
           {merge: true}
         )
@@ -148,7 +157,11 @@ class MainGame extends React.Component {
           blueCubes: doc.data().blueCubes,
           redCubes: doc.data().redCubes,
           blackCubes: doc.data().blackCubes,
-          yellowCubes: doc.data().yellowCubes
+          yellowCubes: doc.data().yellowCubes,
+          redCure: doc.data().redCure,
+          blueCure: doc.data().blueCure,
+          blackCure: doc.data().blackCure,
+          yellowCure: doc.data().yellowCure
         })
       }
     })
@@ -198,6 +211,12 @@ class MainGame extends React.Component {
     // this.infectWrapper('Tokyo', 'red', 2)
   }
 
+  testPlayerTurn = () => {
+    console.log('before turn')
+    this.playerTurn(this.state.currentTurn)
+    console.log('after turn')
+  }
+
   reset = () => {
     this.props.game.set(
       {
@@ -205,7 +224,9 @@ class MainGame extends React.Component {
         redCubes: 24,
         blueCubes: 24,
         yellowCubes: 24,
-        blackCubes: 24
+        blackCubes: 24,
+        outbreaks: 0,
+        infectionRate: 0
       },
       {merge: true}
     )
@@ -214,21 +235,87 @@ class MainGame extends React.Component {
 
   //************PLAYER TURN START**************
 
+  isCardEpidemic = card => {
+    return card.type === 'epidemic'
+  }
+
+  playerInfectStep = (epidemicInfect = null) => {
+    let infectDeck
+    let oldInfectDiscard
+    if (!epidemicInfect) {
+      infectDeck = this.state.infectionCardDeck
+      oldInfectDiscard = this.state.infectionCardDiscard
+    } else {
+      infectDeck = epidemicInfect
+      oldInfectDiscard = []
+    }
+    const infectionRate = infectionRateNumber[this.state.infectionRate]
+    let addToInfectDiscard = []
+    for (let i = 0; i < infectionRate; i++) {
+      const infectCard = infectDeck.shift()
+      console.log(infectCard)
+      addToInfectDiscard.push(infectCard)
+      this.infectWrapper(infectCard.city, infectCard.color)
+    }
+    const newInfectDiscard = [...oldInfectDiscard, ...addToInfectDiscard]
+    this.props.game.set(
+      {infectionCardDeck: infectDeck, infectionCardDiscard: newInfectDiscard},
+      {merge: true}
+    )
+  }
+
+  epidemicDiscardShuffle = () => {
+    const oldInfectDiscard = this.state.infectionCardDiscard
+    let oldInfectDeck = this.state.infectionCardDeck
+    const epidemicCity = oldInfectDeck.pop()
+    const addToInfectDeck = [...oldInfectDiscard, epidemicCity]
+    const shuffledAdd = shuffle(addToInfectDeck, {copy: true})
+    const newInfectDeck = [...shuffledAdd, ...oldInfectDeck]
+    return newInfectDeck
+  }
+
   playerTurn = index => {
+    let epidemicFlag = false
     //actions
 
     //draw cards
     let playerCardDeck = this.state.playerCardDeck
-    let playerCardDiscard = this.state.playerCardDiscard
+    // let playerCardDiscard = this.state.playerCardDiscard //need to figure out how to limit hand size
     let infectionCardDeck = this.state.infectionCardDeck
     const card1 = playerCardDeck.shift()
+    console.log('card1', card1)
     const card2 = playerCardDeck.shift()
-    if (card1.type === 'epidemic' || card2.type === 'epidemic') {
-      const epidemic = infectionCardDeck.pop()
+    console.log('card2', card2)
+    let addToHand = []
+    if (this.isCardEpidemic(card1)) {
+      epidemicFlag = true
+      const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
+      console.log('epidemic infect card 1', epidemic.city)
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
+      this.playerInfectStep(this.epidemicDiscardShuffle())
+    } else {
+      addToHand.push(card1)
+    }
+    if (this.isCardEpidemic(card2)) {
+      epidemicFlag = true
+      const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
+      console.log('epidemic infect card2', epidemic.city)
+      this.infectWrapper(epidemic.city, epidemic.color, 3, true)
+      this.playerInfectStep(this.epidemicDiscardShuffle())
+    } else {
+      addToHand.push(card2)
     }
 
+    let playerList = this.state.playerList
+    playerList[index].hand = [...playerList[index].hand, ...addToHand]
+    this.props.game.set(
+      {playerCardDeck: playerCardDeck, playerList: playerList},
+      {merge: true}
+    )
     //infect
+    if (!epidemicFlag) {
+      this.playerInfectStep()
+    }
   }
 
   //************PLAYER TURN END**************
@@ -296,6 +383,7 @@ class MainGame extends React.Component {
   //outbreak infect
 
   outbreakInfect = (city, color) => {
+    console.log('OUTBREAK IN ', city)
     if (!this._outbreak.has(city)) {
       const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
       this.props.game.update({outbreaks: updateOutbreaks})
@@ -449,7 +537,20 @@ class MainGame extends React.Component {
         </div>
         <Button onClick={this.startGame}>test shuffle</Button>
         <Button onClick={this.testOutbreak}>test outbreak</Button>
+        <Button onClick={this.testPlayerTurn}>test player turn</Button>
         <Button onClick={this.reset}>reset cities</Button>
+        <ul>
+          Infect Deck {this.state.infectionCardDeck.length}
+          {this.state.infectionCardDeck.map((card, index) => (
+            <li key={index}>{card.city}</li>
+          ))}
+        </ul>
+        <ul>
+          Infect Discard {this.state.infectionCardDiscard.length}
+          {this.state.infectionCardDiscard.map((card, index) => (
+            <li key={index}>{card.city}</li>
+          ))}
+        </ul>
         <GameMenu
           players={this.state.playerList}
           username={this.props.username}
