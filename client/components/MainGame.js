@@ -61,12 +61,17 @@ class MainGame extends React.Component {
         }
       ],
       cities: cityList,
-      outbreak: new Set(),
       win: false,
       lose: false,
       actionCount: 0,
       infectionRate: 0,
-      outbreaks: 0
+      outbreaks: 0,
+      blueCubes: 0,
+      redCubes: 0,
+      blackCubes: 0,
+      yellowCubes: 0,
+      outbreak: new Set(),
+      removedCubeCount: 0
     }
     this.props.game.onSnapshot(this.listenStart)
   }
@@ -116,7 +121,16 @@ class MainGame extends React.Component {
                 hand: [],
                 name: players[3]
               }
-            ]
+            ],
+            win: false,
+            lose: false,
+            actionCount: 0,
+            infectionRate: 0,
+            outbreaks: 0,
+            blueCubes: 24,
+            redCubes: 24,
+            blackCubes: 24,
+            yellowCubes: 24
           },
           {merge: true}
         )
@@ -130,13 +144,18 @@ class MainGame extends React.Component {
           currentTurn: doc.data().currentTurn,
           cities: doc.data().cities,
           win: doc.data().win,
-          lose: doc.data().lose
+          lose: doc.data().lose,
+          blueCubes: doc.data().blueCubes,
+          redCubes: doc.data().redCubes,
+          blackCubes: doc.data().blackCubes,
+          yellowCubes: doc.data().yellowCubes
         })
       }
     })
   }
 
   listenStart = () => {
+    console.log('in listener')
     this.props.game.get().then(doc => {
       if (this._isMounted)
         this.setState({
@@ -149,13 +168,19 @@ class MainGame extends React.Component {
           cities: doc.data().cities,
           actionCount: doc.data().actionCount,
           infectionRate: doc.data().infectionRate,
-          outbreaks: doc.data().outbreaks
+          outbreaks: doc.data().outbreaks,
+          win: doc.data().win,
+          lose: doc.data().lose,
+          blueCubes: doc.data().blueCubes,
+          redCubes: doc.data().redCubes,
+          blackCubes: doc.data().blackCubes,
+          yellowCubes: doc.data().yellowCubes
         })
     })
   }
 
   componentWillUnmount() {
-    this._isMounted = false
+    this._isMouned = false
     const unsubscribe = this.props.game.onSnapshot(this.listenStart)
     unsubscribe()
   }
@@ -166,21 +191,33 @@ class MainGame extends React.Component {
     cities.Osaka.red = 3
     cities['San Francisco'].blue = 3
     this.props.game.set({cities: cities}, {merge: true})
-    console.log(this.state.cities)
-    this.infectCity('Tokyo', 'red')
-    console.log('after outbreak', this.state.cities)
+    // this.infectWrapper('Tokyo', 'red')
+    // await this.sleep(1000)
+    // this.infectWrapper('Manila', 'red')
+    // await this.sleep(1000)
+    // this.infectWrapper('Beijing', 'red')
+    // await this.sleep(1000)
+    console.log('after outbreak', this.state.redCubes)
   }
 
   reset = () => {
-    this.props.game.set({cities: cityList}, {merge: true})
-    console.log(this.state.cities)
+    this.props.game.set(
+      {
+        cities: cityList,
+        redCubes: 24,
+        blueCubes: 24,
+        yellowCubes: 24,
+        blackCubes: 24
+      },
+      {merge: true}
+    )
+    // console.log(this.state.cities)
   }
   //*******lara testing functions END*******
 
   //************PLAYER TURN START**************
 
   playerTurn = index => {
-    this.resetOutbreakSet() //must reset outbreak set first
     //actions
 
     //draw cards
@@ -191,7 +228,7 @@ class MainGame extends React.Component {
     const card2 = playerCardDeck.shift()
     if (card1.type === 'epidemic' || card2.type === 'epidemic') {
       const epidemic = infectionCardDeck.pop()
-      this.infectCity(epidemic.city, epidemic.color, 3, true)
+      this.infectWrapper(epidemic.city, epidemic.color, 3, true)
     }
 
     //infect
@@ -200,34 +237,105 @@ class MainGame extends React.Component {
   //************PLAYER TURN END**************
 
   //infect step
-  resetOutbreakSet = () => this.setState({outbreak: new Set()})
+  resetAfterInfect = () => {
+    this.setState({outbreak: new Set(), removedCubeCount: 0})
+  }
+
   outbreakCheck = (city, color) => {
     return this.state.cities[city][color] === 3
   }
 
-  infectCity = (city, color, number = 1, epidemic = false) => {
+  sleep = ms => {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  updateCubeCount = async color => {
+    switch (color) {
+      case 'red':
+        console.log('hi in red', this.state.redCubes)
+        const red = this.state.redCubes - this.state.removedCubeCount
+        console.log(red)
+        this.props.game.set({redCubes: red}, {merge: true})
+        break
+      case 'blue':
+        console.log('hi in blue', this.state.blueCubes)
+        const blue = this.state.blueCubes - this.state.removedCubeCount
+        console.log(blue)
+        this.props.game.set({blueCubes: blue}, {merge: true})
+        break
+      case 'black':
+        console.log('hi in black', this.state.blackCubes)
+        const black = this.state.blackCubes - this.state.removedCubeCount
+        console.log(black)
+        this.props.game.set({blackCubes: black}, {merge: true})
+        break
+      case 'yellow':
+        console.log('hi in yellow', this.state.yellowCubes)
+        const yellow = this.state.yellowCubes - this.state.removedCubeCount
+        console.log(yellow)
+        this.props.game.set({yellowCubes: yellow}, {merge: true})
+        break
+      default:
+        break
+    }
+  }
+
+  infectWrapper = (city, color, number = 1, epidemic = false) => {
+    this.infectStep(city, color, number, epidemic)
+    console.log('after infect', city, this.state.removedCubeCount)
+    this.updateCubeCount(color)
+    console.log('after cube update', this.state)
+    this.resetAfterInfect()
+  }
+
+  //epidemic infect
+  epidemicInfect = (city, color) => {
+    const cubes = 3
+    let cities = this.state.cities
+    const willOutbreak = cities[city][color]
+    const cubesToSub = 3 - this.state.cities[city][color]
+    const newCount = this.state.removedCubeCount + cubesToSub
+    this.setState({removedCubeCount: newCount})
+    cities[city][color] = cubes
+    this.props.game.set({cities: cities}, {merge: true})
+    if (willOutbreak) {
+      this.outbreakInfect(city, color)
+    }
+  }
+
+  //normal infect
+  normalInfect = (city, color, number = 1) => {
+    console.log('before infecting', this.state)
+    const cubes = this.state.cities[city][color] + number
+    let cities = this.state.cities
+    cities[city][color] = cubes
+    this.props.game.set({cities: cities}, {merge: true})
+    const newCount = this.state.removedCubeCount + number
+    this.setState({removedCubeCount: newCount})
+    console.log('right after infecting', this.state)
+  }
+  //outbreak infect
+
+  outbreakInfect = (city, color) => {
+    if (!this.state.outbreak.has(city)) {
+      const cityConnections = connectedCities[city]
+      this.state.outbreak.add(city)
+      for (let i = 0; i < cityConnections.length; i++) {
+        this.infectStep(cityConnections[i], color)
+      }
+    }
+  }
+
+  infectStep = (city, color, number = 1, epidemic = false) => {
     if (epidemic) {
       //epidemic card
-      const cubes = 3
-      let cities = this.state.cities
-      cities[city][color] = cubes
-      this.props.game.set({cities: cities}, {merge: true})
+      this.epidemicInfect(city, color)
     } else if (!this.outbreakCheck(city, color)) {
       //normal infect
-      const cubes = this.state.cities[city][color] + number
-      let cities = this.state.cities
-      cities[city][color] = cubes
-      this.props.game.set({cities: cities}, {merge: true})
+      this.normalInfect(city, color, number)
     } else {
       //outbreak
-      if (!this.state.outbreak.has(city)) {
-        const cityConnections = connectedCities[city]
-        this.state.outbreak.add(city)
-        console.log(this.state.outbreak)
-        for (let i = 0; i < cityConnections.length; i++) {
-          this.infectCity(cityConnections[i], color)
-        }
-      }
+      this.outbreakInfect(city, color)
     }
   }
 
@@ -286,7 +394,7 @@ class MainGame extends React.Component {
     let pile = []
     for (let i = 0; i < 6; i++) {
       let shuffledIndex
-      if (i > 3) {
+      if (i < 3) {
         shuffledIndex = 8
       } else {
         shuffledIndex = 7
@@ -296,6 +404,7 @@ class MainGame extends React.Component {
       shuffle(tempPile)
       pile.push(tempPile)
     }
+    // console.log('check length', shuffledPlayerCardDeck.length)
 
     const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
     // playerCardDeck.map((card, index) => console.log(index + 1, card.title)) // check and make sure piles are properly split
@@ -308,9 +417,9 @@ class MainGame extends React.Component {
     // console.log('three', threeCubes)
     // console.log('two', twoCubes)
     // console.log('one', oneCubes)
-    threeCubes.forEach(city => this.infectCity(city.city, city.color, 3))
-    twoCubes.forEach(city => this.infectCity(city.city, city.color, 2))
-    oneCubes.forEach(city => this.infectCity(city.city, city.color))
+    threeCubes.forEach(city => this.infectWrapper(city.city, city.color, 3))
+    twoCubes.forEach(city => this.infectWrapper(city.city, city.color, 2))
+    oneCubes.forEach(city => this.infectWrapper(city.city, city.color))
     //add cards to infect discard
     const infectionDiscard = [threeCubes, twoCubes, oneCubes].flat()
     //set state for game start
@@ -337,14 +446,24 @@ class MainGame extends React.Component {
       },
       {merge: true}
     )
+    // this.state.playerCardDeck.map((card, index)=> console.log(index, card.title))
   }
   //**************GAME SET UP END**************
 
   render() {
+    // console.log('game state', this.state)
     return this.state.playerList[0] ? (
       <div id="whole-game-screen">
         <div id="main-game-screen">
-          <PandemicMap cityList={this.state.cities} />
+          <PandemicMap
+            cityList={this.state.cities}
+            infectionRate={this.state.infectionRate}
+            outbreaks={this.outbreak}
+            playerCardDeck={this.state.playerCardDeck}
+            playerCardDiscard={this.state.playerCardDiscard}
+            infectionCardDeck={this.state.infectionCardDeck}
+            infectionCardDiscard={this.state.infectionCardDiscard}
+          />
         </div>
         <Button onClick={this.startGame}>test shuffle</Button>
         <Button onClick={this.testOutbreak}>test outbreak</Button>
