@@ -7,7 +7,7 @@ class MainMoves extends React.Component {
   constructor() {
     super()
     this.state = {
-      drive: 'Drive/ferry To',
+      drive: 'Drive/ferry to',
       directFlight: 'Take direct flight to',
       charterFlightTo: 'Take charter flight to',
       shuttleFlightTo: 'Take shuttle flight to',
@@ -16,6 +16,17 @@ class MainMoves extends React.Component {
       discardCure: []
     }
   }
+
+  handleDriveSubmit = () => {
+    this.props.handleDriveSubmit(this.state.drive)
+    this.setState({drive: 'Drive/ferry to'})
+  }
+
+  handleDirectFlightSubmit = () => {
+    this.props.handleDirectFlightSubmit(this.state.directFlight)
+    this.setState({directFlight: 'Take direct flight to'})
+  }
+
   handleCheckbox = e => {
     if (e.target.checked)
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
@@ -87,6 +98,7 @@ class MainMoves extends React.Component {
 
     //check if player can treat disease in cities
     const colors = ['red', 'blue', 'yellow', 'black']
+    console.log(currentCity, 'currentCity')
     let canTreat =
       colors.map(color => currentCity[color]).reduce((a, b) => a + b) > 0
 
@@ -210,7 +222,12 @@ class MainMoves extends React.Component {
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-            <Button variant="outline-dark" className="game-menu-btn">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              disabled={this.state.drive === 'Take direct flight to'}
+              onClick={this.handleDriveSubmit}
+            >
               Submit
             </Button>
             <Button
@@ -238,7 +255,11 @@ class MainMoves extends React.Component {
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-            <Button variant="outline-dark" className="game-menu-btn">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.handleDirectFlightSubmit}
+            >
               Submit
             </Button>
             <Button
