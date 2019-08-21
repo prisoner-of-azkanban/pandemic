@@ -64,8 +64,8 @@ class MainGame extends React.Component {
         }
       ],
       cities: cityList,
-      win: false,
-      lose: false,
+      win: 0,
+      lose: 0,
       actionCount: 0,
       infectionRate: 0,
       outbreaks: 0,
@@ -127,8 +127,8 @@ class MainGame extends React.Component {
                 name: players[3]
               }
             ],
-            win: false,
-            lose: false,
+            win: 0,
+            lose: 0,
             actionCount: 0,
             infectionRate: 0,
             outbreaks: 0,
@@ -200,12 +200,12 @@ class MainGame extends React.Component {
   testOutbreak = () => {
     let cities = this.state.cities
     cities.Tokyo.red = 3
-    cities.Seoul.red = 1
-    // cities.Osaka.red = 3
+    // cities.Seoul.red = 1
+    cities.Osaka.red = 3
     cities['San Francisco'].blue = 3
     this.props.game.set({cities: cities}, {merge: true})
-    // this.infectWrapper('Tokyo', 'red')
-    this.infectWrapper('Seoul', 'red', 3, true)
+    this.infectWrapper('Tokyo', 'red')
+    // this.infectWrapper('Seoul', 'red', 3, true)
     // this.infectWrapper('Manila', 'red', 1)
     // this.infectWrapper('Beijing', 'red', 3)
     // this.infectWrapper('Tokyo', 'red', 2)
@@ -237,6 +237,29 @@ class MainGame extends React.Component {
   }
   //*******lara testing functions END*******
 
+  //*********WIN/LOSE CONDITION START*********
+
+  loseCheck = () => {
+    console.log('in lose check')
+    const updateLose = firebase.firestore.FieldValue.increment(1)
+    if (this.state.outbreaks > 7) {
+      console.log('outbreaks ded')
+      this.props.game.update({lose: updateLose}).then(() => true)
+    } else if (this.state.playerCardDeck.length < 1) {
+      this.props.game.update({lose: updateLose}).then(() => true)
+    } else if (
+      this.state.redCubes < 0 ||
+      this.state.blueCubes < 0 ||
+      this.state.yellowCubes < 0 ||
+      this.state.blackCubes < 0
+    ) {
+      this.props.game.update({lose: updateLose}).then(() => true)
+    }
+    return false
+  }
+
+  //*********WIN/LOSE CONDITION END*********
+
   //************PLAYER TURN START**************
 
   isCardEpidemic = card => {
@@ -257,7 +280,7 @@ class MainGame extends React.Component {
     let addToInfectDiscard = []
     for (let i = 0; i < infectionRate; i++) {
       const infectCard = infectDeck.shift()
-      console.log(infectCard)
+      // console.log(infectCard)
       addToInfectDiscard.push(infectCard)
       this.infectWrapper(infectCard.city, infectCard.color)
     }
@@ -279,17 +302,23 @@ class MainGame extends React.Component {
   }
 
   playerTurn = index => {
+    // console.log('taking a turn')
     let epidemicFlag = false
     //actions
-
+    // while (this.state.actionCount < 4) {
+    //   continue
+    // }
     //draw cards
+    //check if enough cards
+    if (this.loseCheck()) {
+      console.log('lost')
+      return
+    }
     let playerCardDeck = this.state.playerCardDeck
     // let playerCardDiscard = this.state.playerCardDiscard //need to figure out how to limit hand size
     let infectionCardDeck = this.state.infectionCardDeck
     const card1 = playerCardDeck.shift()
-    console.log('card1', card1)
     const card2 = playerCardDeck.shift()
-    console.log('card2', card2)
     let addToHand = []
     if (this.isCardEpidemic(card1)) {
       epidemicFlag = true
@@ -297,6 +326,11 @@ class MainGame extends React.Component {
       console.log('epidemic infect card 1', epidemic.city)
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
+      //check lose
+      if (this.loseCheck()) {
+        console.log('lost')
+        return
+      }
     } else {
       addToHand.push(card1)
     }
@@ -306,10 +340,13 @@ class MainGame extends React.Component {
       console.log('epidemic infect card2', epidemic.city)
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
+      if (this.loseCheck()) {
+        console.log('lost')
+        return
+      }
     } else {
       addToHand.push(card2)
     }
-
     let playerList = this.state.playerList
     playerList[index].hand = [...playerList[index].hand, ...addToHand]
     this.props.game.set(
@@ -319,6 +356,9 @@ class MainGame extends React.Component {
     //infect
     if (!epidemicFlag) {
       this.playerInfectStep()
+      if (this.loseCheck()) {
+        console.log('lost')
+      }
     }
   }
 
@@ -387,13 +427,14 @@ class MainGame extends React.Component {
   //outbreak infect
 
   outbreakInfect = (city, color) => {
-    console.log('OUTBREAK IN ', city)
     if (!this._outbreak.has(city)) {
+      console.log('OUTBREAK IN ', city)
       const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
       this.props.game.update({outbreaks: updateOutbreaks})
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
       for (let i = 0; i < cityConnections.length; i++) {
+        console.log('outbreak infect', cityConnections[i])
         this.infectStep(cityConnections[i], color)
       }
     }
@@ -529,20 +570,26 @@ class MainGame extends React.Component {
     return this.state.playerList[0] ? (
       <div id="whole-game-screen">
         <div id="main-game-screen">
-          <PandemicMap
-            cityList={this.state.cities}
-            infectionRate={this.state.infectionRate}
-            outbreaks={this.state.outbreaks}
-            playerCardDeck={this.state.playerCardDeck}
-            playerCardDiscard={this.state.playerCardDiscard}
-            infectionCardDeck={this.state.infectionCardDeck}
-            infectionCardDiscard={this.state.infectionCardDiscard}
-            playerList={this.state.playerList}
-            redCure={this.state.redCure}
-            blueCure={this.state.blueCure}
-            blackCure={this.state.blackCure}
-            yellowCure={this.state.yellowCure}
-          />
+          {!this.state.lose ? (
+            <PandemicMap
+              cityList={this.state.cities}
+              infectionRate={this.state.infectionRate}
+              outbreaks={this.state.outbreaks}
+              playerCardDeck={this.state.playerCardDeck}
+              playerCardDiscard={this.state.playerCardDiscard}
+              infectionCardDeck={this.state.infectionCardDeck}
+              infectionCardDiscard={this.state.infectionCardDiscard}
+              playerList={this.state.playerList}
+              redCure={this.state.redCure}
+              blueCure={this.state.blueCure}
+              blackCure={this.state.blackCure}
+              yellowCure={this.state.yellowCure}
+              lose={this.state.lose}
+              win={this.state.win}
+            />
+          ) : (
+            <h1>LOST</h1>
+          )}
         </div>
         <ul>
           Infect Deck {this.state.infectionCardDeck.length}
