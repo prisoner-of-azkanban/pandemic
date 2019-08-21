@@ -1,7 +1,7 @@
 const firebase = require('firebase')
 require('firebase/firestore')
 
-var config = {
+let config = {
   apiKey: 'AIzaSyAMQuH4xLOL4t5Esz28hW8GONs7fIKvhDo',
   authDomain: 'pandemic-online-38cdd.firebaseapp.com',
   databaseURL: 'https://pandemic-online-38cdd.firebaseio.com',

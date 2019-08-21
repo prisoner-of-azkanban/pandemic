@@ -1,15 +1,20 @@
 import React from 'react'
-import {Button} from 'react-bootstrap'
+import {Button, Modal} from 'react-bootstrap'
 import MainMoves from './MainMoves'
+import HelpModal from './HelpModal'
 
 class GameMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {showMoves: false}
+    this.state = {showMoves: false, showModal: false}
   }
 
   showMoveMenu = () => {
     this.setState({showMoves: !this.state.showMoves})
+  }
+
+  toggleModal = () => {
+    this.setState({showModal: !this.state.showModal})
   }
 
   render() {
@@ -74,6 +79,17 @@ class GameMenu extends React.Component {
             )}
           </div>
         </div>
+        <Button
+          variant="outline-dark"
+          className="game-menu-btn"
+          onClick={this.toggleModal}
+        >
+          Help
+        </Button>
+        <HelpModal
+          showModal={this.state.showModal}
+          toggleModal={this.toggleModal}
+        />
       </div>
     )
   }

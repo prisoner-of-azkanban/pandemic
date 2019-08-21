@@ -26,8 +26,8 @@ class Login extends React.Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => this.props.history.push('/waitingroom'))
       .catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log(errorCode, errorMessage)
         alert(errorMessage)
       })
