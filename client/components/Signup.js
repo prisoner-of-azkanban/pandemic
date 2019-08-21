@@ -33,8 +33,8 @@ class Signup extends React.Component {
       )
       .then(() => this.props.history.push('/waitingroom'))
       .catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log(errorCode, errorMessage)
         alert(errorMessage)
       })

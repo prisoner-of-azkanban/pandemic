@@ -1,15 +1,29 @@
 import React from 'react'
-import {Button} from 'react-bootstrap'
+import {Button, Modal} from 'react-bootstrap'
 import MainMoves from './MainMoves'
+import HelpModal from './HelpModal'
+import CardHand from './CardHand'
 
 class GameMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {showMoves: false}
+    this.state = {
+      showModal: false,
+      showMoves: false,
+      showMenu: 'default'
+    }
   }
 
-  showMoveMenu = () => {
-    this.setState({showMoves: !this.state.showMoves})
+  showMenuToggle = menu => {
+    this.setState({showMenu: menu})
+  }
+
+  resetMenu = () => {
+    this.setState({showMenu: 'default'})
+  }
+
+  toggleModal = () => {
+    this.setState({showModal: !this.state.showModal})
   }
 
   render() {
@@ -21,11 +35,16 @@ class GameMenu extends React.Component {
     )
     return (
       <div id="game-menu">
-        <h3 className="menu-header-1">Current Turn: {this.props.turn}</h3>
+        <h3 className="menu-header-1">
+          Current Turn: {this.props.players[this.props.turn].name}
+        </h3>
         <h3 className="menu-header-1">Moves</h3>
         <MainMoves
-          showMoveMenu={this.showMoveMenu}
-          showMoves={this.state.showMoves}
+          showMenu={this.state.showMenu}
+          showMenuToggle={this.showMenuToggle}
+          resetMenu={this.resetMenu}
+          currentUser={currentUser}
+          otherUsers={otherUsers}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
@@ -42,11 +61,7 @@ class GameMenu extends React.Component {
             <h4 className="card-container-header">Yours</h4>
             {currentUser ? (
               <ul id="your-cards-container">
-                {currentUser.hand.map(card => (
-                  <li key={card.title} className={card.color}>
-                    {card.title}
-                  </li>
-                ))}
+                <CardHand hand={currentUser.hand} />
               </ul>
             ) : (
               <div />
@@ -60,11 +75,7 @@ class GameMenu extends React.Component {
                   return (
                     <div key={user.name}>
                       <h5>{user.name}</h5>
-                      {user.hand.map(card => (
-                        <li key={card.title} className={card.color}>
-                          {card.title}
-                        </li>
-                      ))}
+                      <CardHand hand={user.hand} />
                     </div>
                   )
                 })}
@@ -74,6 +85,18 @@ class GameMenu extends React.Component {
             )}
           </div>
         </div>
+        <Button
+          variant="outline-dark"
+          className="game-menu-btn"
+          onClick={this.toggleModal}
+        >
+          Help
+        </Button>
+        <HelpModal
+          showModal={this.state.showModal}
+          toggleModal={this.toggleModal}
+          currentUser={currentUser}
+        />
       </div>
     )
   }

@@ -239,3 +239,16 @@ canvas {
 .black {
   text-shadow: 2px 2px 5px black;
 }
+
+.help-modal-header {
+  font-family: impact;
+}
+
+.help-modal-subheader {
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+#modal-sizes-title-lg {
+  font-family: impact;
+}
