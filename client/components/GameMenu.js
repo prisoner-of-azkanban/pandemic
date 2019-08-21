@@ -2,6 +2,7 @@ import React from 'react'
 import {Button, Modal} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
+import CardHand from './CardHand'
 
 class GameMenu extends React.Component {
   constructor(props) {
@@ -47,11 +48,7 @@ class GameMenu extends React.Component {
             <h4 className="card-container-header">Yours</h4>
             {currentUser ? (
               <ul id="your-cards-container">
-                {currentUser.hand.map(card => (
-                  <li key={card.title} className={card.color}>
-                    {card.title}
-                  </li>
-                ))}
+                <CardHand hand={currentUser.hand} />
               </ul>
             ) : (
               <div />
@@ -65,11 +62,7 @@ class GameMenu extends React.Component {
                   return (
                     <div key={user.name}>
                       <h5>{user.name}</h5>
-                      {user.hand.map(card => (
-                        <li key={card.title} className={card.color}>
-                          {card.title}
-                        </li>
-                      ))}
+                      <CardHand hand={user.hand} />
                     </div>
                   )
                 })}
