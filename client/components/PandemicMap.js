@@ -102,29 +102,33 @@ class PandemicMap extends React.Component {
   // Methods
   // Outbreak Token Method
   outbreakFn = ctx => {
-    let coords = outbreakToken[this.props.outbreaks]
-    ctx.beginPath()
-    ctx.fillStyle = 'lilac'
-    ctx.arc(coords[0], coords[1], 15, 0, 2 * Math.PI)
-    ctx.fill()
-    ctx.fillStyle = 'white'
-    ctx.stroke()
-    ctx.fillText(this.props.outbreaks, coords[0] - 9, coords[1] + 9)
+    if (this.props.outbreaks < 8) {
+      let coords = outbreakToken[this.props.outbreaks]
+      ctx.beginPath()
+      ctx.fillStyle = 'lilac'
+      ctx.arc(coords[0], coords[1], 15, 0, 2 * Math.PI)
+      ctx.fill()
+      ctx.fillStyle = 'white'
+      ctx.stroke()
+      ctx.fillText(this.props.outbreaks, coords[0] - 9, coords[1] + 9)
+    }
   }
 
   // Infection Rate Token Method
   infectionRateFn = ctx => {
-    let infect = infectionRateToken[this.props.infectionRate]
-    ctx.beginPath()
-    ctx.fillStyle = 'violet'
-    ctx.arc(infect[0], infect[1], 15, 0, 2 * Math.PI)
-    ctx.fill()
-    ctx.fillStyle = 'black'
-    ctx.fillText(
-      infectionRateNumber[this.props.infectionRate],
-      infect[0] - 9,
-      infect[1] + 9
-    )
+    if (this.props.infectionRate < 7) {
+      let infect = infectionRateToken[this.props.infectionRate]
+      ctx.beginPath()
+      ctx.fillStyle = 'violet'
+      ctx.arc(infect[0], infect[1], 15, 0, 2 * Math.PI)
+      ctx.fill()
+      ctx.fillStyle = 'black'
+      ctx.fillText(
+        infectionRateNumber[this.props.infectionRate],
+        infect[0] - 9,
+        infect[1] + 9
+      )
+    }
   }
 
   // Cure Token
