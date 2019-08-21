@@ -14,6 +14,8 @@ import {GameMenu, PandemicMap} from './index'
 class MainGame extends React.Component {
   constructor(props) {
     super(props)
+    this._removeCubeCount = 0
+    this._outbreak = new Set()
     this._isMounted = false
     let players = this.props.players
     this.state = {
@@ -180,24 +182,24 @@ class MainGame extends React.Component {
   }
 
   componentWillUnmount() {
-    this._isMouned = false
+    this._isMounted = false
     const unsubscribe = this.props.game.onSnapshot(this.listenStart)
     unsubscribe()
   }
   //*******lara testing functions START*******
-  testOutbreak = () => {
-    let cities = this.state.cities
-    cities.Tokyo.red = 3
-    cities.Osaka.red = 3
-    cities['San Francisco'].blue = 3
-    this.props.game.set({cities: cities}, {merge: true})
-    // this.infectWrapper('Tokyo', 'red')
+  testOutbreak = async () => {
+    // let cities = this.state.cities
+    // cities.Tokyo.red = 3
+    // cities.Osaka.red = 3
+    // cities['San Francisco'].blue = 3
+    // this.props.game.set({cities: cities}, {merge: true})
+    // this.infectWrapper('Manila', 'red', 1)
     // await this.sleep(1000)
-    // this.infectWrapper('Manila', 'red')
+    // this.infectWrapper('Beijing', 'red', 3)
     // await this.sleep(1000)
-    // this.infectWrapper('Beijing', 'red')
+    this.infectWrapper('Tokyo', 'red', 2)
     // await this.sleep(1000)
-    console.log('after outbreak', this.state.redCubes)
+    // console.log('after outbreak', this.state.redCubes)
   }
 
   reset = () => {
@@ -211,7 +213,6 @@ class MainGame extends React.Component {
       },
       {merge: true}
     )
-    // console.log(this.state.cities)
   }
   //*******lara testing functions END*******
 
@@ -255,7 +256,21 @@ class MainGame extends React.Component {
         console.log('hi in red', this.state.redCubes)
         const red = this.state.redCubes - this.state.removedCubeCount
         console.log(red)
-        this.props.game.set({redCubes: red}, {merge: true})
+        // this.props.game.set({redCubes: red}, {merge: true})
+        db.runTransaction(t => {
+          return t
+            .get(this.props.game)
+            .then(doc => {
+              let newCubes = doc.data().redCubes - this.state.removedCubeCount
+              t.update(this.props.game, {redCubes: newCubes})
+            })
+            .then(result => {
+              console.log('Transaction success!')
+            })
+            .catch(err => {
+              console.log('Transaction failure:', err)
+            })
+        })
         break
       case 'blue':
         console.log('hi in blue', this.state.blueCubes)
@@ -281,10 +296,10 @@ class MainGame extends React.Component {
   }
 
   infectWrapper = (city, color, number = 1, epidemic = false) => {
+    console.log('infecting ', city)
     this.infectStep(city, color, number, epidemic)
-    console.log('after infect', city, this.state.removedCubeCount)
+    console.log(this.state.removedCubeCount)
     this.updateCubeCount(color)
-    console.log('after cube update', this.state)
     this.resetAfterInfect()
   }
 
@@ -305,14 +320,14 @@ class MainGame extends React.Component {
 
   //normal infect
   normalInfect = (city, color, number = 1) => {
-    console.log('before infecting', this.state)
     const cubes = this.state.cities[city][color] + number
     let cities = this.state.cities
     cities[city][color] = cubes
     this.props.game.set({cities: cities}, {merge: true})
+    console.log('old removed count', this.state.removedCubeCount)
     const newCount = this.state.removedCubeCount + number
+    console.log('new removed count', newCount)
     this.setState({removedCubeCount: newCount})
-    console.log('right after infecting', this.state)
   }
   //outbreak infect
 
