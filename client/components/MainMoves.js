@@ -1,297 +1,486 @@
 /* eslint-disable complexity */
 import React from 'react'
-import {Button, Dropdown} from 'react-bootstrap'
+import {Button, Dropdown, Form} from 'react-bootstrap'
 import {connectedCities} from '../../game/connectedCities'
 
-const MainMoves = props => {
-  let currentUser = props.currentUser
-  let allCities = Object.keys(connectedCities).filter(
-    cityName => cityName !== currentUser.location
-  )
-  let connectedCityDrive = connectedCities[props.currentUser.location]
-  let connectedCityDirectFlight = currentUser.hand.filter(
-    card => card.type === 'city'
-  )
-  let canTakeCharter = currentUser.hand.filter(
-    card => card.title === currentUser.location
-  ).length
-  let menuReturn = ''
-  switch (props.showMenu) {
-    case 'default':
-      menuReturn = (
-        <div id="btn-menu">
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('moves')}
-          >
-            Move
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('research')}
-            disabled={!canTakeCharter}
-          >
-            Research
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('treat')}
-          >
-            Treat
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('knowledge')}
-          >
-            Knowledge
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('cure')}
-          >
-            Cure
-          </Button>
-        </div>
-      )
-      break
-    case 'moves':
-      menuReturn = (
-        <div id="btn-menu">
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('drive')}
-          >
-            Drive/Ferry
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('direct flight')}
-          >
-            Direct Flight
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('charter flight')}
-            disabled={!canTakeCharter}
-          >
-            Charter Flight
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('shuttle flight')}
-          >
-            Shuttle Flight
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'drive':
-      menuReturn = (
-        <div id="btn-menu">
-          You are in {currentUser.location}.<br />
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-              Drive/Ferry to
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {connectedCityDrive.map(city => (
-                <Dropdown.Item key={city}>{city}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'direct flight':
-      menuReturn = (
-        <div id="btn-menu">
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-              Take direct flight to
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {connectedCityDirectFlight.map(card => (
-                <Dropdown.Item key={card.title}>{card.title}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'charter flight':
-      menuReturn = (
-        <div id="btn-menu">
-          {canTakeCharter ? (
-            <div>
-              Discard {currentUser.location} and
-              <Dropdown>
-                <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-                  Take charter flight to
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {allCities.map(city => (
-                    <Dropdown.Item key={city}>{city}</Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-          ) : (
-            <p>You cannot take a charter flight</p>
-          )}
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'shuttle flight':
-      menuReturn = (
-        <div id="btn-menu">
-          Shuttle flight
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'research':
-      menuReturn = (
-        <div id="btn-menu">
-          <Button variant="outline-dark" className="game-menu-btn">
-            Build research center
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'treat':
-      menuReturn = (
-        <div id="btn-menu">
-          Treat disease
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'knowledge':
-      menuReturn = (
-        <div id="btn-menu">
-          Share Knowledge
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    case 'cure':
-      menuReturn = (
-        <div id="btn-menu">
-          Discover Cure
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={props.resetMenu}
-          >
-            Back
-          </Button>
-        </div>
-      )
-      break
-    default:
-      menuReturn = (
-        <div id="btn-menu">
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('moves')}
-          >
-            Move
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('research')}
-          >
-            Research
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('treat')}
-          >
-            Treat
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('knowledge')}
-          >
-            Knowledge
-          </Button>
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={() => props.showMenuToggle('cure')}
-          >
-            Cure
-          </Button>
-        </div>
-      )
+class MainMoves extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      drive: 'Drive/ferry To',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player'
+    }
   }
-  return menuReturn
+  handleGiveKnowledgeCardToSelect = (eventKey, event) => {
+    this.setState({
+      giveKnowledgeCardTo: eventKey
+    })
+  }
+  handleGiveKnowledgeCardSelect = (eventKey, event) => {
+    this.setState({
+      giveKnowledgeCard: eventKey
+    })
+  }
+  handleDriveSelect = (eventKey, event) => {
+    this.setState({
+      drive: eventKey
+    })
+  }
+  handleDirectFlightSelect = (eventKey, event) => {
+    this.setState({
+      directFlight: eventKey
+    })
+  }
+  handleCharterFlightTo = (eventKey, event) => {
+    this.setState({
+      charterFlightTo: eventKey
+    })
+  }
+  handleShuttleFlightTo = (eventKey, event) => {
+    this.setState({
+      shuttleFlightTo: eventKey
+    })
+  }
+
+  render() {
+    //get current user and all cities (besides one current user is in)
+    let currentUser = this.props.currentUser
+    let allCities = Object.keys(connectedCities).filter(
+      cityName => cityName !== currentUser.location
+    )
+    let currentCity = this.props.cities[currentUser.location]
+    let allCityArray = Object.keys(this.props.cities)
+
+    //see where you can drive/ferry
+    let connectedCityDrive = connectedCities[this.props.currentUser.location]
+
+    //see where you can take direct flight
+    let connectedCityDirectFlight = currentUser.hand.filter(
+      card => card.type === 'city' && card.title !== currentUser.location
+    )
+
+    //check if you can take charter
+    let canTakeCharter = currentUser.hand.filter(
+      card => card.title === currentUser.location
+    ).length
+
+    //getting list of all cities with research center
+    let researchCities = []
+    allCityArray.forEach(city => {
+      if (this.props.cities[city].research)
+        researchCities.push(this.props.cities[city])
+    })
+
+    //see if you can tke shuttle
+    let canTakeShuttle = researchCities.length > 1 && currentCity.research
+
+    //check if player can treat disease in cities
+    const colors = ['red', 'blue', 'yellow', 'black']
+    let canTreat =
+      colors.map(color => currentCity[color]).reduce((a, b) => a + b) > 0
+
+    //see if player can share knowledge
+    const canShareKnowledge = this.props.cities[currentUser.location].length > 1
+    console.log(this.props.otherUsers)
+
+    //which menu to show
+    let menuReturn = ''
+    switch (this.props.showMenu) {
+      case 'default':
+        menuReturn = (
+          <div id="btn-menu">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('moves')}
+            >
+              Move
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('research')}
+              disabled={!canTakeCharter}
+            >
+              Research
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('treat')}
+              disabled={!canTreat}
+            >
+              Treat
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('knowledge')}
+              disabled={canShareKnowledge}
+            >
+              Knowledge
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('cure')}
+            >
+              Cure
+            </Button>
+          </div>
+        )
+        break
+      case 'moves':
+        menuReturn = (
+          <div id="btn-menu">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('drive')}
+            >
+              Drive/Ferry
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('direct flight')}
+            >
+              Direct Flight
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('charter flight')}
+              disabled={!canTakeCharter}
+            >
+              Charter Flight
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('shuttle flight')}
+              disabled={!canTakeShuttle}
+            >
+              Shuttle Flight
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'drive':
+        menuReturn = (
+          <div id="btn-menu">
+            You are in {currentUser.location}.<br />
+            <Dropdown onSelect={this.handleDriveSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.drive}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {connectedCityDrive.map(city => (
+                  <Dropdown.Item key={city} eventKey={city}>
+                    {city}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button variant="outline-dark" className="game-menu-btn">
+              Submit
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'direct flight':
+        menuReturn = (
+          <div id="btn-menu">
+            <Dropdown onSelect={this.handleDirectFlightSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.directFlight}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {connectedCityDirectFlight.map(card => (
+                  <Dropdown.Item key={card.title} eventKey={card.title}>
+                    {card.title}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button variant="outline-dark" className="game-menu-btn">
+              Submit
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'charter flight':
+        menuReturn = (
+          <div id="btn-menu">
+            {canTakeCharter ? (
+              <div>
+                Discard {currentUser.location} and
+                <Dropdown onSelect={this.handleCharterFlightTo}>
+                  <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                    {this.state.charterFlightTo}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {allCities.map(city => (
+                      <Dropdown.Item key={city} eventKey={city}>
+                        {city}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Button variant="outline-dark" className="game-menu-btn">
+                  Submit
+                </Button>
+              </div>
+            ) : (
+              <p>You cannot take a charter flight</p>
+            )}
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'shuttle flight':
+        menuReturn = (
+          <div id="btn-menu">
+            {canTakeShuttle ? (
+              <div>
+                Discard {currentUser.location} and
+                <Dropdown onSelect={this.handleShuttleFlightTo}>
+                  <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                    {this.state.shuttleFlightTo}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {researchCities
+                      .filter(city => currentUser.location !== city.name)
+                      .map(city => (
+                        <Dropdown.Item key={city.name} eventKey={city.name}>
+                          {city.name}
+                        </Dropdown.Item>
+                      ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Button variant="outline-dark" className="game-menu-btn">
+                  Submit
+                </Button>
+              </div>
+            ) : (
+              <p>You cannot take a shuttle flight</p>
+            )}
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'research':
+        menuReturn = (
+          <div id="btn-menu">
+            <Button variant="outline-dark" className="game-menu-btn">
+              Build research center
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'treat':
+        menuReturn = (
+          <div id="btn-menu">
+            {colors.map(color => {
+              if (currentCity[color]) {
+                return (
+                  <Button variant="outline-dark" className="game-menu-btn">
+                    Treat {color}
+                  </Button>
+                )
+              }
+            })}
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'give knowledge':
+        menuReturn = (
+          <div id="btn-menu">
+            Give
+            <Dropdown onSelect={this.handleGiveKnowledgeCardSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.giveKnowledgeCard}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {currentUser.hand.map(card => (
+                  <Dropdown.Item key={card.title} eventKey={card.title}>
+                    {card.title}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            TO
+            <Dropdown onSelect={this.handleGiveKnowledgeCardToSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.giveKnowledgeCardTo}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {this.props.otherUsers.map(user => (
+                  <Dropdown.Item key={user.name} eventKey={user.name}>
+                    {user.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'take knowledge':
+        menuReturn = (
+          <div id="btn-menu">
+            Take BLANK FROM BLANK
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'knowledge':
+        menuReturn = (
+          <div id="btn-menu">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('give knowledge')}
+            >
+              Give Knowledge
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('take knowledge')}
+            >
+              Take Knowledge
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      case 'cure':
+        menuReturn = (
+          <div id="btn-menu">
+            Discover Cure
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+        break
+      default:
+        menuReturn = (
+          <div id="btn-menu">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('moves')}
+            >
+              Move
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('research')}
+            >
+              Research
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('treat')}
+            >
+              Treat
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('knowledge')}
+            >
+              Knowledge
+            </Button>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => this.props.showMenuToggle('cure')}
+            >
+              Cure
+            </Button>
+          </div>
+        )
+    }
+    return menuReturn
+  }
 }
 
 export default MainMoves

@@ -45,6 +45,7 @@ class GameMenu extends React.Component {
           resetMenu={this.resetMenu}
           currentUser={currentUser}
           otherUsers={otherUsers}
+          cities={this.props.cities}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
