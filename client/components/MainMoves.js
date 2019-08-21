@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import React from 'react'
-import {Button, Dropdown} from 'react-bootstrap'
+import {Button, Dropdown, Form} from 'react-bootstrap'
 import {connectedCities} from '../../game/connectedCities'
 
 class MainMoves extends React.Component {
@@ -10,10 +10,21 @@ class MainMoves extends React.Component {
       drive: 'Drive/ferry To',
       directFlight: 'Take direct flight to',
       charterFlightTo: 'Take charter flight to',
-      shuttleFlightTo: 'Take shuttle flight to'
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player'
     }
   }
-
+  handleGiveKnowledgeCardToSelect = (eventKey, event) => {
+    this.setState({
+      giveKnowledgeCardTo: eventKey
+    })
+  }
+  handleGiveKnowledgeCardSelect = (eventKey, event) => {
+    this.setState({
+      giveKnowledgeCard: eventKey
+    })
+  }
   handleDriveSelect = (eventKey, event) => {
     this.setState({
       drive: eventKey
@@ -36,28 +47,47 @@ class MainMoves extends React.Component {
   }
 
   render() {
+    //get current user and all cities (besides one current user is in)
     let currentUser = this.props.currentUser
     let allCities = Object.keys(connectedCities).filter(
       cityName => cityName !== currentUser.location
     )
+    let currentCity = this.props.cities[currentUser.location]
+    let allCityArray = Object.keys(this.props.cities)
+
+    //see where you can drive/ferry
     let connectedCityDrive = connectedCities[this.props.currentUser.location]
+
+    //see where you can take direct flight
     let connectedCityDirectFlight = currentUser.hand.filter(
       card => card.type === 'city' && card.title !== currentUser.location
     )
+
+    //check if you can take charter
     let canTakeCharter = currentUser.hand.filter(
       card => card.title === currentUser.location
     ).length
-    let currentCity = this.props.cities[currentUser.location]
+
+    //getting list of all cities with research center
     let researchCities = []
-    let allCityArray = Object.keys(this.props.cities)
     allCityArray.forEach(city => {
       if (this.props.cities[city].research)
         researchCities.push(this.props.cities[city])
     })
+
+    //see if you can tke shuttle
     let canTakeShuttle = researchCities.length > 1 && currentCity.research
+
+    //check if player can treat disease in cities
     const colors = ['red', 'blue', 'yellow', 'black']
     let canTreat =
       colors.map(color => currentCity[color]).reduce((a, b) => a + b) > 0
+
+    //see if player can share knowledge
+    const canShareKnowledge = this.props.cities[currentUser.location].length > 1
+    console.log(this.props.otherUsers)
+
+    //which menu to show
     let menuReturn = ''
     switch (this.props.showMenu) {
       case 'default':
@@ -90,6 +120,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('knowledge')}
+              disabled={canShareKnowledge}
             >
               Knowledge
             </Button>
@@ -316,7 +347,32 @@ class MainMoves extends React.Component {
       case 'give knowledge':
         menuReturn = (
           <div id="btn-menu">
-            Give BLANK TO BLANK
+            Give
+            <Dropdown onSelect={this.handleGiveKnowledgeCardSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.giveKnowledgeCard}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {currentUser.hand.map(card => (
+                  <Dropdown.Item key={card.title} eventKey={card.title}>
+                    {card.title}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            TO
+            <Dropdown onSelect={this.handleGiveKnowledgeCardToSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.giveKnowledgeCardTo}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {this.props.otherUsers.map(user => (
+                  <Dropdown.Item key={user.name} eventKey={user.name}>
+                    {user.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
             <Button
               variant="outline-dark"
               className="game-menu-btn"
