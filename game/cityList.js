@@ -437,7 +437,7 @@ export const cityList = {
     blue: 0,
     yellow: 0,
     black: 0,
-    research: false,
+    research: true,
     coords: [192, 268],
     player: ['player1', 'player2', 'player3', 'player4'],
     color: 'blue'

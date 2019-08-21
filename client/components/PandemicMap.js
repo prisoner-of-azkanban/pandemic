@@ -5,74 +5,78 @@ import {
 } from '../../game/infectionRateToken'
 import {outbreakToken} from '../../game/outbreakToken'
 import React from 'react'
+import {app, db} from '../../firebase-server/firebase'
 
 class PandemicMap extends React.Component {
   constructor(props) {
     super(props)
-    console.log(this.props.string)
     this.canvasRef = React.createRef()
-    this.cityList = this.props.cityList ? this.props.cityList : cityList
-    this.infectionRate = this.props.infectionRate ? this.props.infectionRate : 0
-    this.outbreaks = this.props.outbreaks ? this.props.outbreaks : 0
+    this.cityList = this.props.cityList
+    this.infectionRate = this.props.infectionRate
+    this.outbreaks = this.props.outbreaks
     this.playerCardDeck = this.props.playerCardDeck
-      ? this.props.playerCardDeck
-      : []
     this.playerCardDiscard = this.props.playerCardDiscard
-      ? this.props.playerCardDiscard
-      : []
     this.infectionCardDeck = this.props.infectionCardDeck
-      ? this.props.infectionCardDeck
-      : []
     this.infectionCardDiscard = this.props.infectionCardDiscard
-      ? this.props.infectionCardDiscard
-      : []
-    this.players = [
-      {location: 'Atlanta'},
-      {location: 'Hong Kong'},
-      {location: 'Beijing'},
-      {location: 'London'}
-    ]
+    this.playerList = this.props.playerList
+    this.redCureState = this.props.redCure
+    this.blueCureState = this.props.blueCure
+    this.blackCureState = this.props.blackCure
+    this.yellowCureState = this.props.yellowCure
+    // const doc = this.props.game.get().then(doc => doc.data())
+    // this.cityList = doc.cityList
+    // this.infectionRate = doc.infectionRate
+    // this.outbreaks = doc.outbreaks
+    // this.playerCardDeck = doc.playerCardDeck
+    // this.playerCardDiscard = doc.playerCardDiscard
+    // this.infectionCardDeck = doc.infectionCardDeck
+    // this.infectionCardDiscard = doc.infectionCardDiscard
+    // this.playerList = doc.playerList
+    // this.redCureState = doc.redCure
+    // this.blueCureState = doc.blueCure
+    // this.blackCureState = doc.blackCure
+    // this.yellowCureState = doc.yellowCure
   }
   componentDidMount() {
+    console.log(this.props)
     this.drawRect()
   }
   drawRect = () => {
     const canvas = this.canvasRef.current
     const ctx = canvas.getContext('2d')
+    // Font Size for Tokens
+    ctx.font = '30px Courier New'
+
+    // Outbreak Token
+    this.outbreakFn(ctx)
+
+    // Infection Rate Token
+    this.infectionRateFn(ctx)
+
+    // Cure Tokens
+    this.blueCure(ctx, this.blueCureState)
+    this.yellowCure(ctx, this.yellowCureState)
+    this.blackCure(ctx, this.blackCureState)
+    this.redCure(ctx, this.redCureState)
+
+    // Font Size for Decks
+    ctx.font = '25px Courier New'
+
+    // Infection Deck
+    this.infectionCardDeckFn(ctx)
+
+    // Infection Discard
+    this.infectionCardDiscardFn(ctx)
+
+    // Player Deck
+    this.playerCardDeckFn(ctx)
+
+    // Player Discard
+    this.playerCardDiscardFn(ctx)
 
     // eslint-disable-next-line max-statements
     Object.keys(this.cityList).forEach(cityKey => {
       const city = this.cityList[cityKey]
-
-      // Font Size for Tokens
-      ctx.font = '30px Courier New'
-
-      // Outbreak Token
-      this.outbreakFn(ctx)
-
-      // Infection Rate Token
-      this.infectionRateFn(ctx)
-
-      // Cure Tokens
-      this.blueCure(ctx, 'eradicated')
-      this.yellowCure(ctx, 'no cure')
-      this.blackCure(ctx, 'cured')
-      this.redCure(ctx, 'no cure')
-
-      // Font Size for Decks
-      ctx.font = '25px Courier New'
-
-      // Infection Deck
-      this.infectionCardDeckFn(ctx)
-
-      // Infection Discard
-      this.infectionCardDiscardFn(ctx)
-
-      // Player Deck
-      this.playerCardDeckFn(ctx)
-
-      // Player Discard
-      this.playerCardDiscardFn(ctx)
 
       // Font Size for Everything else
       ctx.font = '10px Courier New'
@@ -108,10 +112,10 @@ class PandemicMap extends React.Component {
       }
 
       // Player Pawns Placement
-      this.playerOne(ctx, this.players)
-      this.playerTwo(ctx, this.players)
-      this.playerThree(ctx, this.players)
-      this.playerFour(ctx, this.players)
+      this.playerOne(ctx, this.playerList)
+      this.playerTwo(ctx, this.playerList)
+      this.playerThree(ctx, this.playerList)
+      this.playerFour(ctx, this.playerList)
     })
   }
 
@@ -144,54 +148,55 @@ class PandemicMap extends React.Component {
   }
 
   // Cure Token
-  blueCure = (ctx, cureStr) => {
-    if (cureStr !== 'no cure') {
+  blueCure = (ctx, state) => {
+    if (state) {
       ctx.beginPath()
       ctx.fillStyle = 'blue'
-      ctx.rect(320, 640, 30, 30)
-      ctx.fill()
-      if (cureStr === 'eradicated') {
-        ctx.fillStyle = 'white'
-        ctx.fillText('X', 326, 664)
-      }
-    }
-  }
-
-  yellowCure = (ctx, cureStr) => {
-    if (cureStr !== 'no cure') {
-      ctx.beginPath()
-      ctx.fillStyle = 'yellow'
-      ctx.rect(363, 640, 30, 30)
-      ctx.fill()
-      if (cureStr === 'eradicated') {
-        ctx.fillStyle = 'black'
-        ctx.fillText('X', 369, 664)
-      }
-    }
-  }
-
-  blackCure = (ctx, cureStr) => {
-    if (cureStr !== 'no cure') {
-      ctx.beginPath()
-      ctx.fillStyle = 'black'
       ctx.rect(407, 640, 30, 30)
       ctx.fill()
-      if (cureStr === 'eradicated') {
+      if (state === 2) {
         ctx.fillStyle = 'white'
         ctx.fillText('X', 413, 664)
       }
     }
   }
 
-  redCure = (ctx, cureStr) => {
-    if (cureStr !== 'no cure') {
+  yellowCure = (ctx, state) => {
+    if (state) {
       ctx.beginPath()
-      ctx.fillStyle = 'red'
+      ctx.fillStyle = 'yellow'
+      ctx.rect(320, 640, 30, 30)
+      ctx.fill()
+      if (state === 2) {
+        ctx.fillStyle = 'black'
+        ctx.fillText('X', 326, 664)
+      }
+    }
+  }
+
+  blackCure = (ctx, state) => {
+    if (state) {
+      ctx.beginPath()
+      ctx.fillStyle = 'black'
       ctx.rect(450, 640, 30, 30)
       ctx.fill()
-      if (cureStr === 'eradicated') {
+      if (state === 2) {
         ctx.fillStyle = 'white'
         ctx.fillText('X', 456, 664)
+      }
+    }
+  }
+
+  redCure = (ctx, state) => {
+    if (state) {
+      ctx.beginPath()
+      ctx.fillStyle = 'red'
+      ctx.rect(363, 640, 30, 30)
+
+      ctx.fill()
+      if (state === 2) {
+        ctx.fillStyle = 'white'
+        ctx.fillText('X', 369, 664)
       }
     }
   }
@@ -367,6 +372,7 @@ class PandemicMap extends React.Component {
   }
 
   render() {
+    console.log(this.state.infectionCardDiscard)
     return (
       <React.Fragment>
         <canvas className="map" width="999" height="708" />
