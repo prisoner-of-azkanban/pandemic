@@ -155,7 +155,6 @@ class MainGame extends React.Component {
   }
 
   listenStart = () => {
-    console.log('in listener')
     this.props.game.get().then(doc => {
       if (this._isMounted)
         this.setState({
@@ -185,19 +184,17 @@ class MainGame extends React.Component {
     unsubscribe()
   }
   //*******lara testing functions START*******
-  testOutbreak = async () => {
-    // let cities = this.state.cities
-    // cities.Tokyo.red = 3
-    // cities.Osaka.red = 3
-    // cities['San Francisco'].blue = 3
-    // this.props.game.set({cities: cities}, {merge: true})
-    this.infectWrapper('Manila', 'red', 1)
-    // await this.sleep(1000)
-    this.infectWrapper('Beijing', 'red', 3)
-    // await this.sleep(1000)
-    this.infectWrapper('Tokyo', 'red', 2)
-    // await this.sleep(1000)
-    // console.log('after outbreak', this.state.redCubes)
+  testOutbreak = () => {
+    let cities = this.state.cities
+    cities.Tokyo.red = 3
+    cities.Seoul.red = 1
+    cities['San Francisco'].blue = 3
+    this.props.game.set({cities: cities}, {merge: true})
+    // this.infectWrapper('Tokyo', 'red')
+    this.infectWrapper('Seoul', 'red', 3, true)
+    // this.infectWrapper('Manila', 'red', 1)
+    // this.infectWrapper('Beijing', 'red', 3)
+    // this.infectWrapper('Tokyo', 'red', 2)
   }
 
   reset = () => {
@@ -245,56 +242,20 @@ class MainGame extends React.Component {
     return this.state.cities[city][color] === 3
   }
 
-  sleep = ms => {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-  updateCubeCount = async color => {
+  updateCubeCount = (color, n) => {
+    const updateCubeBy = firebase.firestore.FieldValue.increment(-n)
     switch (color) {
       case 'red':
-        console.log('hi in red', this.state.redCubes)
-        const red = this.state.redCubes - this._removeCubeCount
-        const updateCubeBy = firebase.firestore.FieldValue.increment(
-          -this._removeCubeCount
-        )
-        console.log(red)
         this.props.game.update({redCubes: updateCubeBy})
-        // this.props.game.set({redCubes: red}, {merge: true})
-        // db.runTransaction(t => {
-        //   return t
-        //     .get(this.props.game)
-        //     .then(doc => {
-        //       console.log(doc.data(), doc.data().redCubes, this._removeCubeCount)
-        //       let newCubes = doc.data().redCubes - this._removedCubeCount
-        //       // console.log(newCubes)
-        //       // t.set({redCubes: newCubes}, {merge: true})
-        //       t.update(this.props.game, {redCubes: newCubes})
-        //     })
-        //     .then(result => {
-        //       console.log('Transaction success!')
-        //     })
-        //     .catch(err => {
-        //       console.log('Transaction failure:', err)
-        //     })
-        // })
         break
       case 'blue':
-        console.log('hi in blue', this.state.blueCubes)
-        const blue = this.state.blueCubes - this._removeCubeCount
-        console.log(blue)
-        this.props.game.set({blueCubes: blue}, {merge: true})
+        this.props.game.update({blueCubes: updateCubeBy})
         break
       case 'black':
-        console.log('hi in black', this.state.blackCubes)
-        const black = this.state.blackCubes - this._removeCubeCount
-        console.log(black)
-        this.props.game.set({blackCubes: black}, {merge: true})
+        this.props.game.update({blackCubes: updateCubeBy})
         break
       case 'yellow':
-        console.log('hi in yellow', this.state.yellowCubes)
-        const yellow = this.state.yellowCubes - this._removeCubeCount
-        console.log(yellow)
-        this.props.game.set({yellowCubes: yellow}, {merge: true})
+        this.props.game.update({yellowCubes: updateCubeBy})
         break
       default:
         break
@@ -302,10 +263,8 @@ class MainGame extends React.Component {
   }
 
   infectWrapper = (city, color, number = 1, epidemic = false) => {
-    console.log('infecting ', city)
     this.infectStep(city, color, number, epidemic)
-    console.log(this._removeCubeCount)
-    this.updateCubeCount(color)
+    this.updateCubeCount(color, this._removeCubeCount)
     this.resetAfterInfect()
   }
 
@@ -329,9 +288,7 @@ class MainGame extends React.Component {
     let cities = this.state.cities
     cities[city][color] = cubes
     this.props.game.set({cities: cities}, {merge: true})
-    console.log('old removed count', this._removeCubeCount)
     this._removeCubeCount += number
-    console.log('new removed count', this._removeCubeCount)
   }
   //outbreak infect
 
