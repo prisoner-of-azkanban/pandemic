@@ -13,7 +13,7 @@ const Lose = () => {
         </Col>
         <div>
           <Button variant="outline-light" className="main-btn">
-            <LinkContainer to="/login">
+            <LinkContainer to="/waitingroom">
               <Nav.Link className="main-btn-text">Try Again</Nav.Link>
             </LinkContainer>
           </Button>

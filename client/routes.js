@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom'
+import Lose from './components/lose'
 import {
   Homepage,
   NewSignup,
@@ -28,7 +29,8 @@ class Routes extends Component {
         />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
-        <Route path="/test" component={PandemicMap} />
+        {/* <Route path="/test" component={PandemicMap} /> */}
+        <Route path="/test" component={Lose} />
         <Route
           path="/waitingroom"
           render={props => <WaitingRoom {...props} />}
