@@ -7,3 +7,5 @@ export const infectionRateToken = [
   [807, 160],
   [842, 160]
 ]
+
+export const infectionRateNumber = [2, 2, 2, 3, 3, 4, 4]
