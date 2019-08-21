@@ -188,6 +188,7 @@ class MainGame extends React.Component {
     let cities = this.state.cities
     cities.Tokyo.red = 3
     cities.Seoul.red = 1
+    // cities.Osaka.red = 3
     cities['San Francisco'].blue = 3
     this.props.game.set({cities: cities}, {merge: true})
     // this.infectWrapper('Tokyo', 'red')
@@ -232,7 +233,7 @@ class MainGame extends React.Component {
 
   //************PLAYER TURN END**************
 
-  //infect step
+  //*************INFECTION STEP START**************
   resetAfterInfect = () => {
     this._outbreak = new Set()
     this._removeCubeCount = 0
@@ -270,6 +271,8 @@ class MainGame extends React.Component {
 
   //epidemic infect
   epidemicInfect = (city, color) => {
+    const updateInfectRate = firebase.firestore.FieldValue.increment(1)
+    this.props.game.update({infectionRate: updateInfectRate})
     const cubes = 3
     let cities = this.state.cities
     const willOutbreak = cities[city][color]
@@ -294,6 +297,8 @@ class MainGame extends React.Component {
 
   outbreakInfect = (city, color) => {
     if (!this._outbreak.has(city)) {
+      const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
+      this.props.game.update({outbreaks: updateOutbreaks})
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
       for (let i = 0; i < cityConnections.length; i++) {
@@ -314,8 +319,9 @@ class MainGame extends React.Component {
       this.outbreakInfect(city, color)
     }
   }
+  //*************INFECTION STEP END**************
 
-  //*********GAME SET UP START****************
+  //*************GAME SET UP START****************
   setupPlayerRoles = (players, roleDeck) => {
     let shuffledRoles = shuffle(roleDeck, {copy: true})
     return players.map(role => (role = shuffledRoles.shift()))
