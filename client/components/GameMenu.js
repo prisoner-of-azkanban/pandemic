@@ -55,6 +55,37 @@ class GameMenu extends React.Component {
             Role
           </Button>
         </div>
+        <h3 className="menu-header-1">Test</h3>
+        <div id="btn-menu">
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={this.props.startGame}
+          >
+            SHUFFLE
+          </Button>
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={this.props.testOutbreak}
+          >
+            OUTBREAK
+          </Button>
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={this.props.testPlayerTurn}
+          >
+            PLAYER TURN
+          </Button>
+          <Button
+            variant="outline-dark"
+            className="game-menu-btn"
+            onClick={this.props.reset}
+          >
+            RESET
+          </Button>
+        </div>
         <h3 className="menu-header-1">Cards</h3>
         <div id="card-container">
           <div id="your-cards">
