@@ -2,7 +2,6 @@ import React from 'react'
 import {Modal} from 'react-bootstrap'
 
 const HelpModal = props => {
-  console.log(props.currentUser)
   const eventCards = props.currentUser.hand.filter(
     card => card.type === 'event'
   )

@@ -7,11 +7,19 @@ import CardHand from './CardHand'
 class GameMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {showMoves: false, showModal: false}
+    this.state = {
+      showModal: false,
+      showMoves: false,
+      showMenu: 'default'
+    }
   }
 
-  showMoveMenu = () => {
-    this.setState({showMoves: !this.state.showMoves})
+  showMenuToggle = menu => {
+    this.setState({showMenu: menu})
+  }
+
+  resetMenu = () => {
+    this.setState({showMenu: 'default'})
   }
 
   toggleModal = () => {
@@ -27,11 +35,16 @@ class GameMenu extends React.Component {
     )
     return (
       <div id="game-menu">
-        <h3 className="menu-header-1">Current Turn: {this.props.turn}</h3>
+        <h3 className="menu-header-1">
+          Current Turn: {this.props.players[this.props.turn].name}
+        </h3>
         <h3 className="menu-header-1">Moves</h3>
         <MainMoves
-          showMoveMenu={this.showMoveMenu}
-          showMoves={this.state.showMoves}
+          showMenu={this.state.showMenu}
+          showMenuToggle={this.showMenuToggle}
+          resetMenu={this.resetMenu}
+          currentUser={currentUser}
+          otherUsers={otherUsers}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
