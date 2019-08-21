@@ -12,11 +12,14 @@ class MainMoves extends React.Component {
       charterFlightTo: 'Take charter flight to',
       shuttleFlightTo: 'Take shuttle flight to',
       giveKnowledgeCard: 'Card',
-      giveKnowledgeCardTo: 'Player'
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
     }
   }
   handleCheckbox = e => {
-    console.log(e.target)
+    if (e.target.checked)
+      this.setState({discardCure: [...this.state.discardCure, e.target.name]})
+    console.log(this.state.discardCure)
   }
 
   handleGiveKnowledgeCardToSelect = (eventKey, event) => {
@@ -451,6 +454,7 @@ class MainMoves extends React.Component {
                   type="checkbox"
                   label={card.title}
                   key={card.title}
+                  name={card.title}
                   onChange={e => this.handleCheckbox(e)}
                 />
               ))}
