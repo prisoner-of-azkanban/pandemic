@@ -63,7 +63,11 @@ class WaitingRoom extends React.Component {
         lose: false,
         actionCount: 0,
         infectionRate: 0,
-        outbreaks: 0
+        outbreaks: 0,
+        blueCubes: 24,
+        redCubes: 24,
+        blackCubes: 24,
+        yellowCubes: 24
       })
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
