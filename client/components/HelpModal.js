@@ -2,6 +2,10 @@ import React from 'react'
 import {Modal} from 'react-bootstrap'
 
 const HelpModal = props => {
+  console.log(props.currentUser)
+  const eventCards = props.currentUser.hand.filter(
+    card => card.type === 'event'
+  )
   return (
     <Modal
       size="lg"
@@ -10,7 +14,7 @@ const HelpModal = props => {
       aria-labelledby="modal-sizes-title-lg"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="modal-sizes-title-lg">Actions</Modal.Title>
+        <Modal.Title id="modal-sizes-title-lg">Help</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <h4 className="help-modal-header">Move</h4>
@@ -52,6 +56,20 @@ const HelpModal = props => {
           At any research station, discard 5 City cards of the same color from
           your hand to cure the disease of that color
         </p>
+        <h4 className="help-modal-header">Event</h4>
+        {eventCards.length ? (
+          <div>
+            {eventCards.map(card => (
+              <p key={card.title}>
+                {card.title}: {card.description}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p>You have no event cards</p>
+        )}
+        <h4 className="help-modal-header">Role</h4>
+        <p>{props.currentUser.role.actionOne}</p>
       </Modal.Body>
     </Modal>
   )

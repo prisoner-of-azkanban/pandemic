@@ -82,6 +82,7 @@ class GameMenu extends React.Component {
         <HelpModal
           showModal={this.state.showModal}
           toggleModal={this.toggleModal}
+          currentUser={currentUser}
         />
       </div>
     )
