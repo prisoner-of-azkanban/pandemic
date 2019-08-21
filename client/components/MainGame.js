@@ -194,11 +194,11 @@ class MainGame extends React.Component {
     // cities['San Francisco'].blue = 3
     // this.props.game.set({cities: cities}, {merge: true})
     this.infectWrapper('Manila', 'red', 1)
-    await this.sleep(1000)
+    // await this.sleep(1000)
     this.infectWrapper('Beijing', 'red', 3)
-    await this.sleep(1000)
+    // await this.sleep(1000)
     this.infectWrapper('Tokyo', 'red', 2)
-    await this.sleep(1000)
+    // await this.sleep(1000)
     // console.log('after outbreak', this.state.redCubes)
   }
 
@@ -256,13 +256,20 @@ class MainGame extends React.Component {
       case 'red':
         console.log('hi in red', this.state.redCubes)
         const red = this.state.redCubes - this._removeCubeCount
+        const updateCubeBy = firebase.firestore.FieldValue.increment(
+          -this._removeCubeCount
+        )
         console.log(red)
-        this.props.game.set({redCubes: red}, {merge: true})
+        this.props.game.update({redCubes: updateCubeBy})
+        // this.props.game.set({redCubes: red}, {merge: true})
         // db.runTransaction(t => {
         //   return t
         //     .get(this.props.game)
         //     .then(doc => {
+        //       console.log(doc.data(), doc.data().redCubes, this._removeCubeCount)
         //       let newCubes = doc.data().redCubes - this._removedCubeCount
+        //       // console.log(newCubes)
+        //       // t.set({redCubes: newCubes}, {merge: true})
         //       t.update(this.props.game, {redCubes: newCubes})
         //     })
         //     .then(result => {
