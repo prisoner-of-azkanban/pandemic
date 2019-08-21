@@ -12,9 +12,16 @@ class MainMoves extends React.Component {
       charterFlightTo: 'Take charter flight to',
       shuttleFlightTo: 'Take shuttle flight to',
       giveKnowledgeCard: 'Card',
-      giveKnowledgeCardTo: 'Player'
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
     }
   }
+  handleCheckbox = e => {
+    if (e.target.checked)
+      this.setState({discardCure: [...this.state.discardCure, e.target.name]})
+    console.log(this.state.discardCure)
+  }
+
   handleGiveKnowledgeCardToSelect = (eventKey, event) => {
     this.setState({
       giveKnowledgeCardTo: eventKey
@@ -85,8 +92,17 @@ class MainMoves extends React.Component {
 
     //see if player can share knowledge
     const canShareKnowledge = this.props.cities[currentUser.location].length > 1
-    console.log(this.props.otherUsers)
 
+    //see if player can cure
+    const currentPlayerColor = currentUser.hand.map(card => card.color)
+    const currentPlayerColorObj = {}
+    currentPlayerColor.forEach(
+      color =>
+        (currentPlayerColorObj[color] = currentPlayerColorObj[color] + 1 || 1)
+    )
+    const canCure = Object.keys(currentPlayerColorObj).filter(
+      color => currentPlayerColorObj[color] >= 5
+    ).length
     //which menu to show
     let menuReturn = ''
     switch (this.props.showMenu) {
@@ -128,6 +144,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('cure')}
+              disabled={!canCure}
             >
               Cure
             </Button>
@@ -427,7 +444,21 @@ class MainMoves extends React.Component {
       case 'cure':
         menuReturn = (
           <div id="btn-menu">
-            Discover Cure
+            Discover Cure. Discard:
+            <Form.Group
+              controlId="formBasicChecbox"
+              className="moves-cure-checks"
+            >
+              {currentUser.hand.map(card => (
+                <Form.Check
+                  type="checkbox"
+                  label={card.title}
+                  key={card.title}
+                  name={card.title}
+                  onChange={e => this.handleCheckbox(e)}
+                />
+              ))}
+            </Form.Group>
             <Button
               variant="outline-dark"
               className="game-menu-btn"

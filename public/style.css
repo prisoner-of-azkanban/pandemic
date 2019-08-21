@@ -252,3 +252,9 @@ canvas {
 #modal-sizes-title-lg {
   font-family: impact;
 }
+
+.move-cure-checks {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
