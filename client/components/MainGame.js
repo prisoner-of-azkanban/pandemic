@@ -544,10 +544,6 @@ class MainGame extends React.Component {
             yellowCure={this.state.yellowCure}
           />
         </div>
-        <Button onClick={this.startGame}>test shuffle</Button>
-        <Button onClick={this.testOutbreak}>test outbreak</Button>
-        <Button onClick={this.testPlayerTurn}>test player turn</Button>
-        <Button onClick={this.reset}>reset cities</Button>
         <ul>
           Infect Deck {this.state.infectionCardDeck.length}
           {this.state.infectionCardDeck.map((card, index) => (
@@ -564,6 +560,10 @@ class MainGame extends React.Component {
           players={this.state.playerList}
           username={this.props.username}
           turn={this.state.currentTurn}
+          startGame={this.startGame}
+          testOutbreak={this.testOutbreak}
+          testPlayerTurn={this.testPlayerTurn}
+          reset={this.reset}
         />
       </div>
     ) : (
