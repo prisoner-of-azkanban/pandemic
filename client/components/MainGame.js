@@ -200,12 +200,12 @@ class MainGame extends React.Component {
   testOutbreak = () => {
     let cities = this.state.cities
     cities.Tokyo.red = 3
-    cities.Seoul.red = 1
-    // cities.Osaka.red = 3
+    // cities.Seoul.red = 1
+    cities.Osaka.red = 3
     cities['San Francisco'].blue = 3
     this.props.game.set({cities: cities}, {merge: true})
-    // this.infectWrapper('Tokyo', 'red')
-    this.infectWrapper('Seoul', 'red', 3, true)
+    this.infectWrapper('Tokyo', 'red')
+    // this.infectWrapper('Seoul', 'red', 3, true)
     // this.infectWrapper('Manila', 'red', 1)
     // this.infectWrapper('Beijing', 'red', 3)
     // this.infectWrapper('Tokyo', 'red', 2)
@@ -246,16 +246,14 @@ class MainGame extends React.Component {
       console.log('outbreaks ded')
       this.props.game.update({lose: updateLose}).then(() => true)
     } else if (this.state.playerCardDeck.length < 1) {
-      this.props.game.update({lose: updateLose})
-      return true
+      this.props.game.update({lose: updateLose}).then(() => true)
     } else if (
       this.state.redCubes < 0 ||
       this.state.blueCubes < 0 ||
       this.state.yellowCubes < 0 ||
       this.state.blackCubes < 0
     ) {
-      this.props.game.update({lose: updateLose})
-      return true
+      this.props.game.update({lose: updateLose}).then(() => true)
     }
     return false
   }
@@ -282,7 +280,7 @@ class MainGame extends React.Component {
     let addToInfectDiscard = []
     for (let i = 0; i < infectionRate; i++) {
       const infectCard = infectDeck.shift()
-      console.log(infectCard)
+      // console.log(infectCard)
       addToInfectDiscard.push(infectCard)
       this.infectWrapper(infectCard.city, infectCard.color)
     }
@@ -304,12 +302,12 @@ class MainGame extends React.Component {
   }
 
   playerTurn = index => {
-    console.log('taking a turn')
+    // console.log('taking a turn')
     let epidemicFlag = false
     //actions
-    while (this.state.actionCount < 4) {
-      continue
-    }
+    // while (this.state.actionCount < 4) {
+    //   continue
+    // }
     //draw cards
     //check if enough cards
     if (this.loseCheck()) {
@@ -360,7 +358,6 @@ class MainGame extends React.Component {
       this.playerInfectStep()
       if (this.loseCheck()) {
         console.log('lost')
-        
       }
     }
   }
@@ -430,13 +427,14 @@ class MainGame extends React.Component {
   //outbreak infect
 
   outbreakInfect = (city, color) => {
-    console.log('OUTBREAK IN ', city)
     if (!this._outbreak.has(city)) {
+      console.log('OUTBREAK IN ', city)
       const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
       this.props.game.update({outbreaks: updateOutbreaks})
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
       for (let i = 0; i < cityConnections.length; i++) {
+        console.log('outbreak infect', cityConnections[i])
         this.infectStep(cityConnections[i], color)
       }
     }
