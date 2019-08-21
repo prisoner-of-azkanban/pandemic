@@ -226,7 +226,11 @@ class MainGame extends React.Component {
         yellowCubes: 24,
         blackCubes: 24,
         outbreaks: 0,
-        infectionRate: 0
+        infectionRate: 0,
+        playerCardDeck: [],
+        playerCardDiscard: [],
+        infectionCardDeck: [],
+        infectionCardDiscard: []
       },
       {merge: true}
     )
@@ -539,7 +543,6 @@ class MainGame extends React.Component {
             blackCure={this.state.blackCure}
             yellowCure={this.state.yellowCure}
           />
-          {/* <PandemicMap game = {this.props.game}/> */}
         </div>
         <Button onClick={this.startGame}>test shuffle</Button>
         <Button onClick={this.testOutbreak}>test outbreak</Button>
