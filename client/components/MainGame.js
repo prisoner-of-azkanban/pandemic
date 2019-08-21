@@ -564,6 +564,7 @@ class MainGame extends React.Component {
           testOutbreak={this.testOutbreak}
           testPlayerTurn={this.testPlayerTurn}
           reset={this.reset}
+          cities={this.state.cities}
         />
       </div>
     ) : (
