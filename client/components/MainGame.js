@@ -71,9 +71,7 @@ class MainGame extends React.Component {
       blueCubes: 0,
       redCubes: 0,
       blackCubes: 0,
-      yellowCubes: 0,
-      outbreak: new Set(),
-      removedCubeCount: 0
+      yellowCubes: 0
     }
     this.props.game.onSnapshot(this.listenStart)
   }
