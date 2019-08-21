@@ -521,19 +521,25 @@ class MainGame extends React.Component {
   //**************GAME SET UP END**************
 
   render() {
-    // console.log('game state', this.state)
+    // console.log('game state', this.state.infectionCardDiscard.length)
     return this.state.playerList[0] ? (
       <div id="whole-game-screen">
         <div id="main-game-screen">
           <PandemicMap
             cityList={this.state.cities}
             infectionRate={this.state.infectionRate}
-            outbreaks={this.outbreak}
+            outbreaks={this.state.outbreaks}
             playerCardDeck={this.state.playerCardDeck}
             playerCardDiscard={this.state.playerCardDiscard}
             infectionCardDeck={this.state.infectionCardDeck}
             infectionCardDiscard={this.state.infectionCardDiscard}
+            playerList={this.state.playerList}
+            redCure={this.state.redCure}
+            blueCure={this.state.blueCure}
+            blackCure={this.state.blackCure}
+            yellowCure={this.state.yellowCure}
           />
+          {/* <PandemicMap game = {this.props.game}/> */}
         </div>
         <Button onClick={this.startGame}>test shuffle</Button>
         <Button onClick={this.testOutbreak}>test outbreak</Button>
