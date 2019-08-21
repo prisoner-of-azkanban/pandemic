@@ -11,36 +11,15 @@ class PandemicMap extends React.Component {
   constructor(props) {
     super(props)
     this.canvasRef = React.createRef()
-    this.cityList = this.props.cityList
-    this.infectionRate = this.props.infectionRate
-    this.outbreaks = this.props.outbreaks
-    this.playerCardDeck = this.props.playerCardDeck
-    this.playerCardDiscard = this.props.playerCardDiscard
-    this.infectionCardDeck = this.props.infectionCardDeck
-    this.infectionCardDiscard = this.props.infectionCardDiscard
-    this.playerList = this.props.playerList
-    this.redCureState = this.props.redCure
-    this.blueCureState = this.props.blueCure
-    this.blackCureState = this.props.blackCure
-    this.yellowCureState = this.props.yellowCure
-    // const doc = this.props.game.get().then(doc => doc.data())
-    // this.cityList = doc.cityList
-    // this.infectionRate = doc.infectionRate
-    // this.outbreaks = doc.outbreaks
-    // this.playerCardDeck = doc.playerCardDeck
-    // this.playerCardDiscard = doc.playerCardDiscard
-    // this.infectionCardDeck = doc.infectionCardDeck
-    // this.infectionCardDiscard = doc.infectionCardDiscard
-    // this.playerList = doc.playerList
-    // this.redCureState = doc.redCure
-    // this.blueCureState = doc.blueCure
-    // this.blackCureState = doc.blackCure
-    // this.yellowCureState = doc.yellowCure
   }
   componentDidMount() {
-    console.log(this.props)
     this.drawRect()
   }
+
+  componentWillReceiveProps() {
+    this.drawRect()
+  }
+
   drawRect = () => {
     const canvas = this.canvasRef.current
     const ctx = canvas.getContext('2d')
@@ -54,10 +33,10 @@ class PandemicMap extends React.Component {
     this.infectionRateFn(ctx)
 
     // Cure Tokens
-    this.blueCure(ctx, this.blueCureState)
-    this.yellowCure(ctx, this.yellowCureState)
-    this.blackCure(ctx, this.blackCureState)
-    this.redCure(ctx, this.redCureState)
+    this.blueCure(ctx, this.props.blueCure)
+    this.yellowCure(ctx, this.props.yellowCure)
+    this.blackCure(ctx, this.props.blackCure)
+    this.redCure(ctx, this.props.redCure)
 
     // Font Size for Decks
     ctx.font = '25px Courier New'
@@ -75,8 +54,8 @@ class PandemicMap extends React.Component {
     this.playerCardDiscardFn(ctx)
 
     // eslint-disable-next-line max-statements
-    Object.keys(this.cityList).forEach(cityKey => {
-      const city = this.cityList[cityKey]
+    Object.keys(this.props.cityList).forEach(cityKey => {
+      const city = this.props.cityList[cityKey]
 
       // Font Size for Everything else
       ctx.font = '10px Courier New'
@@ -112,36 +91,36 @@ class PandemicMap extends React.Component {
       }
 
       // Player Pawns Placement
-      this.playerOne(ctx, this.playerList)
-      this.playerTwo(ctx, this.playerList)
-      this.playerThree(ctx, this.playerList)
-      this.playerFour(ctx, this.playerList)
+      this.playerOne(ctx, this.props.playerList)
+      this.playerTwo(ctx, this.props.playerList)
+      this.playerThree(ctx, this.props.playerList)
+      this.playerFour(ctx, this.props.playerList)
     })
   }
 
   // Methods
   // Outbreak Token Method
   outbreakFn = ctx => {
-    let coords = outbreakToken[this.outbreaks]
+    let coords = outbreakToken[this.props.outbreaks]
     ctx.beginPath()
     ctx.fillStyle = 'lilac'
     ctx.arc(coords[0], coords[1], 15, 0, 2 * Math.PI)
     ctx.fill()
     ctx.fillStyle = 'white'
     ctx.stroke()
-    ctx.fillText(this.outbreaks, coords[0] - 9, coords[1] + 9)
+    ctx.fillText(this.props.outbreaks, coords[0] - 9, coords[1] + 9)
   }
 
   // Infection Rate Token Method
   infectionRateFn = ctx => {
-    let infect = infectionRateToken[this.infectionRate]
+    let infect = infectionRateToken[this.props.infectionRate]
     ctx.beginPath()
     ctx.fillStyle = 'violet'
     ctx.arc(infect[0], infect[1], 15, 0, 2 * Math.PI)
     ctx.fill()
     ctx.fillStyle = 'black'
     ctx.fillText(
-      infectionRateNumber[this.infectionRate],
+      infectionRateNumber[this.props.infectionRate],
       infect[0] - 9,
       infect[1] + 9
     )
@@ -203,7 +182,7 @@ class PandemicMap extends React.Component {
 
   // Infection Deck Placement Function
   infectionCardDeckFn = ctx => {
-    if (this.infectionCardDeck.length) {
+    if (this.props.infectionCardDeck.length) {
       ctx.beginPath()
       ctx.fillStyle = 'purple'
       ctx.rect(590, 30, 145, 110)
@@ -217,7 +196,7 @@ class PandemicMap extends React.Component {
 
   // Infection Discard Placement Function
   infectionCardDiscardFn = ctx => {
-    if (this.infectionCardDiscard.length) {
+    if (this.props.infectionCardDiscard.length) {
       ctx.beginPath()
       ctx.fillStyle = 'purple'
       ctx.rect(750, 30, 145, 110)
@@ -231,7 +210,7 @@ class PandemicMap extends React.Component {
 
   // Player Deck Placement Method
   playerCardDeckFn = ctx => {
-    if (this.playerCardDeck.length) {
+    if (this.props.playerCardDeck.length) {
       ctx.beginPath()
       ctx.fillStyle = 'teal'
       ctx.rect(592, 520, 105, 140)
@@ -245,7 +224,7 @@ class PandemicMap extends React.Component {
 
   // Player Discard Placement Method
   playerCardDiscardFn = ctx => {
-    if (this.playerCardDiscard.length) {
+    if (this.props.playerCardDiscard.length) {
       ctx.beginPath()
       ctx.fillStyle = 'teal'
       ctx.rect(726, 520, 105, 140)
@@ -331,8 +310,8 @@ class PandemicMap extends React.Component {
   }
 
   // Player Pawn Placement Method
-  playerOne = (ctx, location) => {
-    let key = location[0].location
+  playerOne = (ctx, playerList) => {
+    let key = playerList[0].location
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] - 6, 3, 0, 2 * Math.PI)
@@ -341,8 +320,8 @@ class PandemicMap extends React.Component {
     ctx.stroke()
   }
 
-  playerTwo = (ctx, location) => {
-    let key = location[1].location
+  playerTwo = (ctx, playerList) => {
+    let key = playerList[1].location
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] + 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
@@ -351,8 +330,8 @@ class PandemicMap extends React.Component {
     ctx.stroke()
   }
 
-  playerThree = (ctx, location) => {
-    let key = location[2].location
+  playerThree = (ctx, playerList) => {
+    let key = playerList[2].location
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] + 6, city.coords[1] - 6, 3, 0, 2 * Math.PI)
@@ -361,8 +340,8 @@ class PandemicMap extends React.Component {
     ctx.stroke()
   }
 
-  playerFour = (ctx, location) => {
-    let key = location[3].location
+  playerFour = (ctx, playerList) => {
+    let key = playerList[3].location
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
@@ -372,7 +351,6 @@ class PandemicMap extends React.Component {
   }
 
   render() {
-    console.log(this.state.infectionCardDiscard)
     return (
       <React.Fragment>
         <canvas className="map" width="999" height="708" />
