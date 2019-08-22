@@ -52,27 +52,64 @@ class WaitingRoom extends React.Component {
         isFull: false,
         started: false,
         players: [],
-        playerCardDeck: [],
-        playerCardDiscard: [],
-        infectionCardDeck: [],
-        infectionCardDiscard: [],
         currentTurn: 0,
-        playerList: [],
-        cities: {},
         win: 0,
         lose: 0,
         actionCount: 0,
         infectionRate: 0,
         outbreaks: 0,
-        blueCubes: 24,
-        redCubes: 24,
-        blackCubes: 24,
-        yellowCubes: 24,
         redCure: 0,
         blueCure: 0,
         blackCure: 0,
         yellowCure: 0
       })
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('decks')
+          .set({
+            playerCardDeck: [],
+            playerCardDiscard: [],
+            infectionCardDeck: [],
+            infectionCardDiscard: []
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('cities')
+          .set({
+            cities: {}
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('playerList')
+          .set({
+            playerList: [],
+            actionCount: 0
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('cubes')
+          .set({
+            blueCubes: 24,
+            redCubes: 24,
+            blackCubes: 24,
+            yellowCubes: 24
+          })
+      )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
 

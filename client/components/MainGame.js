@@ -78,116 +78,185 @@ class MainGame extends React.Component {
       blackCure: 0,
       yellowCure: 0
     }
-    this.props.game.onSnapshot(this.listenStart)
+    this.decks = this.props.game.collection('gamestate').doc('decks')
+    this.cities = this.props.game.collection('gamestate').doc('cities')
+    this.playerList = this.props.game.collection('gamestate').doc('playerList')
+    this.cubes = this.props.game.collection('gamestate').doc('cubes')
+    this.props.game.onSnapshot(this.listenMain)
+    this.decks.onSnapshot(this.listenDecks)
+    this.cities.onSnapshot(this.listenCities)
+    this.playerList.onSnapshot(this.listenPlayerList)
+    this.cubes.onSnapshot(this.listenCubes)
   }
 
   componentDidMount() {
     this._isMounted = true
     const players = this.props.players
-    this.props.game.get().then(doc => {
-      if (!doc.data().playerList[0]) {
-        this.props.game.set(
-          {
-            cities: cityList,
-            playerList: [
+    this.playerList
+      .get()
+      .then(doc => {
+        if (!doc.data().playerList[0]) {
+          this.playerList
+            .set(
               {
-                id: 0,
-                event: false,
-                role: '',
-                turn: false,
-                location: 'Atlanta',
-                hand: [],
-                name: players[0]
+                playerList: [
+                  {
+                    id: 0,
+                    event: false,
+                    role: '',
+                    turn: false,
+                    location: 'Atlanta',
+                    hand: [],
+                    name: players[0]
+                  },
+                  {
+                    id: 1,
+                    event: false,
+                    role: '',
+                    turn: false,
+                    location: 'Atlanta',
+                    hand: [],
+                    name: players[1]
+                  },
+                  {
+                    id: 2,
+                    event: false,
+                    role: '',
+                    turn: false,
+                    location: 'Atlanta',
+                    hand: [],
+                    name: players[2]
+                  },
+                  {
+                    id: 3,
+                    event: false,
+                    role: '',
+                    turn: false,
+                    location: 'Atlanta',
+                    hand: [],
+                    name: players[3]
+                  }
+                ]
               },
-              {
-                id: 1,
-                event: false,
-                role: '',
-                turn: false,
-                location: 'Atlanta',
-                hand: [],
-                name: players[1]
-              },
-              {
-                id: 2,
-                event: false,
-                role: '',
-                turn: false,
-                location: 'Atlanta',
-                hand: [],
-                name: players[2]
-              },
-              {
-                id: 3,
-                event: false,
-                role: '',
-                turn: false,
-                location: 'Atlanta',
-                hand: [],
-                name: players[3]
-              }
-            ],
-            win: 0,
-            lose: 0,
-            actionCount: 0,
-            infectionRate: 0,
-            outbreaks: 0,
-            blueCubes: 24,
-            redCubes: 24,
-            blackCubes: 24,
-            yellowCubes: 24,
-            redCure: 0,
-            blueCure: 0,
-            blackCure: 0,
-            yellowCure: 0
-          },
-          {merge: true}
-        )
-      } else if (this._isMounted) {
-        this.setState({
-          playerList: doc.data().playerList,
-          playerCardDeck: doc.data().playerCardDeck,
-          playerCardDiscard: doc.data().playerCardDiscard,
-          infectionCardDeck: doc.data().infectionCardDeck,
-          infectionCardDiscard: doc.data().infectionCardDiscard,
-          currentTurn: doc.data().currentTurn,
-          cities: doc.data().cities,
-          win: doc.data().win,
-          lose: doc.data().lose,
-          blueCubes: doc.data().blueCubes,
-          redCubes: doc.data().redCubes,
-          blackCubes: doc.data().blackCubes,
-          yellowCubes: doc.data().yellowCubes,
-          redCure: doc.data().redCure,
-          blueCure: doc.data().blueCure,
-          blackCure: doc.data().blackCure,
-          yellowCure: doc.data().yellowCure
+              {merge: true}
+            )
+            .then(() => this.cities.set({cities: cityList}, {merge: true}))
+        }
+      })
+
+      .then(() =>
+        this.decks.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              playerCardDeck: doc.data().playerCardDeck,
+              playerCardDiscard: doc.data().playerCardDiscard,
+              infectionCardDeck: doc.data().infectionCardDeck,
+              infectionCardDiscard: doc.data().infectionCardDiscard
+            })
         })
-      }
-    })
+      )
+      .then(() =>
+        this.props.game.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              currentTurn: doc.data().currentTurn,
+              win: doc.data().win,
+              lose: doc.data().lose,
+              redCure: doc.data().redCure,
+              blueCure: doc.data().blueCure,
+              blackCure: doc.data().blackCure,
+              yellowCure: doc.data().yellowCure
+            })
+        })
+      )
+      .then(() =>
+        this.cities.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              cities: doc.data().cities
+            })
+        })
+      )
+      .then(() =>
+        this.cubes.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              blueCubes: doc.data().blueCubes,
+              redCubes: doc.data().redCubes,
+              blackCubes: doc.data().blackCubes,
+              yellowCubes: doc.data().yellowCubes
+            })
+        })
+      )
+      .then(() =>
+        this.playerList.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              playerList: doc.data().playerList
+            })
+        })
+      )
   }
 
-  listenStart = () => {
+  // listenCurrentTurn = () => {
+  //   this.props.game.get().then(doc => {
+  //     if (this._isMounted) this.setState({currentTurn: doc.data().currentTurn})
+  //   })
+  // }
+
+  listenMain = () => {
     console.log('i am listening')
     this.props.game.get().then(doc => {
       if (this._isMounted)
         this.setState({
-          playerList: doc.data().playerList,
-          playerCardDeck: doc.data().playerCardDeck,
-          playerCardDiscard: doc.data().playerCardDiscard,
-          infectionCardDeck: doc.data().infectionCardDeck,
-          infectionCardDiscard: doc.data().infectionCardDiscard,
           currentTurn: doc.data().currentTurn,
-          cities: doc.data().cities,
-          actionCount: doc.data().actionCount,
           infectionRate: doc.data().infectionRate,
           outbreaks: doc.data().outbreaks,
           win: doc.data().win,
-          lose: doc.data().lose,
+          lose: doc.data().lose
+        })
+    })
+  }
+
+  listenCubes = () => {
+    this.cubes.get().then(doc => {
+      if (this._isMounted)
+        this.setState({
           blueCubes: doc.data().blueCubes,
           redCubes: doc.data().redCubes,
           blackCubes: doc.data().blackCubes,
           yellowCubes: doc.data().yellowCubes
+        })
+    })
+  }
+
+  listenPlayerList = () => {
+    this.playerList.get().then(doc => {
+      if (this._isMounted)
+        this.setState({
+          playerList: doc.data().playerList,
+          actionCount: doc.data().actionCount
+        })
+    })
+  }
+
+  listenDecks = () => {
+    this.decks.get().then(doc => {
+      if (this._isMounted)
+        this.setState({
+          playerCardDeck: doc.data().playerCardDeck,
+          playerCardDiscard: doc.data().playerCardDiscard,
+          infectionCardDeck: doc.data().infectionCardDeck,
+          infectionCardDiscard: doc.data().infectionCardDiscard
+        })
+    })
+  }
+
+  listenCities = () => {
+    this.cities.get().then(doc => {
+      if (this._isMounted)
+        this.setState({
+          cities: doc.data().cities
         })
     })
   }
@@ -200,7 +269,7 @@ class MainGame extends React.Component {
       }
       return player
     })
-    this.props.game.set({playerList: allPlayers}, {merge: true})
+    this.playerList.set({playerList: allPlayers})
   }
 
   handleDirectFlightSubmit = city => {
@@ -212,12 +281,12 @@ class MainGame extends React.Component {
       }
       return player
     })
-    this.props.game.set({playerList: allPlayers}, {merge: true})
+    this.playerList.set({playerList: allPlayers})
   }
 
   componentWillUnmount() {
     this._isMounted = false
-    const unsubscribe = this.props.game.onSnapshot(this.listenStart)
+    const unsubscribe = this.props.game.onSnapshot(this.listenMain)
     unsubscribe()
   }
   //*******lara testing functions START*******
@@ -244,26 +313,39 @@ class MainGame extends React.Component {
   }
 
   reset = () => {
-    this.props.game.set(
-      {
-        cities: cityList,
-        redCubes: 24,
-        blueCubes: 24,
-        yellowCubes: 24,
-        blackCubes: 24,
-        outbreaks: 0,
-        infectionRate: 0,
-        playerCardDeck: [],
-        playerCardDiscard: [],
-        infectionCardDeck: [],
-        infectionCardDiscard: [],
-        redCure: 1,
-        blueCure: 1,
-        yellowCure: 1,
-        blackCure: 1
-      },
-      {merge: true}
-    )
+    this.props.game
+      .set(
+        {
+          outbreaks: 0,
+          infectionRate: 0,
+          redCure: 1,
+          blueCure: 1,
+          yellowCure: 1,
+          blackCure: 1
+        },
+        {merge: true}
+      )
+      .then(() =>
+        this.decks.set({
+          playerCardDeck: [],
+          playerCardDiscard: [],
+          infectionCardDeck: [],
+          infectionCardDiscard: []
+        })
+      )
+      .then(() =>
+        this.cities.set({
+          cities: cityList
+        })
+      )
+      .then(() =>
+        this.cubes.set({
+          redCubes: 24,
+          blueCubes: 24,
+          yellowCubes: 24,
+          blackCubes: 24
+        })
+      )
   }
   //*******lara testing functions END*******
 
@@ -328,7 +410,7 @@ class MainGame extends React.Component {
       this.infectWrapper(infectCard.city, infectCard.color)
     }
     const newInfectDiscard = [...oldInfectDiscard, ...addToInfectDiscard]
-    this.props.game.set(
+    this.decks.set(
       {infectionCardDeck: infectDeck, infectionCardDiscard: newInfectDiscard},
       {merge: true}
     )
@@ -392,10 +474,8 @@ class MainGame extends React.Component {
     }
     let playerList = this.state.playerList
     playerList[index].hand = [...playerList[index].hand, ...addToHand]
-    this.props.game.set(
-      {playerCardDeck: playerCardDeck, playerList: playerList},
-      {merge: true}
-    )
+    this.playerList.set({playerList: playerList}, {merge: true})
+    this.decks.set({playerCardDeck: playerCardDeck}, {merge: true})
     //infect
     if (!epidemicFlag) {
       this.playerInfectStep()
@@ -421,16 +501,17 @@ class MainGame extends React.Component {
     const updateCubeBy = firebase.firestore.FieldValue.increment(-n)
     switch (color) {
       case 'red':
-        this.props.game.update({redCubes: updateCubeBy})
+        this.cubes.update({redCubes: updateCubeBy})
         break
       case 'blue':
-        this.props.game.update({blueCubes: updateCubeBy})
+        this.cubes.update({blueCubes: updateCubeBy})
         break
       case 'black':
-        this.props.game.update({blackCubes: updateCubeBy})
+        this.cubes.update({blackCubes: updateCubeBy})
         break
       case 'yellow':
-        this.props.game.update({yellowCubes: updateCubeBy})
+        this.cubes.update({yellowCubes: updateCubeBy})
+
         break
       default:
         break
@@ -453,7 +534,7 @@ class MainGame extends React.Component {
     const cubesToSub = 3 - this.state.cities[city][color]
     this._removeCubeCount += cubesToSub
     cities[city][color] = cubes
-    this.props.game.set({cities: cities}, {merge: true})
+    this.cities.set({cities: cities}, {merge: true})
     if (willOutbreak) {
       this.outbreakInfect(city, color)
     }
@@ -464,7 +545,7 @@ class MainGame extends React.Component {
     const cubes = this.state.cities[city][color] + number
     let cities = this.state.cities
     cities[city][color] = cubes
-    this.props.game.set({cities: cities}, {merge: true})
+    this.cities.set({cities: cities}, {merge: true})
     this._removeCubeCount += number
   }
   //outbreak infect
@@ -596,9 +677,16 @@ class MainGame extends React.Component {
     )
     this.props.game.set(
       {
-        playerList: playerList,
+        currentTurn: playerFirst
+      },
+      {merge: true}
+    )
+    this.playerList.set({
+      playerList: playerList
+    })
+    this.decks.set(
+      {
         playerCardDeck: playerCardDeck,
-        currentTurn: playerFirst,
         infectionCardDiscard: infectionDiscard,
         infectionCardDeck: shuffledInfectionDeck
       },
@@ -609,7 +697,6 @@ class MainGame extends React.Component {
   //**************GAME SET UP END**************
 
   render() {
-    // console.log('game state', this.state.infectionCardDiscard.length)
     return this.state.win ? (
       <Win />
     ) : this.state.lose ? (
