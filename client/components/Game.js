@@ -73,41 +73,45 @@ class Game extends React.Component {
 
   listenStart = () => {
     let started = false
-    this.game
-      .get()
-      .then(doc => {
-        started = doc.data().started
-      })
-      .then(() => {
-        if (this._isMounted) {
-          this.setState({started: started})
-        }
-      })
+    if (this._isMounted) {
+      this.game
+        .get()
+        .then(doc => {
+          started = doc.data().started
+        })
+        .then(() => {
+          if (this._isMounted) {
+            this.setState({started: started})
+          }
+        })
+    }
   }
 
   listenPlayers = () => {
     let players = []
-    this.game
-      .get()
-      .then(doc => {
-        players = doc.data().players
-      })
-      .then(() => {
-        if (this._isMounted) {
-          this.setState({players: players})
-        }
-      })
-      .then(() => {
-        if (this.state.players.length === MAXPLAYERS) {
-          this.game.set({isFull: true}, {merge: true}).then(() => {
-            if (this._isMounted) {
-              this.setState({
-                isFull: true
-              })
-            }
-          })
-        }
-      })
+    if (this._isMounted) {
+      this.game
+        .get()
+        .then(doc => {
+          players = doc.data().players
+        })
+        .then(() => {
+          if (this._isMounted) {
+            this.setState({players: players})
+          }
+        })
+        .then(() => {
+          if (this.state.players.length === MAXPLAYERS) {
+            this.game.set({isFull: true}, {merge: true}).then(() => {
+              if (this._isMounted) {
+                this.setState({
+                  isFull: true
+                })
+              }
+            })
+          }
+        })
+    }
   }
 
   render() {

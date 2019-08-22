@@ -52,13 +52,8 @@ class WaitingRoom extends React.Component {
         isFull: false,
         started: false,
         players: [],
-        playerCardDeck: [],
-        playerCardDiscard: [],
-        infectionCardDeck: [],
-        infectionCardDiscard: [],
         currentTurn: 0,
         playerList: [],
-        cities: {},
         win: 0,
         lose: 0,
         actionCount: 0,
@@ -73,6 +68,39 @@ class WaitingRoom extends React.Component {
         blackCure: 0,
         yellowCure: 0
       })
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('decks')
+          .set({
+            playerCardDeck: [],
+            playerCardDiscard: [],
+            infectionCardDeck: [],
+            infectionCardDiscard: []
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('cities')
+          .set({
+            cities: {}
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('playerList')
+          .set({
+            playerList: []
+          })
+      )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
 
