@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
 import {cityList} from '../../game/cityList'
 import {
   infectionRateToken,
@@ -181,7 +183,6 @@ class PandemicMap extends React.Component {
       ctx.beginPath()
       ctx.fillStyle = 'red'
       ctx.rect(363, 640, 30, 30)
-
       ctx.fill()
       if (state === 2) {
         ctx.fillStyle = 'white'
@@ -195,11 +196,13 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(590, 30, 145, 110)
-    // ctx.fill()
-    ctx.fillText('Infection', 595, 75)
-    ctx.fillText('Deck', 630, 105)
-    ctx.fillText(this.props.infectionCardDeck.length, 600, 120)
-    // ctx.stroke()
+    ctx.fillText('Infection', 606, 71)
+    ctx.fillText('Deck', 635, 97)
+    if (this.props.infectionCardDeck.length > 9) {
+      ctx.fillText(this.props.infectionCardDeck.length, 646, 120)
+    } else {
+      ctx.fillText(this.props.infectionCardDeck.length, 655, 120)
+    }
   }
 
   // Infection Discard Placement Function
@@ -207,12 +210,13 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(750, 30, 145, 110)
-    // ctx.fill()
-    // ctx.fillStyle = 'yellow'
-    ctx.fillText('Infection', 755, 75)
-    ctx.fillText('Discard', 770, 105)
-    ctx.fillText(this.props.infectionCardDiscard.length, 800, 120)
-    // ctx.stroke()
+    ctx.fillText('Infection', 766, 71)
+    ctx.fillText('Discard', 780, 97)
+    if (this.props.infectionCardDiscard.length < 10) {
+      ctx.fillText(this.props.infectionCardDiscard.length, 816, 120)
+    } else {
+      ctx.fillText(this.props.infectionCardDiscard.length, 812, 120)
+    }
   }
 
   // Player Deck Placement Method
@@ -220,12 +224,13 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(592, 520, 105, 140)
-    // ctx.fill()
-    // ctx.fillStyle = 'white'
-    ctx.fillText('Player', 600, 570)
-    ctx.fillText('Deck', 610, 610)
-    ctx.fillText(this.props.playerCardDeck.length, 610, 630)
-    // ctx.stroke()
+    ctx.fillText('Player', 608, 560)
+    ctx.fillText('Deck', 620, 590)
+    if (this.props.playerCardDeck.length > 10) {
+      ctx.fillText(this.props.playerCardDeck.length, 633, 620)
+    } else {
+      ctx.fillText(this.props.playerCardDeck.length, 637, 620)
+    }
   }
 
   // Player Discard Placement Method
@@ -233,12 +238,13 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(726, 520, 105, 140)
-    // ctx.fill()
-    // ctx.fillStyle = 'white'
-    ctx.fillText('Player', 733, 570)
-    ctx.fillText('Discard', 727, 610)
-    ctx.fillText(this.props.playerCardDiscard.length, 720, 620)
-    // ctx.stroke()
+    ctx.fillText('Player', 742, 560)
+    ctx.fillText('Discard', 735, 590)
+    if (this.props.playerCardDiscard.length > 10) {
+      ctx.fillText(this.props.playerCardDiscard.length, 772, 620)
+    } else {
+      ctx.fillText(this.props.playerCardDiscard.length, 767, 620)
+    }
   }
 
   // City Placement Method
@@ -316,34 +322,54 @@ class PandemicMap extends React.Component {
 
   // Cube Number Method
   numCubes = ctx => {
+    // red cubes
     ctx.beginPath()
     ctx.fillStyle = 'red'
-    ctx.rect(300, 100, 20, 20)
+    ctx.rect(365, 55, 30, 30)
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = 'black'
-    ctx.fillText(this.props.redCubes, 300, 115)
+    if (this.props.redCubes >= 0 && this.props.redCubes < 10) {
+      ctx.fillText(this.props.redCubes, 376, 75)
+    } else {
+      ctx.fillText(this.props.redCubes, 370, 75)
+    }
+    // black cubes
     ctx.beginPath()
     ctx.fillStyle = 'black'
-    ctx.rect(330, 100, 20, 20)
+    ctx.rect(405, 55, 30, 30)
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = 'white'
-    ctx.fillText(this.props.blackCubes, 330, 115)
+    if (this.props.blackCubes >= 0 && this.props.blackCubes < 10) {
+      ctx.fillText(this.props.blackCubes, 416, 75)
+    } else {
+      ctx.fillText(this.props.blackCubes, 410, 75)
+    }
+    // blue cubes
     ctx.beginPath()
     ctx.fillStyle = 'blue'
-    ctx.rect(360, 100, 20, 20)
+    ctx.rect(445, 55, 30, 30)
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = 'white'
-    ctx.fillText(this.props.blueCubes, 360, 115)
+    if (this.props.blackCubes >= 0 && this.props.blackCubes < 10) {
+      ctx.fillText(this.props.blueCubes, 456, 75)
+    } else {
+      ctx.fillText(this.props.blueCubes, 450, 75)
+    }
+    // yellow cubes
     ctx.beginPath()
     ctx.fillStyle = 'yellow'
-    ctx.rect(390, 100, 20, 20)
+    ctx.rect(485, 55, 30, 30)
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = 'black'
-    ctx.fillText(this.props.yellowCubes, 390, 115)
+    if (this.props.blackCubes >= 0 && this.props.blackCubes < 10) {
+      ctx.fillText(this.props.yellowCubes, 496, 75)
+    } else {
+      ctx.fillText(this.props.yellowCubes, 490, 75)
+    }
   }
 
   // Player Pawn Placement Method
