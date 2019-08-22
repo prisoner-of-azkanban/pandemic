@@ -3,14 +3,14 @@
 handleDriveSubmit = city => {
   let allPlayers = [...this.state.playerList]
   allPlayers[this.state.currentTurn].location = city
-  this.props.game.set({playerList: allPlayers}, {merge: true})
+  this.playerList.set({playerList: allPlayers}, {merge: true})
 }
 
 handleFlightSubmit = city => {
   let allPlayers = [...this.state.playerList]
   if (allPlayers[this.state.currentTurn].location !== city) {
     allPlayers[this.state.currentTurn].location = city
-    this.props.game.set({playerList: allPlayers}, {merge: true})
+    this.playerList.set({playerList: allPlayers}, {merge: true})
   }
 }
 
@@ -19,7 +19,7 @@ handleResearch = card => {
   let allCities = [...this.state.cities]
   if (card === allPlayers[this.state.currentTurn].location) {
     allCities[card].research = true
-    this.props.game.set({cities: allCities}, {merge: true})
+    this.cities.set({cities: allCities}, {merge: true})
   }
 }
 // allPlayers[this.state.currentTurn].location === card || allPlayers[player].location === card)
@@ -34,7 +34,7 @@ handleKnowledge = (player, card) => {
       let newHand = givePlayer.hand.filter(handCard => handCard.title !== card)
       allPlayers[this.state.currentTurn].hand = newHand
       allPlayers[player].hand = [...allPlayers[player].hand, ...takeCard]
-      this.props.game.set({playerList: allPlayers}, {merge: true})
+      this.playerList.set({playerList: allPlayers}, {merge: true})
     } else if (allPlayers[player].location === card) {
       let givePlayer = allPlayers[player]
       let takeCard = givePlayer.hand.filter(handCard => handCard.title === card)
@@ -44,7 +44,7 @@ handleKnowledge = (player, card) => {
         ...allPlayers[player].hand,
         ...takeCard
       ]
-      this.props.game.set({playerList: allPlayers}, {merge: true})
+      this.playerList.set({playerList: allPlayers}, {merge: true})
     }
   }
 }
@@ -123,15 +123,16 @@ handleCure = (cards, color) => {
         }
       }
       allPlayers[this.state.currentTurn].hand = newHand
-      this.props.game.set({playerList: allPlayers}, {merge: true})
+      this.playerList.set({playerList: allPlayers}, {merge: true})
       playerCardDiscard = [...this.state.playerCardDiscard, ...discardHand]
-      this.props.game.set({playerCardDiscard: playerCardDiscard}, {merge: true})
+      this.decks.set({playerCardDiscard: playerCardDiscard}, {merge: true})
     }
   }
 }
 
 handleTreat = color => {
   let removedCubeCount = 0
+  //need to deal w below
   const supply = firebase.firestore.FieldValue.increment(removedCubeCount)
   let allPlayers = [...this.state.playerList]
   let allCities = [...this.state.cities]
@@ -145,8 +146,8 @@ handleTreat = color => {
         removedCubeCount = 1
         allCities[allPlayers[this.state.currentTurn].location].redCubes--
       }
-      this.props.game.set({cities: allCities}, {merge: true})
-      this.props.game.update({redCubes: supply})
+      this.cities.set({cities: allCities}, {merge: true})
+      this.cubes.update({redCubes: supply})
       break
 
     case 'blue':
@@ -158,8 +159,8 @@ handleTreat = color => {
         removedCubeCount = 1
         allCities[allPlayers[this.state.currentTurn].location].blueCubes--
       }
-      this.props.game.set({cities: allCities}, {merge: true})
-      this.props.game.update({blueCubes: supply})
+      this.cities.set({cities: allCities}, {merge: true})
+      this.cubes.update({blueCubes: supply})
       break
 
     case 'yellow':
@@ -171,8 +172,8 @@ handleTreat = color => {
         removedCubeCount = 1
         allCities[allPlayers[this.state.currentTurn].location].yellowCubes--
       }
-      this.props.game.set({cities: allCities}, {merge: true})
-      this.props.game.update({yellowCubes: supply})
+      this.cities.set({cities: allCities}, {merge: true})
+      this.cubes.update({yellowCubes: supply})
       break
 
     case 'black':
@@ -184,8 +185,8 @@ handleTreat = color => {
         removedCubeCount = 1
         allCities[allPlayers[this.state.currentTurn].location].blackCubes--
       }
-      this.props.game.set({cities: allCities}, {merge: true})
-      this.props.game.update({blackCubes: supply})
+      this.cities.set({cities: allCities}, {merge: true})
+      this.cubes.update({blackCubes: supply})
       break
 
     default:
