@@ -40,7 +40,7 @@ class PandemicMap extends React.Component {
     this.redCure(ctx, this.props.redCure)
 
     // Font Size for Decks
-    ctx.font = '25px Courier New'
+    ctx.font = '20px Courier New'
 
     // Infection Deck
     this.infectionCardDeckFn(ctx)
@@ -187,30 +187,27 @@ class PandemicMap extends React.Component {
 
   // Infection Deck Placement Function
   infectionCardDeckFn = ctx => {
-    if (this.props.infectionCardDeck.length) {
-      ctx.beginPath()
-      ctx.fillStyle = 'purple'
-      ctx.rect(590, 30, 145, 110)
-      ctx.fill()
-      ctx.fillStyle = 'yellow'
-      ctx.fillText('Infection', 595, 75)
-      ctx.fillText('Deck', 630, 105)
-      ctx.stroke()
-    }
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.rect(590, 30, 145, 110)
+    // ctx.fill()
+    ctx.fillText('Infection', 595, 75)
+    ctx.fillText('Deck', 630, 105)
+    ctx.fillText(this.props.infectionCardDeck.length, 600, 120)
+    // ctx.stroke()
   }
 
   // Infection Discard Placement Function
   infectionCardDiscardFn = ctx => {
-    if (this.props.infectionCardDiscard.length) {
-      ctx.beginPath()
-      ctx.fillStyle = 'purple'
-      ctx.rect(750, 30, 145, 110)
-      ctx.fill()
-      ctx.fillStyle = 'yellow'
-      ctx.fillText('Infection', 755, 75)
-      ctx.fillText('Discard', 770, 105)
-      ctx.stroke()
-    }
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.rect(750, 30, 145, 110)
+    // ctx.fill()
+    // ctx.fillStyle = 'yellow'
+    ctx.fillText('Infection', 755, 75)
+    ctx.fillText('Discard', 770, 105)
+    ctx.fillText(this.props.infectionCardDiscard.length, 800, 120)
+    // ctx.stroke()
   }
 
   // Player Deck Placement Method
