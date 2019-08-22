@@ -731,6 +731,10 @@ class MainGame extends React.Component {
             infectionCardDeck={this.state.infectionCardDeck}
             infectionCardDiscard={this.state.infectionCardDiscard}
             playerList={this.state.playerList}
+            redCubes={this.state.redCubes}
+            blueCubes={this.state.blueCubes}
+            blackCubes={this.state.blackCubes}
+            yellowCubes={this.state.yellowCubes}
             redCure={this.state.redCure}
             blueCure={this.state.blueCure}
             blackCure={this.state.blackCure}
