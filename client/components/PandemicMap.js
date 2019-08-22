@@ -54,6 +54,11 @@ class PandemicMap extends React.Component {
     // Player Discard
     this.playerCardDiscardFn(ctx)
 
+    // Font Size for Number of Cubes
+    ctx.font = '15px Courier New'
+    // Number of Cubes
+    this.numCubes(ctx)
+
     // eslint-disable-next-line max-statements
     Object.keys(this.props.cityList).forEach(cityKey => {
       const city = this.props.cityList[cityKey]
@@ -212,30 +217,28 @@ class PandemicMap extends React.Component {
 
   // Player Deck Placement Method
   playerCardDeckFn = ctx => {
-    if (this.props.playerCardDeck.length) {
-      ctx.beginPath()
-      ctx.fillStyle = 'teal'
-      ctx.rect(592, 520, 105, 140)
-      ctx.fill()
-      ctx.fillStyle = 'white'
-      ctx.fillText('Player', 600, 570)
-      ctx.fillText('Deck', 610, 610)
-      ctx.stroke()
-    }
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.rect(592, 520, 105, 140)
+    // ctx.fill()
+    // ctx.fillStyle = 'white'
+    ctx.fillText('Player', 600, 570)
+    ctx.fillText('Deck', 610, 610)
+    ctx.fillText(this.props.playerCardDeck.length, 610, 630)
+    // ctx.stroke()
   }
 
   // Player Discard Placement Method
   playerCardDiscardFn = ctx => {
-    if (this.props.playerCardDiscard.length) {
-      ctx.beginPath()
-      ctx.fillStyle = 'teal'
-      ctx.rect(726, 520, 105, 140)
-      ctx.fill()
-      ctx.fillStyle = 'white'
-      ctx.fillText('Player', 733, 570)
-      ctx.fillText('Discard', 727, 610)
-      ctx.stroke()
-    }
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.rect(726, 520, 105, 140)
+    // ctx.fill()
+    // ctx.fillStyle = 'white'
+    ctx.fillText('Player', 733, 570)
+    ctx.fillText('Discard', 727, 610)
+    ctx.fillText(this.props.playerCardDiscard.length, 720, 620)
+    // ctx.stroke()
   }
 
   // City Placement Method
@@ -309,6 +312,38 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.fillText(city.red, city.coords[0] + 13, city.coords[1] - 15)
+  }
+
+  // Cube Number Method
+  numCubes = ctx => {
+    ctx.beginPath()
+    ctx.fillStyle = 'red'
+    ctx.rect(300, 100, 20, 20)
+    ctx.fill()
+    ctx.stroke()
+    ctx.fillStyle = 'black'
+    ctx.fillText(this.props.redCubes, 300, 115)
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.rect(330, 100, 20, 20)
+    ctx.fill()
+    ctx.stroke()
+    ctx.fillStyle = 'white'
+    ctx.fillText(this.props.blackCubes, 330, 115)
+    ctx.beginPath()
+    ctx.fillStyle = 'blue'
+    ctx.rect(360, 100, 20, 20)
+    ctx.fill()
+    ctx.stroke()
+    ctx.fillStyle = 'white'
+    ctx.fillText(this.props.blueCubes, 360, 115)
+    ctx.beginPath()
+    ctx.fillStyle = 'yellow'
+    ctx.rect(390, 100, 20, 20)
+    ctx.fill()
+    ctx.stroke()
+    ctx.fillStyle = 'black'
+    ctx.fillText(this.props.yellowCubes, 390, 115)
   }
 
   // Player Pawn Placement Method
