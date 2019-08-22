@@ -17,20 +17,33 @@ class MainMoves extends React.Component {
     }
   }
 
+  handleOtherFlightSubmit = (cityGo, discard) => {
+    this.props.handleOtherFlightSubmit(cityGo, discard)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
+  }
+
   handleDriveSubmit = () => {
     this.props.handleDriveSubmit(this.state.drive)
     this.setState({drive: 'Drive/ferry to'})
   }
 
-  handleDirectFlightSubmit = () => {
-    this.props.handleDirectFlightSubmit(this.state.directFlight)
-    this.setState({directFlight: 'Take direct flight to'})
-  }
+  // handleDirectFlightSubmit = () => {
+  //   this.props.handleDirectFlightSubmit(this.state.directFlight)
+  //   this.setState({directFlight: 'Take direct flight to'})
+  // }
 
-  handleCharterFlightSubmit = () => {
-    this.props.handleCharterFlightSubmit(this.state.charterFlightTo)
-    this.setState({charterFlightTo: 'Take charter flight to'})
-  }
+  // handleCharterFlightSubmit = () => {
+  //   this.props.handleCharterFlightSubmit(this.state.charterFlightTo)
+  //   this.setState({charterFlightTo: 'Take charter flight to'})
+  // }
 
   handleResearchSubmit = () => {
     this.props.handleResearchSubmit()
@@ -268,7 +281,12 @@ class MainMoves extends React.Component {
             <Button
               variant="outline-dark"
               className="game-menu-btn"
-              onClick={this.handleDirectFlightSubmit}
+              onClick={() =>
+                this.handleOtherFlightSubmit(
+                  this.state.directFlight,
+                  this.state.directFlight
+                )
+              }
             >
               Submit
             </Button>
@@ -303,7 +321,12 @@ class MainMoves extends React.Component {
                 <Button
                   variant="outline-dark"
                   className="game-menu-btn"
-                  onClick={this.handleCharterFlightSubmit}
+                  onClick={() =>
+                    this.handleOtherFlightSubmit(
+                      this.state.charterFlightTo,
+                      currentUser.location
+                    )
+                  }
                 >
                   Submit
                 </Button>

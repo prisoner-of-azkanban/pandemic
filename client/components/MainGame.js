@@ -273,24 +273,12 @@ class MainGame extends React.Component {
     this.playerList.set({playerList: allPlayers}, {merge: true})
   }
 
-  handleDirectFlightSubmit = city => {
+  handleOtherFlightSubmit = (cityGo, cardDiscard) => {
     let allPlayers = [...this.state.playerList]
-    allPlayers[this.state.currentTurn].location = city
+    allPlayers[this.state.currentTurn].location = cityGo
     allPlayers[this.state.currentTurn].hand = allPlayers[
       this.state.currentTurn
-    ].hand.filter(card => card.title !== city)
-    this.playerList.set({playerList: allPlayers})
-  }
-
-  handleCharterFlightSubmit = city => {
-    let allPlayers = [...this.state.playerList]
-    let currentCity = allPlayers[this.state.currentTurn].location
-    console.log(allPlayers[this.state.currentTurn])
-    allPlayers[this.state.currentTurn].location = city
-    console.log(allPlayers[this.state.currentTurn])
-    allPlayers[this.state.currentTurn].hand = allPlayers[
-      this.state.currentTurn
-    ].hand.filter(card => card.title !== currentCity)
+    ].hand.filter(card => card.title !== cardDiscard)
     this.playerList.set({playerList: allPlayers})
   }
 
@@ -785,9 +773,8 @@ class MainGame extends React.Component {
             reset={this.reset}
             cities={this.state.cities}
             handleDriveSubmit={this.handleDriveSubmit}
-            handleDirectFlightSubmit={this.handleDirectFlightSubmit}
             handleResearchSubmit={this.handleResearchSubmit}
-            handleCharterFlightSubmit={this.handleCharterFlightSubmit}
+            handleOtherFlightSubmit={this.handleOtherFlightSubmit}
           />
         ) : (
           <div>Data loading</div>
