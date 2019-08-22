@@ -92,10 +92,10 @@ class MainGame extends React.Component {
   componentDidMount() {
     this._isMounted = true
     const players = this.props.players
-    this.playerList
+    this.cities
       .get()
       .then(doc => {
-        if (!doc.data().playerList[0]) {
+        if (!doc.data().cities.Atlanta) {
           this.playerList
             .set(
               {
@@ -140,7 +140,9 @@ class MainGame extends React.Component {
               },
               {merge: true}
             )
-            .then(() => this.cities.set({cities: cityList}, {merge: true}))
+            .then(() => {
+              this.cities.set({cities: cityList})
+            })
         }
       })
 
@@ -267,24 +269,41 @@ class MainGame extends React.Component {
 
   handleDriveSubmit = city => {
     let allPlayers = [...this.state.playerList]
-    allPlayers.map(player => {
-      if (player.turn) {
-        player.location = city
-      }
-      return player
-    })
-    this.playerList.set({playerList: allPlayers})
+    allPlayers[this.state.currentTurn].location = city
+    this.playerList.set({playerList: allPlayers}, {merge: true})
   }
 
   handleDirectFlightSubmit = city => {
     let allPlayers = [...this.state.playerList]
-    allPlayers.map(player => {
-      if (player.turn) {
-        player.location = city
-        player.hand = player.hand.filter(card => card.title !== city)
-      }
-      return player
-    })
+    allPlayers[this.state.currentTurn].location = city
+    allPlayers[this.state.currentTurn].hand = allPlayers[
+      this.state.currentTurn
+    ].hand.filter(card => card.title !== city)
+    this.playerList.set({playerList: allPlayers})
+  }
+
+  handleCharterFlightSubmit = city => {
+    let allPlayers = [...this.state.playerList]
+    let currentCity = allPlayers[this.state.currentTurn].location
+    console.log(allPlayers[this.state.currentTurn])
+    allPlayers[this.state.currentTurn].location = city
+    console.log(allPlayers[this.state.currentTurn])
+    allPlayers[this.state.currentTurn].hand = allPlayers[
+      this.state.currentTurn
+    ].hand.filter(card => card.title !== currentCity)
+    this.playerList.set({playerList: allPlayers})
+  }
+
+  handleResearchSubmit = () => {
+    let allPlayers = [...this.state.playerList]
+    let allCities = {...this.state.cities}
+    let currentCity = allPlayers[this.state.currentTurn].location
+
+    allCities[currentCity].research = true
+    this.cities.set({cities: allCities})
+    allPlayers[this.state.currentTurn].hand = allPlayers[
+      this.state.currentTurn
+    ].hand.filter(card => card.title !== currentCity)
     this.playerList.set({playerList: allPlayers})
   }
 
@@ -755,18 +774,24 @@ class MainGame extends React.Component {
             <li key={index}>{card.city}</li>
           ))}
         </ul>
-        <GameMenu
-          players={this.state.playerList}
-          username={this.props.username}
-          turn={this.state.currentTurn}
-          startGame={this.startGame}
-          testOutbreak={this.testOutbreak}
-          testPlayerTurn={this.testPlayerTurn}
-          reset={this.reset}
-          cities={this.state.cities}
-          handleDriveSubmit={this.handleDriveSubmit}
-          handleDirectFlightSubmit={this.handleDirectFlightSubmit}
-        />
+        {this.state.cities.Atlanta ? ( //checks to see if data has been obtained first
+          <GameMenu
+            players={this.state.playerList}
+            username={this.props.username}
+            turn={this.state.currentTurn}
+            startGame={this.startGame}
+            testOutbreak={this.testOutbreak}
+            testPlayerTurn={this.testPlayerTurn}
+            reset={this.reset}
+            cities={this.state.cities}
+            handleDriveSubmit={this.handleDriveSubmit}
+            handleDirectFlightSubmit={this.handleDirectFlightSubmit}
+            handleResearchSubmit={this.handleResearchSubmit}
+            handleCharterFlightSubmit={this.handleCharterFlightSubmit}
+          />
+        ) : (
+          <div>Data loading</div>
+        )}
       </div>
     ) : (
       <div>Getting location</div>

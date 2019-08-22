@@ -1,19 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
-handleDriveSubmit = city => {
-  let allPlayers = [...this.state.playerList]
-  allPlayers[this.state.currentTurn].location = city
-  this.playerList.set({playerList: allPlayers}, {merge: true})
-}
 
-handleFlightSubmit = city => {
-  let allPlayers = [...this.state.playerList]
-  if (allPlayers[this.state.currentTurn].location !== city) {
-    allPlayers[this.state.currentTurn].location = city
-    this.playerList.set({playerList: allPlayers}, {merge: true})
-  }
-}
-
+//need to discard cards
 handleResearch = card => {
   let allPlayers = [...this.state.playerList]
   let allCities = [...this.state.cities]

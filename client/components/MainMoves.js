@@ -27,6 +27,15 @@ class MainMoves extends React.Component {
     this.setState({directFlight: 'Take direct flight to'})
   }
 
+  handleCharterFlightSubmit = () => {
+    this.props.handleCharterFlightSubmit(this.state.charterFlightTo)
+    this.setState({charterFlightTo: 'Take charter flight to'})
+  }
+
+  handleResearchSubmit = () => {
+    this.props.handleResearchSubmit()
+  }
+
   handleCheckbox = e => {
     if (e.target.checked)
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
@@ -57,6 +66,7 @@ class MainMoves extends React.Component {
     this.setState({
       charterFlightTo: eventKey
     })
+    console.log(this.state.charterFlightTo)
   }
   handleShuttleFlightTo = (eventKey, event) => {
     this.setState({
@@ -98,7 +108,7 @@ class MainMoves extends React.Component {
 
     //check if player can treat disease in cities
     const colors = ['red', 'blue', 'yellow', 'black']
-    console.log(currentCity, 'currentCity')
+
     let canTreat =
       colors.map(color => currentCity[color]).reduce((a, b) => a + b) > 0
 
@@ -290,7 +300,11 @@ class MainMoves extends React.Component {
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                <Button variant="outline-dark" className="game-menu-btn">
+                <Button
+                  variant="outline-dark"
+                  className="game-menu-btn"
+                  onClick={this.handleCharterFlightSubmit}
+                >
                   Submit
                 </Button>
               </div>
@@ -347,7 +361,12 @@ class MainMoves extends React.Component {
       case 'research':
         menuReturn = (
           <div id="btn-menu">
-            <Button variant="outline-dark" className="game-menu-btn">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.handleResearchSubmit}
+              disabled={!canTakeCharter}
+            >
               Build research center
             </Button>
             <Button
