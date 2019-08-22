@@ -383,6 +383,91 @@ class MainGame extends React.Component {
     }
   }
 
+  //cure
+  handleCureSubmit = (cards, color) => {
+    const eradicate = firebase.firestore.FieldValue.increment(2)
+    const cure = firebase.firestore.FieldValue.increment(1)
+    // const cardNames = new Set(cards)
+    let allPlayers = [...this.state.playerList]
+    let playerCardDiscard = [...this.state.playerCardDiscard]
+    let allCities = {...this.state.cities}
+    if (allCities[allPlayers[this.state.currentTurn].location].research) {
+      const colored = cards.filter(card => card.color === color).length === 5
+      let cured
+      let cubes
+      switch (color) {
+        case 'red':
+          cured = this.state.redCure
+          cubes = this.state.redCubes
+          if (colored && !cured) {
+            if (cubes === 24) {
+              this.props.game.update({redCure: eradicate})
+            } else {
+              this.props.game.update({redCure: cure})
+            }
+          }
+          break
+        case 'blue':
+          cured = this.state.blueCure
+          cubes = this.state.blueCubes
+          if (colored && !cured) {
+            if (cubes === 24) {
+              this.props.game.update({blueCure: eradicate})
+            } else {
+              this.props.game.update({blueCure: cure})
+            }
+          }
+          break
+        case 'yellow':
+          cured = this.state.yellowCure
+          cubes = this.state.yellowCubes
+          if (colored && !cured) {
+            if (cubes === 24) {
+              this.props.game.update({yellowCure: eradicate})
+            } else {
+              this.props.game.update({yellowCure: cure})
+            }
+          }
+          break
+        case 'black':
+          cured = this.state.blackCure
+          cubes = this.state.blackCubes
+          if (colored && !cured) {
+            if (cubes === 24) {
+              this.props.game.update({blackCure: eradicate})
+            } else {
+              this.props.game.update({blackCure: cure})
+            }
+          }
+          break
+        default:
+          break
+      }
+      if (colored) {
+        console.log('trying to remove card')
+        console.log(cards)
+        // console.log(cardNames)
+        let givePlayer = allPlayers[this.state.currentTurn]
+        let discardHand = []
+        let newHand = []
+        const cityNames = cards.map(card => card.title)
+        for (let i = 0; i < givePlayer.hand.length; i++) {
+          console.log(givePlayer.hand[i])
+          console.log(cityNames.includes(givePlayer.hand[i].title))
+          if (cityNames.includes(givePlayer.hand[i].title)) {
+            discardHand.push(givePlayer.hand[i])
+          } else {
+            newHand.push(givePlayer.hand[i])
+          }
+        }
+        allPlayers[this.state.currentTurn].hand = newHand
+        this.playerList.set({playerList: allPlayers}, {merge: true})
+        playerCardDiscard = [...this.state.playerCardDiscard, ...discardHand]
+        this.decks.set({playerCardDiscard: playerCardDiscard}, {merge: true})
+      }
+    }
+  }
+
   componentWillUnmount() {
     this._isMounted = false
     const unsubscribe = this.props.game.onSnapshot(this.listenMain)
@@ -865,6 +950,7 @@ class MainGame extends React.Component {
             handleOtherFlightSubmit={this.handleOtherFlightSubmit}
             handleTreatSubmit={this.handleTreatSubmit}
             handleKnowledgeSubmit={this.handleKnowledgeSubmit}
+            handleCureSubmit={this.handleCureSubmit}
           />
         ) : (
           <div>Data loading</div>

@@ -52,6 +52,7 @@ class GameMenu extends React.Component {
           handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
           handleTreatSubmit={this.props.handleTreatSubmit}
           handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
+          handleCureSubmit={this.props.handleCureSubmit}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
