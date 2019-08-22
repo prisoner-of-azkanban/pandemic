@@ -267,7 +267,7 @@ class MainGame extends React.Component {
     })
   }
 
-  handleDriveSubmit = city => {
+  handleBasicTravel = city => {
     let allPlayers = [...this.state.playerList]
     allPlayers[this.state.currentTurn].location = city
     this.playerList.set({playerList: allPlayers}, {merge: true})
@@ -772,7 +772,7 @@ class MainGame extends React.Component {
             testPlayerTurn={this.testPlayerTurn}
             reset={this.reset}
             cities={this.state.cities}
-            handleDriveSubmit={this.handleDriveSubmit}
+            handleBasicTravel={this.handleBasicTravel}
             handleResearchSubmit={this.handleResearchSubmit}
             handleOtherFlightSubmit={this.handleOtherFlightSubmit}
           />

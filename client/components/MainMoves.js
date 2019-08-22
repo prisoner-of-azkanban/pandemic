@@ -30,20 +30,31 @@ class MainMoves extends React.Component {
     })
   }
 
-  handleDriveSubmit = () => {
-    this.props.handleDriveSubmit(this.state.drive)
-    this.setState({drive: 'Drive/ferry to'})
+  handleBasicTravel = city => {
+    this.props.handleBasicTravel(city)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
   }
 
-  // handleDirectFlightSubmit = () => {
-  //   this.props.handleDirectFlightSubmit(this.state.directFlight)
-  //   this.setState({directFlight: 'Take direct flight to'})
-  // }
-
-  // handleCharterFlightSubmit = () => {
-  //   this.props.handleCharterFlightSubmit(this.state.charterFlightTo)
-  //   this.setState({charterFlightTo: 'Take charter flight to'})
-  // }
+  handleDriveSubmit = () => {
+    this.props.handleDriveSubmit(this.state.drive)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
+  }
 
   handleResearchSubmit = () => {
     this.props.handleResearchSubmit()
@@ -249,7 +260,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               disabled={this.state.drive === 'Take direct flight to'}
-              onClick={this.handleDriveSubmit}
+              onClick={() => this.handleBasicTravel(this.state.drive)}
             >
               Submit
             </Button>
@@ -349,7 +360,6 @@ class MainMoves extends React.Component {
           <div id="btn-menu">
             {canTakeShuttle ? (
               <div>
-                Discard {currentUser.location} and
                 <Dropdown onSelect={this.handleShuttleFlightTo}>
                   <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
                     {this.state.shuttleFlightTo}
@@ -364,7 +374,13 @@ class MainMoves extends React.Component {
                       ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                <Button variant="outline-dark" className="game-menu-btn">
+                <Button
+                  variant="outline-dark"
+                  className="game-menu-btn"
+                  onClick={() =>
+                    this.handleBasicTravel(this.state.shuttleFlightTo)
+                  }
+                >
                   Submit
                 </Button>
               </div>

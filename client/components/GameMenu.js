@@ -46,7 +46,7 @@ class GameMenu extends React.Component {
           currentUser={currentUser}
           otherUsers={otherUsers}
           cities={this.props.cities}
-          handleDriveSubmit={this.props.handleDriveSubmit}
+          handleBasicTravel={this.props.handleBasicTravel}
           handleResearchSubmit={this.props.handleResearchSubmit}
           handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
         />
