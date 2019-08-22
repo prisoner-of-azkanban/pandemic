@@ -267,6 +267,8 @@ class MainGame extends React.Component {
     })
   }
 
+  //action methods
+  //movement
   handleBasicTravel = city => {
     let allPlayers = [...this.state.playerList]
     allPlayers[this.state.currentTurn].location = city
@@ -293,6 +295,71 @@ class MainGame extends React.Component {
       this.state.currentTurn
     ].hand.filter(card => card.title !== currentCity)
     this.playerList.set({playerList: allPlayers})
+  }
+
+  //treat
+  handleTreatSubmit = color => {
+    let removedCubeCount = 0
+    //need to deal w below
+    const supply = firebase.firestore.FieldValue.increment(removedCubeCount)
+    let allPlayers = [...this.state.playerList]
+    let allCities = {...this.state.cities}
+    switch (color) {
+      case 'red':
+        if (this.state.redCure === 1) {
+          removedCubeCount =
+            allCities[allPlayers[this.state.currentTurn].location].red
+          allCities[allPlayers[this.state.currentTurn].location].red = 0
+        } else if (this.state.redCure === 0) {
+          removedCubeCount = 1
+          allCities[allPlayers[this.state.currentTurn].location].red--
+        }
+        this.cities.set({cities: allCities}, {merge: true})
+        this.cubes.update({redCubes: supply})
+        break
+
+      case 'blue':
+        if (this.state.blueCure === 1) {
+          removedCubeCount =
+            allCities[allPlayers[this.state.currentTurn].location].blue
+          allCities[allPlayers[this.state.currentTurn].location].blue = 0
+        } else if (this.state.blueCure === 0) {
+          removedCubeCount = 1
+          allCities[allPlayers[this.state.currentTurn].location].blue--
+        }
+        this.cities.set({cities: allCities}, {merge: true})
+        this.cubes.update({blueCubes: supply})
+        break
+
+      case 'yellow':
+        if (this.state.yellowCure === 1) {
+          removedCubeCount =
+            allCities[allPlayers[this.state.currentTurn].location].yellow
+          allCities[allPlayers[this.state.currentTurn].location].yellow = 0
+        } else if (this.state.yellowCure === 0) {
+          removedCubeCount = 1
+          allCities[allPlayers[this.state.currentTurn].location].yellow--
+        }
+        this.cities.set({cities: allCities}, {merge: true})
+        this.cubes.update({yellowCubes: supply})
+        break
+
+      case 'black':
+        if (this.state.blackCure === 1) {
+          removedCubeCount =
+            allCities[allPlayers[this.state.currentTurn].location].black
+          allCities[allPlayers[this.state.currentTurn].location].black = 0
+        } else if (this.state.blackCure === 0) {
+          removedCubeCount = 1
+          allCities[allPlayers[this.state.currentTurn].location].black--
+        }
+        this.cities.set({cities: allCities}, {merge: true})
+        this.cubes.update({blackCubes: supply})
+        break
+
+      default:
+        break
+    }
   }
 
   componentWillUnmount() {
@@ -775,6 +842,7 @@ class MainGame extends React.Component {
             handleBasicTravel={this.handleBasicTravel}
             handleResearchSubmit={this.handleResearchSubmit}
             handleOtherFlightSubmit={this.handleOtherFlightSubmit}
+            handleTreatSubmit={this.handleTreatSubmit}
           />
         ) : (
           <div>Data loading</div>
