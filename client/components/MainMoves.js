@@ -64,6 +64,10 @@ class MainMoves extends React.Component {
     this.props.handleTreatSubmit(color)
   }
 
+  handleKnowledgeSubmit = (give, take, card) => {
+    this.props.handleKnowledgeSubmit(give, take, card)
+  }
+
   handleCheckbox = e => {
     if (e.target.checked)
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
@@ -459,11 +463,15 @@ class MainMoves extends React.Component {
                 {this.state.giveKnowledgeCard}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {currentUser.hand.map(card => (
-                  <Dropdown.Item key={card.title} eventKey={card.title}>
-                    {card.title}
-                  </Dropdown.Item>
-                ))}
+                {currentUser.hand.map(card => {
+                  if (card.title === currentUser.location) {
+                    return (
+                      <Dropdown.Item key={card.title} eventKey={card.title}>
+                        {card.title}
+                      </Dropdown.Item>
+                    )
+                  }
+                })}
               </Dropdown.Menu>
             </Dropdown>
             TO
@@ -472,13 +480,30 @@ class MainMoves extends React.Component {
                 {this.state.giveKnowledgeCardTo}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {this.props.otherUsers.map(user => (
-                  <Dropdown.Item key={user.name} eventKey={user.name}>
-                    {user.name}
-                  </Dropdown.Item>
-                ))}
+                {this.props.otherUsers.map(user => {
+                  if (user.location === currentUser.location) {
+                    return (
+                      <Dropdown.Item key={user.name} eventKey={user.name}>
+                        {user.name}
+                      </Dropdown.Item>
+                    )
+                  }
+                })}
               </Dropdown.Menu>
             </Dropdown>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => {
+                this.handleKnowledgeSubmit(
+                  currentUser.name,
+                  this.state.giveKnowledgeCardTo,
+                  this.state.giveKnowledgeCard
+                )
+              }}
+            >
+              Submit
+            </Button>
             <Button
               variant="outline-dark"
               className="game-menu-btn"
@@ -492,7 +517,40 @@ class MainMoves extends React.Component {
       case 'take knowledge':
         menuReturn = (
           <div id="btn-menu">
-            Take BLANK FROM BLANK
+            Take {currentUser.location} FROM
+            <Dropdown onSelect={this.handleGiveKnowledgeCardToSelect}>
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                {this.state.giveKnowledgeCardTo}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {this.props.otherUsers.map(user => {
+                  if (
+                    user.location === currentUser.location &&
+                    user.hand.filter(card => card.title === user.location)
+                      .length === 1
+                  ) {
+                    return (
+                      <Dropdown.Item key={user.name} eventKey={user.name}>
+                        {user.name}
+                      </Dropdown.Item>
+                    )
+                  }
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => {
+                this.handleKnowledgeSubmit(
+                  this.state.giveKnowledgeCardTo,
+                  currentUser.name,
+                  currentUser.location
+                )
+              }}
+            >
+              Submit
+            </Button>
             <Button
               variant="outline-dark"
               className="game-menu-btn"
