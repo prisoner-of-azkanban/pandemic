@@ -210,7 +210,6 @@ class MainGame extends React.Component {
       if (this._isMounted)
         this.setState({
           currentTurn: doc.data().currentTurn,
-          actionCount: doc.data().actionCount,
           infectionRate: doc.data().infectionRate,
           outbreaks: doc.data().outbreaks,
           win: doc.data().win,
@@ -239,7 +238,8 @@ class MainGame extends React.Component {
     this.playerList.get().then(doc => {
       if (this._isMounted)
         this.setState({
-          playerList: doc.data().playerList
+          playerList: doc.data().playerList,
+          actionCount: doc.data().actionCount
         })
     })
   }
@@ -320,16 +320,8 @@ class MainGame extends React.Component {
     this.props.game
       .set(
         {
-          redCubes: 24,
-          blueCubes: 24,
-          yellowCubes: 24,
-          blackCubes: 24,
           outbreaks: 0,
           infectionRate: 0,
-          playerCardDeck: [],
-          playerCardDiscard: [],
-          infectionCardDeck: [],
-          infectionCardDiscard: [],
           redCure: 1,
           blueCure: 1,
           yellowCure: 1,
@@ -523,6 +515,7 @@ class MainGame extends React.Component {
         break
       case 'yellow':
         this.cubes.update({yellowCubes: updateCubeBy})
+
         break
       default:
         break
@@ -708,7 +701,6 @@ class MainGame extends React.Component {
   //**************GAME SET UP END**************
 
   render() {
-    console.log('players', this.state.currentTurn)
     return this.state.win ? (
       <Win />
     ) : this.state.lose ? (
@@ -765,8 +757,3 @@ class MainGame extends React.Component {
 }
 
 export default MainGame
-
-//cubes
-//playerList
-//cities - done
-//action count, current turn, cures

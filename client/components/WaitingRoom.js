@@ -58,10 +58,6 @@ class WaitingRoom extends React.Component {
         actionCount: 0,
         infectionRate: 0,
         outbreaks: 0,
-        blueCubes: 24,
-        redCubes: 24,
-        blackCubes: 24,
-        yellowCubes: 24,
         redCure: 0,
         blueCure: 0,
         blackCure: 0,
@@ -97,7 +93,8 @@ class WaitingRoom extends React.Component {
           .collection('gamestate')
           .doc('playerList')
           .set({
-            playerList: []
+            playerList: [],
+            actionCount: 0
           })
       )
       .then(() =>
