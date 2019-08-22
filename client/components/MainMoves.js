@@ -60,6 +60,10 @@ class MainMoves extends React.Component {
     this.props.handleResearchSubmit()
   }
 
+  handleTreatSubmit = color => {
+    this.props.handleTreatSubmit(color)
+  }
+
   handleCheckbox = e => {
     if (e.target.checked)
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
@@ -99,6 +103,7 @@ class MainMoves extends React.Component {
   }
 
   render() {
+    // console.log(this.props)
     //get current user and all cities (besides one current user is in)
     let currentUser = this.props.currentUser
     let allCities = Object.keys(connectedCities).filter(
@@ -421,10 +426,15 @@ class MainMoves extends React.Component {
       case 'treat':
         menuReturn = (
           <div id="btn-menu">
-            {colors.map(color => {
+            {colors.map((color, index) => {
               if (currentCity[color]) {
                 return (
-                  <Button variant="outline-dark" className="game-menu-btn">
+                  <Button
+                    key={index}
+                    variant="outline-dark"
+                    className="game-menu-btn"
+                    onClick={() => this.handleTreatSubmit(color)}
+                  >
                     Treat {color}
                   </Button>
                 )

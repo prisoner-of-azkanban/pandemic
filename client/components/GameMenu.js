@@ -27,6 +27,7 @@ class GameMenu extends React.Component {
   }
 
   render() {
+    // console.log(this.props)
     const currentUser = this.props.players.filter(
       player => player.name === this.props.username
     )[0]
@@ -49,6 +50,7 @@ class GameMenu extends React.Component {
           handleBasicTravel={this.props.handleBasicTravel}
           handleResearchSubmit={this.props.handleResearchSubmit}
           handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
+          handleTreatSubmit={this.props.handleTreatSubmit}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
