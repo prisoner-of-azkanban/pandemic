@@ -295,7 +295,9 @@ class MainGame extends React.Component {
   }
   //*******lara testing functions START*******
   testOutbreak = () => {
-    // const updateWin = firebase.firestore.FieldValue.increment(1)
+    const updateWin = firebase.firestore.FieldValue.increment(1)
+    this.props.game.update({outbreaks: updateWin})
+    // this.cubes.update({redCubes: updateWin})
     // this.props.game.update({redCure: updateWin})
     // let cities = this.state.cities
     // cities.Tokyo.red = 3
@@ -374,18 +376,28 @@ class MainGame extends React.Component {
   loseCheck = () => {
     console.log('in lose check')
     const updateLose = firebase.firestore.FieldValue.increment(1)
-    if (this.state.outbreaks > 7) {
-      this.props.game.update({lose: updateLose}).then(() => true)
-    } else if (this.state.playerCardDeck.length < 2) {
-      this.props.game.update({lose: updateLose}).then(() => true)
-    } else if (
+    if (
       this.state.redCubes < 0 ||
       this.state.blueCubes < 0 ||
       this.state.yellowCubes < 0 ||
       this.state.blackCubes < 0
     ) {
+      console.log('looooose')
       this.props.game.update({lose: updateLose}).then(() => true)
     }
+
+    // if (this.state.outbreaks > 7) {
+    //   this.props.game.update({lose: updateLose}).then(() => true)
+    // } else if (this.state.playerCardDeck.length < 2) {
+    //   this.props.game.update({lose: updateLose}).then(() => true)
+    // } else if (
+    //   this.state.redCubes < 0 ||
+    //   this.state.blueCubes < 0 ||
+    //   this.state.yellowCubes < 0 ||
+    //   this.state.blackCubes < 0
+    // ) {
+    //   this.props.game.update({lose: updateLose}).then(() => true)
+    // }
     return false
   }
 
