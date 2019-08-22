@@ -213,7 +213,11 @@ class MainGame extends React.Component {
           infectionRate: doc.data().infectionRate,
           outbreaks: doc.data().outbreaks,
           win: doc.data().win,
-          lose: doc.data().lose
+          lose: doc.data().lose,
+          redCure: doc.data().redCure,
+          blueCure: doc.data().blueCure,
+          blackCure: doc.data().blackCure,
+          yellowCure: doc.data().yellowCure
         })
     })
   }
@@ -291,6 +295,8 @@ class MainGame extends React.Component {
   }
   //*******lara testing functions START*******
   testOutbreak = () => {
+    // const updateWin = firebase.firestore.FieldValue.increment(1)
+    // this.props.game.update({redCure: updateWin})
     // let cities = this.state.cities
     // cities.Tokyo.red = 3
     // cities.Seoul.red = 1
@@ -298,8 +304,8 @@ class MainGame extends React.Component {
     // cities['San Francisco'].blue = 3
     // this.props.game.set({cities: cities}, {merge: true})
     // this.infectWrapper('Tokyo', 'red')
-    // this.loseCheck()
-    this.winCheck()
+    this.loseCheck()
+    // this.winCheck()
     // this.infectWrapper('Seoul', 'red', 3, true)
     // this.infectWrapper('Manila', 'red', 1)
     // this.infectWrapper('Beijing', 'red', 3)
@@ -318,10 +324,10 @@ class MainGame extends React.Component {
         {
           outbreaks: 0,
           infectionRate: 0,
-          redCure: 1,
-          blueCure: 1,
-          yellowCure: 1,
-          blackCure: 1
+          redCure: 0,
+          blueCure: 0,
+          yellowCure: 0,
+          blackCure: 0
         },
         {merge: true}
       )
