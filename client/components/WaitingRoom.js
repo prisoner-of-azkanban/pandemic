@@ -53,7 +53,6 @@ class WaitingRoom extends React.Component {
         started: false,
         players: [],
         currentTurn: 0,
-        playerList: [],
         win: 0,
         lose: 0,
         actionCount: 0,
@@ -99,6 +98,19 @@ class WaitingRoom extends React.Component {
           .doc('playerList')
           .set({
             playerList: []
+          })
+      )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('gamestate')
+          .doc('cubes')
+          .set({
+            blueCubes: 24,
+            redCubes: 24,
+            blackCubes: 24,
+            yellowCubes: 24
           })
       )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))

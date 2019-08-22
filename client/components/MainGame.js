@@ -81,10 +81,12 @@ class MainGame extends React.Component {
     this.decks = this.props.game.collection('gamestate').doc('decks')
     this.cities = this.props.game.collection('gamestate').doc('cities')
     this.playerList = this.props.game.collection('gamestate').doc('playerList')
+    this.cubes = this.props.game.collection('gamestate').doc('cubes')
     this.props.game.onSnapshot(this.listenMain)
     this.decks.onSnapshot(this.listenDecks)
     this.cities.onSnapshot(this.listenCities)
     this.playerList.onSnapshot(this.listenPlayerList)
+    this.cubes.onSnapshot(this.listenCubes)
   }
 
   componentDidMount() {
@@ -141,24 +143,7 @@ class MainGame extends React.Component {
             .then(() => this.cities.set({cities: cityList}, {merge: true}))
         }
       })
-      .then(() =>
-        this.props.game.get().then(doc => {
-          if (this._isMounted)
-            this.setState({
-              currentTurn: doc.data().currentTurn,
-              win: doc.data().win,
-              lose: doc.data().lose,
-              blueCubes: doc.data().blueCubes,
-              redCubes: doc.data().redCubes,
-              blackCubes: doc.data().blackCubes,
-              yellowCubes: doc.data().yellowCubes,
-              redCure: doc.data().redCure,
-              blueCure: doc.data().blueCure,
-              blackCure: doc.data().blackCure,
-              yellowCure: doc.data().yellowCure
-            })
-        })
-      )
+
       .then(() =>
         this.decks.get().then(doc => {
           if (this._isMounted)
@@ -171,10 +156,35 @@ class MainGame extends React.Component {
         })
       )
       .then(() =>
+        this.props.game.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              currentTurn: doc.data().currentTurn,
+              win: doc.data().win,
+              lose: doc.data().lose,
+              redCure: doc.data().redCure,
+              blueCure: doc.data().blueCure,
+              blackCure: doc.data().blackCure,
+              yellowCure: doc.data().yellowCure
+            })
+        })
+      )
+      .then(() =>
         this.cities.get().then(doc => {
           if (this._isMounted)
             this.setState({
               cities: doc.data().cities
+            })
+        })
+      )
+      .then(() =>
+        this.cubes.get().then(doc => {
+          if (this._isMounted)
+            this.setState({
+              blueCubes: doc.data().blueCubes,
+              redCubes: doc.data().redCubes,
+              blackCubes: doc.data().blackCubes,
+              yellowCubes: doc.data().yellowCubes
             })
         })
       )
@@ -205,6 +215,18 @@ class MainGame extends React.Component {
           outbreaks: doc.data().outbreaks,
           win: doc.data().win,
           lose: doc.data().lose,
+          blueCubes: doc.data().blueCubes,
+          redCubes: doc.data().redCubes,
+          blackCubes: doc.data().blackCubes,
+          yellowCubes: doc.data().yellowCubes
+        })
+    })
+  }
+
+  listenCubes = () => {
+    this.cubes.get().then(doc => {
+      if (this._isMounted)
+        this.setState({
           blueCubes: doc.data().blueCubes,
           redCubes: doc.data().redCubes,
           blackCubes: doc.data().blackCubes,
@@ -326,6 +348,14 @@ class MainGame extends React.Component {
       .then(() =>
         this.cities.set({
           cities: cityList
+        })
+      )
+      .then(() =>
+        this.cubes.set({
+          redCubes: 24,
+          blueCubes: 24,
+          yellowCubes: 24,
+          blackCubes: 24
         })
       )
   }
@@ -483,16 +513,16 @@ class MainGame extends React.Component {
     const updateCubeBy = firebase.firestore.FieldValue.increment(-n)
     switch (color) {
       case 'red':
-        this.props.game.update({redCubes: updateCubeBy})
+        this.cubes.update({redCubes: updateCubeBy})
         break
       case 'blue':
-        this.props.game.update({blueCubes: updateCubeBy})
+        this.cubes.update({blueCubes: updateCubeBy})
         break
       case 'black':
-        this.props.game.update({blackCubes: updateCubeBy})
+        this.cubes.update({blackCubes: updateCubeBy})
         break
       case 'yellow':
-        this.props.game.update({yellowCubes: updateCubeBy})
+        this.cubes.update({yellowCubes: updateCubeBy})
         break
       default:
         break
