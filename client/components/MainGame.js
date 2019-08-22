@@ -213,11 +213,7 @@ class MainGame extends React.Component {
           infectionRate: doc.data().infectionRate,
           outbreaks: doc.data().outbreaks,
           win: doc.data().win,
-          lose: doc.data().lose,
-          blueCubes: doc.data().blueCubes,
-          redCubes: doc.data().redCubes,
-          blackCubes: doc.data().blackCubes,
-          yellowCubes: doc.data().yellowCubes
+          lose: doc.data().lose
         })
     })
   }
