@@ -2,14 +2,6 @@
 /* eslint-disable max-statements */
 
 //need to discard cards
-handleResearch = card => {
-  let allPlayers = [...this.state.playerList]
-  let allCities = [...this.state.cities]
-  if (card === allPlayers[this.state.currentTurn].location) {
-    allCities[card].research = true
-    this.cities.set({cities: allCities}, {merge: true})
-  }
-}
 // allPlayers[this.state.currentTurn].location === card || allPlayers[player].location === card)
 handleKnowledge = (player, card) => {
   let allPlayers = [...this.state.playerList]
