@@ -168,6 +168,7 @@ class MainGame extends React.Component {
   }
 
   listenStart = () => {
+    console.log('i am listening')
     this.props.game.get().then(doc => {
       if (this._isMounted)
         this.setState({
@@ -189,6 +190,29 @@ class MainGame extends React.Component {
           yellowCubes: doc.data().yellowCubes
         })
     })
+  }
+
+  handleDriveSubmit = city => {
+    let allPlayers = [...this.state.playerList]
+    allPlayers.map(player => {
+      if (player.turn) {
+        player.location = city
+      }
+      return player
+    })
+    this.props.game.set({playerList: allPlayers}, {merge: true})
+  }
+
+  handleDirectFlightSubmit = city => {
+    let allPlayers = [...this.state.playerList]
+    allPlayers.map(player => {
+      if (player.turn) {
+        player.location = city
+        player.hand = player.hand.filter(card => card.title !== city)
+      }
+      return player
+    })
+    this.props.game.set({playerList: allPlayers}, {merge: true})
   }
 
   componentWillUnmount() {
@@ -612,6 +636,8 @@ class MainGame extends React.Component {
           testPlayerTurn={this.testPlayerTurn}
           reset={this.reset}
           cities={this.state.cities}
+          handleDriveSubmit={this.handleDriveSubmit}
+          handleDirectFlightSubmit={this.handleDirectFlightSubmit}
         />
       </div>
     ) : (

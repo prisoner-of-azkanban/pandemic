@@ -46,6 +46,8 @@ class GameMenu extends React.Component {
           currentUser={currentUser}
           otherUsers={otherUsers}
           cities={this.props.cities}
+          handleDriveSubmit={this.props.handleDriveSubmit}
+          handleDirectFlightSubmit={this.props.handleDirectFlightSubmit}
         />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
