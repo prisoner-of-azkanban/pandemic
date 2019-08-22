@@ -2,6 +2,7 @@
 import React from 'react'
 import {Button, Dropdown, Form} from 'react-bootstrap'
 import {connectedCities} from '../../game/connectedCities'
+import {playerCards} from '../../game/playerCards'
 
 class MainMoves extends React.Component {
   constructor() {
@@ -66,6 +67,10 @@ class MainMoves extends React.Component {
 
   handleKnowledgeSubmit = (give, take, card) => {
     this.props.handleKnowledgeSubmit(give, take, card)
+  }
+
+  handleCureSubmit = (cards, color) => {
+    this.props.handleCureSubmit(cards, color)
   }
 
   handleCheckbox = e => {
@@ -606,6 +611,18 @@ class MainMoves extends React.Component {
                 />
               ))}
             </Form.Group>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={() => {
+                const cards = this.state.discardCure.map(
+                  name => playerCards.filter(card => card.title === name)[0]
+                )
+                this.handleCureSubmit(cards, cards[0].color)
+              }}
+            >
+              Submit
+            </Button>
             <Button
               variant="outline-dark"
               className="game-menu-btn"
