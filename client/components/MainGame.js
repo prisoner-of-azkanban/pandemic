@@ -297,6 +297,27 @@ class MainGame extends React.Component {
     this.playerList.set({playerList: allPlayers})
   }
 
+  // knowledge
+  handleKnowledgeSubmit = (playerGive, playerTake, card) => {
+    let allPlayers = [...this.state.playerList]
+    let transferredCard = playerCards.filter(
+      allCards => allCards.title === card
+    )
+    let newPlayers = allPlayers.map(player => {
+      if (player.name === playerGive) {
+        player.hand = player.hand.filter(
+          playerCard => playerCard.title !== card
+        )
+      }
+      if (player.name === playerTake) {
+        player.hand = [...player.hand, ...transferredCard]
+      }
+      return player
+    })
+    console.log(newPlayers)
+    this.playerList.set({playerList: newPlayers}, {merge: true})
+  }
+
   //treat
   handleTreatSubmit = color => {
     let removedCubeCount = 0
@@ -843,6 +864,7 @@ class MainGame extends React.Component {
             handleResearchSubmit={this.handleResearchSubmit}
             handleOtherFlightSubmit={this.handleOtherFlightSubmit}
             handleTreatSubmit={this.handleTreatSubmit}
+            handleKnowledgeSubmit={this.handleKnowledgeSubmit}
           />
         ) : (
           <div>Data loading</div>
