@@ -17,14 +17,47 @@ class MainMoves extends React.Component {
     }
   }
 
-  handleDriveSubmit = () => {
-    this.props.handleDriveSubmit(this.state.drive)
-    this.setState({drive: 'Drive/ferry to'})
+  handleOtherFlightSubmit = (cityGo, discard) => {
+    this.props.handleOtherFlightSubmit(cityGo, discard)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
   }
 
-  handleDirectFlightSubmit = () => {
-    this.props.handleDirectFlightSubmit(this.state.directFlight)
-    this.setState({directFlight: 'Take direct flight to'})
+  handleBasicTravel = city => {
+    this.props.handleBasicTravel(city)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
+  }
+
+  handleDriveSubmit = () => {
+    this.props.handleDriveSubmit(this.state.drive)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
+  }
+
+  handleResearchSubmit = () => {
+    this.props.handleResearchSubmit()
   }
 
   handleCheckbox = e => {
@@ -57,6 +90,7 @@ class MainMoves extends React.Component {
     this.setState({
       charterFlightTo: eventKey
     })
+    console.log(this.state.charterFlightTo)
   }
   handleShuttleFlightTo = (eventKey, event) => {
     this.setState({
@@ -98,7 +132,7 @@ class MainMoves extends React.Component {
 
     //check if player can treat disease in cities
     const colors = ['red', 'blue', 'yellow', 'black']
-    console.log(currentCity, 'currentCity')
+
     let canTreat =
       colors.map(color => currentCity[color]).reduce((a, b) => a + b) > 0
 
@@ -226,7 +260,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               disabled={this.state.drive === 'Take direct flight to'}
-              onClick={this.handleDriveSubmit}
+              onClick={() => this.handleBasicTravel(this.state.drive)}
             >
               Submit
             </Button>
@@ -258,7 +292,12 @@ class MainMoves extends React.Component {
             <Button
               variant="outline-dark"
               className="game-menu-btn"
-              onClick={this.handleDirectFlightSubmit}
+              onClick={() =>
+                this.handleOtherFlightSubmit(
+                  this.state.directFlight,
+                  this.state.directFlight
+                )
+              }
             >
               Submit
             </Button>
@@ -290,7 +329,16 @@ class MainMoves extends React.Component {
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                <Button variant="outline-dark" className="game-menu-btn">
+                <Button
+                  variant="outline-dark"
+                  className="game-menu-btn"
+                  onClick={() =>
+                    this.handleOtherFlightSubmit(
+                      this.state.charterFlightTo,
+                      currentUser.location
+                    )
+                  }
+                >
                   Submit
                 </Button>
               </div>
@@ -312,7 +360,6 @@ class MainMoves extends React.Component {
           <div id="btn-menu">
             {canTakeShuttle ? (
               <div>
-                Discard {currentUser.location} and
                 <Dropdown onSelect={this.handleShuttleFlightTo}>
                   <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
                     {this.state.shuttleFlightTo}
@@ -327,7 +374,13 @@ class MainMoves extends React.Component {
                       ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                <Button variant="outline-dark" className="game-menu-btn">
+                <Button
+                  variant="outline-dark"
+                  className="game-menu-btn"
+                  onClick={() =>
+                    this.handleBasicTravel(this.state.shuttleFlightTo)
+                  }
+                >
                   Submit
                 </Button>
               </div>
@@ -347,7 +400,12 @@ class MainMoves extends React.Component {
       case 'research':
         menuReturn = (
           <div id="btn-menu">
-            <Button variant="outline-dark" className="game-menu-btn">
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.handleResearchSubmit}
+              disabled={!canTakeCharter}
+            >
               Build research center
             </Button>
             <Button

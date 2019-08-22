@@ -39,16 +39,17 @@ class GameMenu extends React.Component {
           Current Turn: {this.props.players[this.props.turn].name}
         </h3>
         <h3 className="menu-header-1">Moves</h3>
-        {/* <MainMoves
+        <MainMoves
           showMenu={this.state.showMenu}
           showMenuToggle={this.showMenuToggle}
           resetMenu={this.resetMenu}
           currentUser={currentUser}
           otherUsers={otherUsers}
           cities={this.props.cities}
-          handleDriveSubmit={this.props.handleDriveSubmit}
-          handleDirectFlightSubmit={this.props.handleDirectFlightSubmit}
-        /> */}
+          handleBasicTravel={this.props.handleBasicTravel}
+          handleResearchSubmit={this.props.handleResearchSubmit}
+          handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
+        />
         <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
           <Button variant="outline-dark" className="game-menu-btn">
