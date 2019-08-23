@@ -315,9 +315,7 @@ class MainGame extends React.Component {
   handleBasicTravel = city => {
     let allPlayers = [...this.state.playerList]
     allPlayers[this.state.currentTurn].location = city
-    this.playerList
-      .set({playerList: allPlayers}, {merge: true})
-      .then(() => console.log('database changed'))
+    this.playerList.set({playerList: allPlayers}, {merge: true})
   }
 
   handleOtherFlightSubmit = (cityGo, cardDiscard) => {
