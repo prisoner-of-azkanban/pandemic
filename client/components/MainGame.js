@@ -200,6 +200,46 @@ class MainGame extends React.Component {
       )
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this._isMounted) {
+      if (this.state.playerList !== prevState.playerList) {
+        this.setState({
+          playerList: this.state.playerList,
+          actionCount: this.state.actionCount
+        })
+      }
+      if (this.state.cities !== prevState.cities) {
+        this.setState({
+          cities: this.state.cities
+        })
+      }
+      if (this.state.blueCubes !== prevState.blueCubes) {
+        this.setState({
+          blueCubes: this.state.blueCubes,
+          redCubes: this.state.redCubes,
+          blackCubes: this.state.blackCubes,
+          yellowCubes: this.state.yellowCubes
+        })
+      }
+      if (this.state.blueCure !== prevState.blueCure) {
+        this.setState({
+          blueCure: this.state.blueCure,
+          redCure: this.state.redCure,
+          blackCure: this.state.blackCure,
+          yellowCure: this.state.yellowCure
+        })
+      }
+      if (this.state.playerCardDeck !== prevState.playerCardDeck) {
+        this.setState({
+          playerCardDeck: this.state.playerCardDeck,
+          playerCardDiscard: this.state.playerCardDiscard,
+          infectionCardDeck: this.state.infectionCardDeck,
+          infectionCardDiscard: this.state.infectionCardDiscard
+        })
+      }
+    }
+  }
+
   // listenCurrentTurn = () => {
   //   this.props.game.get().then(doc => {
   //     if (this._isMounted) this.setState({currentTurn: doc.data().currentTurn})
@@ -238,11 +278,14 @@ class MainGame extends React.Component {
 
   listenPlayerList = () => {
     this.playerList.get().then(doc => {
-      if (this._isMounted)
-        this.setState({
-          playerList: doc.data().playerList,
-          actionCount: doc.data().actionCount
+      if (this._isMounted) {
+        this.setState(() => {
+          return {
+            playerList: doc.data().playerList,
+            actionCount: doc.data().actionCount
+          }
         })
+      }
     })
   }
 
