@@ -180,7 +180,7 @@ canvas {
 }
 
 #game-menu {
-  width: calc(100%-1020px);
+  width: 25vw;
   height: 80vh;
   border: 1px solid black;
   border-radius: 15px;
