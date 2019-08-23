@@ -126,7 +126,7 @@ class Game extends React.Component {
         ) : this.state.isFull ? (
           <p>The room is full, start the game</p>
         ) : (
-          <p>{MAXPLAYERS - this.state.players.length} may join the game</p>
+          <h4>{MAXPLAYERS - this.state.players.length} may join the game</h4>
         )}
         {this.state.started ? (
           <div />

@@ -159,7 +159,9 @@ class WaitingRoom extends React.Component {
     console.log('waiting room props', this.state)
     return (
       <div className="waiting-room-page">
-        <h1>Welcome back, {this.state.username}</h1>
+        <h3 className="waiting-room-header">
+          Welcome back, {this.state.username}
+        </h3>
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
             <Col
