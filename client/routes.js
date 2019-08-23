@@ -19,10 +19,8 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
         <Route path="/login" render={props => <NewLogin {...props} />} />
         <Route path="/signup" render={props => <NewSignup {...props} />} />
-        {/* Displays our Login component as a fallback */}
         <Route
           exact
           path="/game/:gamename"
@@ -30,13 +28,12 @@ class Routes extends Component {
         />
         <Route path="/chat" component={NewChat} />
         <Route path="/game" component={Gamepage} />
-        {/* <Route path="/test" component={PandemicMap} /> */}
         <Route path="/test" component={Win} />
         <Route
           path="/waitingroom"
           render={props => <WaitingRoom {...props} />}
         />
-        <Route exact path="/" component={Homepage} />
+        <Route exact path="/" render={props => <Homepage {...props} />} />
         <Route component={NewLogin} />
       </Switch>
     )
