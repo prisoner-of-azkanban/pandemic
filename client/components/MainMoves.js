@@ -160,7 +160,7 @@ class MainMoves extends React.Component {
         (currentPlayerColorObj[color] = currentPlayerColorObj[color] + 1 || 1)
     )
     const canCure = Object.keys(currentPlayerColorObj).filter(
-      color => currentPlayerColorObj[color] >= 5
+      color => currentPlayerColorObj[color] >= 1
     ).length
     //which menu to show
     let menuReturn = ''

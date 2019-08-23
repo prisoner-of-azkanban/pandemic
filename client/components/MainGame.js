@@ -365,8 +365,8 @@ class MainGame extends React.Component {
       .then(() => {
         if (this.state.actionCount === 3) {
           this.loseCheck()
-            .then(() => this.playerTurnEnd(this.state.currentTurn))
-            .then(() => this.updatePlayerTurn())
+          this.playerTurnEnd(this.state.currentTurn)
+          this.updatePlayerTurn()
         }
       })
   }
@@ -395,8 +395,8 @@ class MainGame extends React.Component {
       .then(() => {
         if (this.state.actionCount === 3) {
           this.loseCheck()
-            .then(() => this.playerTurnEnd(this.state.currentTurn))
-            .then(() => this.updatePlayerTurn())
+          this.playerTurnEnd(this.state.currentTurn)
+          this.updatePlayerTurn()
         }
       })
   }
@@ -433,8 +433,8 @@ class MainGame extends React.Component {
           .then(() => {
             if (this.state.actionCount === 3) {
               this.loseCheck()
-                .then(() => this.playerTurnEnd(this.state.currentTurn))
-                .then(() => this.updatePlayerTurn())
+              this.playerTurnEnd(this.state.currentTurn)
+              this.updatePlayerTurn()
             }
           })
         break
@@ -462,8 +462,8 @@ class MainGame extends React.Component {
           .then(() => {
             if (this.state.actionCount === 3) {
               this.loseCheck()
-                .then(() => this.playerTurnEnd(this.state.currentTurn))
-                .then(() => this.updatePlayerTurn())
+              this.playerTurnEnd(this.state.currentTurn)
+              this.updatePlayerTurn()
             }
           })
 
@@ -492,8 +492,8 @@ class MainGame extends React.Component {
           .then(() => {
             if (this.state.actionCount === 3) {
               this.loseCheck()
-                .then(() => this.playerTurnEnd(this.state.currentTurn))
-                .then(() => this.updatePlayerTurn())
+              this.playerTurnEnd(this.state.currentTurn)
+              this.updatePlayerTurn()
             }
           })
 
@@ -522,8 +522,8 @@ class MainGame extends React.Component {
           .then(() => {
             if (this.state.actionCount === 3) {
               this.loseCheck()
-                .then(() => this.playerTurnEnd(this.state.currentTurn))
-                .then(() => this.updatePlayerTurn())
+              this.playerTurnEnd(this.state.currentTurn)
+              this.updatePlayerTurn()
             }
           })
 
@@ -543,7 +543,7 @@ class MainGame extends React.Component {
     let playerCardDiscard = [...this.state.playerCardDiscard]
     let allCities = {...this.state.cities}
     if (allCities[allPlayers[this.state.currentTurn].location].research) {
-      const colored = cards.filter(card => card.color === color).length === 5
+      const colored = cards.filter(card => card.color === color).length === 1
       let cured
       let cubes
       switch (color) {
@@ -619,8 +619,8 @@ class MainGame extends React.Component {
         let newHand = []
         const cityNames = cards.map(card => card.title)
         for (let i = 0; i < givePlayer.hand.length; i++) {
-          console.log(givePlayer.hand[i])
-          console.log(cityNames.includes(givePlayer.hand[i].title))
+          // console.log(givePlayer.hand[i])
+          // console.log(cityNames.includes(givePlayer.hand[i].title))
           if (cityNames.includes(givePlayer.hand[i].title)) {
             discardHand.push(givePlayer.hand[i])
           } else {
@@ -636,8 +636,8 @@ class MainGame extends React.Component {
           .then(() => {
             if (this.state.actionCount === 3) {
               this.loseCheck()
-                .then(() => this.playerTurnEnd(this.state.currentTurn))
-                .then(() => this.updatePlayerTurn())
+              this.playerTurnEnd(this.state.currentTurn)
+              this.updatePlayerTurn()
             }
           })
       }
@@ -764,7 +764,7 @@ class MainGame extends React.Component {
     allPlayers[turn].turn = false
     turn = (turn + 1) % 4
     allPlayers[turn].turn = true
-    this.playerList.set({allPlayers: allPlayers}, {merge: true})
+    this.playerList.set({playerList: allPlayers}, {merge: true})
     this.props.game.set({currentTurn: turn, actionCount: 0}, {merge: true})
   }
 
@@ -1094,7 +1094,7 @@ class MainGame extends React.Component {
             win={this.state.win}
           />
         </div>
-        <ul>
+        {/* <ul>
           Infect Deck {this.state.infectionCardDeck.length}
           {this.state.infectionCardDeck.map((card, index) => (
             <li key={index}>{card.city}</li>
@@ -1105,7 +1105,7 @@ class MainGame extends React.Component {
           {this.state.infectionCardDiscard.map((card, index) => (
             <li key={index}>{card.city}</li>
           ))}
-        </ul>
+        </ul> */}
         {this.state.cities.Atlanta ? ( //checks to see if data has been obtained first
           <GameMenu
             players={this.state.playerList}
@@ -1122,6 +1122,8 @@ class MainGame extends React.Component {
             handleTreatSubmit={this.handleTreatSubmit}
             handleKnowledgeSubmit={this.handleKnowledgeSubmit}
             handleCureSubmit={this.handleCureSubmit}
+            infectionCardDeck={this.state.infectionCardDeck}
+            infectionCardDiscard={this.state.infectionCardDiscard}
           />
         ) : (
           <div>Data loading</div>
