@@ -35,8 +35,11 @@ class GameMenu extends React.Component {
       player => player.name !== this.props.username
     )
     const userCanMakeMove = this.props.players.filter(player => player.turn)
-
-    const canMakeMove = userCanMakeMove.name === this.props.username
+    let canMakeMove
+    if (userCanMakeMove.length) {
+      canMakeMove = userCanMakeMove[0].name === this.props.username
+      console.log(canMakeMove)
+    }
 
     return (
       <div id="game-menu">
