@@ -27,7 +27,7 @@ class PandemicMap extends React.Component {
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     // Font Size for Tokens
-    ctx.font = '30px Courier New'
+    ctx.font = '20px Impact'
 
     // Outbreak Token
     this.outbreakFn(ctx)
@@ -42,7 +42,7 @@ class PandemicMap extends React.Component {
     this.redCure(ctx, this.props.redCure)
 
     // Font Size for Decks
-    ctx.font = '20px Courier New'
+    ctx.font = '20px Impact'
 
     // Infection Deck
     this.infectionCardDeckFn(ctx)
@@ -117,7 +117,7 @@ class PandemicMap extends React.Component {
       ctx.fill()
       ctx.fillStyle = 'white'
       ctx.stroke()
-      ctx.fillText(this.props.outbreaks, coords[0] - 9, coords[1] + 9)
+      ctx.fillText(this.props.outbreaks, coords[0] - 6, coords[1] + 9)
     }
   }
 
@@ -132,7 +132,7 @@ class PandemicMap extends React.Component {
       ctx.fillStyle = 'black'
       ctx.fillText(
         infectionRateNumber[this.props.infectionRate],
-        infect[0] - 9,
+        infect[0] - 6,
         infect[1] + 9
       )
     }
@@ -196,7 +196,7 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(590, 30, 145, 110)
-    ctx.fillText('Infection', 606, 71)
+    ctx.fillText('Infection', 621, 71)
     ctx.fillText('Deck', 635, 97)
     if (this.props.infectionCardDeck.length > 9) {
       ctx.fillText(this.props.infectionCardDeck.length, 646, 120)
@@ -210,8 +210,8 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(750, 30, 145, 110)
-    ctx.fillText('Infection', 766, 71)
-    ctx.fillText('Discard', 780, 97)
+    ctx.fillText('Infection', 786, 71)
+    ctx.fillText('Discard', 790, 97)
     if (this.props.infectionCardDiscard.length < 10) {
       ctx.fillText(this.props.infectionCardDiscard.length, 816, 120)
     } else {
@@ -224,7 +224,7 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(592, 520, 105, 140)
-    ctx.fillText('Player', 608, 560)
+    ctx.fillText('Player', 618, 560)
     ctx.fillText('Deck', 620, 590)
     if (this.props.playerCardDeck.length > 10) {
       ctx.fillText(this.props.playerCardDeck.length, 633, 620)
@@ -238,8 +238,8 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(726, 520, 105, 140)
-    ctx.fillText('Player', 742, 560)
-    ctx.fillText('Discard', 735, 590)
+    ctx.fillText('Player', 752, 560)
+    ctx.fillText('Discard', 745, 590)
     if (this.props.playerCardDiscard.length > 10) {
       ctx.fillText(this.props.playerCardDiscard.length, 772, 620)
     } else {
