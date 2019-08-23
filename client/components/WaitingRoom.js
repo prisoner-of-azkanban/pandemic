@@ -51,6 +51,7 @@ class WaitingRoom extends React.Component {
           this.setState({games: games})
         }
       })
+      .catch(error => console.log(error))
     //    )
     // } else {
     //   this.props.history.push('/')
@@ -89,7 +90,8 @@ class WaitingRoom extends React.Component {
         redCure: 0,
         blueCure: 0,
         blackCure: 0,
-        yellowCure: 0
+        yellowCure: 0,
+        gameStart: 0
       })
       .then(() =>
         db
@@ -139,6 +141,7 @@ class WaitingRoom extends React.Component {
           })
       )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
+      .catch(error => console.log(error))
   }
 
   handleLogout = () => {

@@ -18,8 +18,7 @@ class MainMoves extends React.Component {
     }
   }
 
-  handleOtherFlightSubmit = (cityGo, discard) => {
-    this.props.handleOtherFlightSubmit(cityGo, discard)
+  resetState = () => {
     this.setState({
       drive: 'Drive/ferry to',
       directFlight: 'Take direct flight to',
@@ -29,32 +28,21 @@ class MainMoves extends React.Component {
       giveKnowledgeCardTo: 'Player',
       discardCure: []
     })
+  }
+
+  handleOtherFlightSubmit = (cityGo, discard) => {
+    this.props.handleOtherFlightSubmit(cityGo, discard)
+    this.resetState()
   }
 
   handleBasicTravel = city => {
     this.props.handleBasicTravel(city)
-    this.setState({
-      drive: 'Drive/ferry to',
-      directFlight: 'Take direct flight to',
-      charterFlightTo: 'Take charter flight to',
-      shuttleFlightTo: 'Take shuttle flight to',
-      giveKnowledgeCard: 'Card',
-      giveKnowledgeCardTo: 'Player',
-      discardCure: []
-    })
+    this.resetState()
   }
 
   handleDriveSubmit = () => {
     this.props.handleDriveSubmit(this.state.drive)
-    this.setState({
-      drive: 'Drive/ferry to',
-      directFlight: 'Take direct flight to',
-      charterFlightTo: 'Take charter flight to',
-      shuttleFlightTo: 'Take shuttle flight to',
-      giveKnowledgeCard: 'Card',
-      giveKnowledgeCardTo: 'Player',
-      discardCure: []
-    })
+    this.resetState()
   }
 
   handleResearchSubmit = () => {
@@ -71,15 +59,7 @@ class MainMoves extends React.Component {
 
   handleCureSubmit = (cards, color) => {
     this.props.handleCureSubmit(cards, color)
-    this.setState({
-      drive: 'Drive/ferry to',
-      directFlight: 'Take direct flight to',
-      charterFlightTo: 'Take charter flight to',
-      shuttleFlightTo: 'Take shuttle flight to',
-      giveKnowledgeCard: 'Card',
-      giveKnowledgeCardTo: 'Player',
-      discardCure: []
-    })
+    this.resetState()
   }
 
   handleCheckbox = e => {
@@ -289,7 +269,7 @@ class MainMoves extends React.Component {
             <Button
               variant="outline-dark"
               className="game-menu-btn"
-              disabled={this.state.drive === 'Take direct flight to'}
+              disabled={this.state.drive === 'Drive/ferry to'}
               onClick={() => this.handleBasicTravel(this.state.drive)}
             >
               Submit
@@ -328,6 +308,7 @@ class MainMoves extends React.Component {
                   this.state.directFlight
                 )
               }
+              disabled={this.state.directFlight === 'Take direct flight to'}
             >
               Submit
             </Button>
@@ -367,6 +348,9 @@ class MainMoves extends React.Component {
                       this.state.charterFlightTo,
                       currentUser.location
                     )
+                  }
+                  disabled={
+                    this.state.charterFlightTo === 'Take charter flight to'
                   }
                 >
                   Submit
@@ -409,6 +393,9 @@ class MainMoves extends React.Component {
                   className="game-menu-btn"
                   onClick={() =>
                     this.handleBasicTravel(this.state.shuttleFlightTo)
+                  }
+                  disabled={
+                    this.state.shuttleFlightTo === 'Take shuttle flight to'
                   }
                 >
                   Submit
@@ -522,6 +509,10 @@ class MainMoves extends React.Component {
                   this.state.giveKnowledgeCard
                 )
               }}
+              disabled={
+                this.state.giveKnowledgeCard === 'Card' ||
+                this.state.giveKnowledgeCardTo === 'Player'
+              }
             >
               Submit
             </Button>
@@ -569,6 +560,7 @@ class MainMoves extends React.Component {
                   currentUser.location
                 )
               }}
+              disabled={this.state.giveKnowledgeCardTo === 'Player'}
             >
               Submit
             </Button>
@@ -628,6 +620,7 @@ class MainMoves extends React.Component {
                             as={Button}
                             eventKey={color}
                             variant="outline-dark"
+                            onClick={this.resetState}
                           >
                             {color}
                           </Accordion.Toggle>
@@ -644,6 +637,9 @@ class MainMoves extends React.Component {
                                     key={colorCard.title}
                                     name={colorCard.title}
                                     onChange={e => this.handleCheckbox(e)}
+                                    checked={this.state.discardCure.includes(
+                                      colorCard.title
+                                    )}
                                   />
                                 ))}
                             </div>
