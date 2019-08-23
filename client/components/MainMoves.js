@@ -71,6 +71,15 @@ class MainMoves extends React.Component {
 
   handleCureSubmit = (cards, color) => {
     this.props.handleCureSubmit(cards, color)
+    this.setState({
+      drive: 'Drive/ferry to',
+      directFlight: 'Take direct flight to',
+      charterFlightTo: 'Take charter flight to',
+      shuttleFlightTo: 'Take shuttle flight to',
+      giveKnowledgeCard: 'Card',
+      giveKnowledgeCardTo: 'Player',
+      discardCure: []
+    })
   }
 
   handleCheckbox = e => {

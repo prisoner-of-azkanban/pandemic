@@ -58,6 +58,7 @@ class PandemicMap extends React.Component {
 
     // Font Size for Number of Cubes
     ctx.font = '15px Courier New'
+    ctx.shadowColor = ''
     // Number of Cubes
     this.numCubes(ctx)
 
