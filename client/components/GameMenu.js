@@ -34,27 +34,37 @@ class GameMenu extends React.Component {
     const otherUsers = this.props.players.filter(
       player => player.name !== this.props.username
     )
+    const userCanMakeMove = this.props.players.filter(player => player.turn)
+
+    const canMakeMove = userCanMakeMove.name === this.props.username
+
     return (
       <div id="game-menu">
         <h3 className="menu-header-1">
           Current Turn: {this.props.players[this.props.turn].name}
         </h3>
         <h3 className="menu-header-1">Moves</h3>
-        <MainMoves
-          showMenu={this.state.showMenu}
-          showMenuToggle={this.showMenuToggle}
-          resetMenu={this.resetMenu}
-          currentUser={currentUser}
-          otherUsers={otherUsers}
-          cities={this.props.cities}
-          handleBasicTravel={this.props.handleBasicTravel}
-          handleResearchSubmit={this.props.handleResearchSubmit}
-          handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
-          handleTreatSubmit={this.props.handleTreatSubmit}
-          handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
-          handleCureSubmit={this.props.handleCureSubmit}
-        />
-        <h3 className="menu-header-1">Special</h3>
+        {canMakeMove ? (
+          <MainMoves
+            canMakeMove={canMakeMove}
+            showMenu={this.state.showMenu}
+            showMenuToggle={this.showMenuToggle}
+            resetMenu={this.resetMenu}
+            currentUser={currentUser}
+            otherUsers={otherUsers}
+            cities={this.props.cities}
+            handleBasicTravel={this.props.handleBasicTravel}
+            handleResearchSubmit={this.props.handleResearchSubmit}
+            handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
+            handleTreatSubmit={this.props.handleTreatSubmit}
+            handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
+            handleCureSubmit={this.props.handleCureSubmit}
+          />
+        ) : (
+          <p>It is not your turn</p>
+        )}
+
+        {/* <h3 className="menu-header-1">Special</h3>
         <div id="btn-menu">
           <Button variant="outline-dark" className="game-menu-btn">
             Event
@@ -62,7 +72,7 @@ class GameMenu extends React.Component {
           <Button variant="outline-dark" className="game-menu-btn">
             Role
           </Button>
-        </div>
+        </div> */}
         <h3 className="menu-header-1">Test</h3>
         <div id="btn-menu">
           <Button
