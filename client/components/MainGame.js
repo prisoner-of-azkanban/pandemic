@@ -317,7 +317,16 @@ class MainGame extends React.Component {
   handleBasicTravel = city => {
     let allPlayers = [...this.state.playerList]
     allPlayers[this.state.currentTurn].location = city
-    this.playerList.set({playerList: allPlayers}, {merge: true})
+    this.playerList
+      .set({playerList: allPlayers}, {merge: true})
+      .then(() => this.incrementAction())
+      .then(() => {
+        if (this.state.actionCount === 4) {
+          this.loseCheck()
+            .then(() => this.playerTurnEnd())
+            .then(() => this.updatePlayerTurn())
+        }
+      })
   }
 
   handleOtherFlightSubmit = (cityGo, cardDiscard) => {
@@ -326,7 +335,16 @@ class MainGame extends React.Component {
     allPlayers[this.state.currentTurn].hand = allPlayers[
       this.state.currentTurn
     ].hand.filter(card => card.title !== cardDiscard)
-    this.playerList.set({playerList: allPlayers})
+    this.playerList
+      .set({playerList: allPlayers})
+      .then(() => this.incrementAction())
+      .then(() => {
+        if (this.state.actionCount === 4) {
+          this.loseCheck()
+            .then(() => this.playerTurnEnd())
+            .then(() => this.updatePlayerTurn())
+        }
+      })
   }
 
   handleResearchSubmit = () => {
@@ -339,7 +357,16 @@ class MainGame extends React.Component {
     allPlayers[this.state.currentTurn].hand = allPlayers[
       this.state.currentTurn
     ].hand.filter(card => card.title !== currentCity)
-    this.playerList.set({playerList: allPlayers})
+    this.playerList
+      .set({playerList: allPlayers})
+      .then(() => this.incrementAction())
+      .then(() => {
+        if (this.state.actionCount === 4) {
+          this.loseCheck()
+            .then(() => this.playerTurnEnd())
+            .then(() => this.updatePlayerTurn())
+        }
+      })
   }
 
   // knowledge
@@ -360,7 +387,16 @@ class MainGame extends React.Component {
       return player
     })
     console.log(newPlayers)
-    this.playerList.set({playerList: newPlayers}, {merge: true})
+    this.playerList
+      .set({playerList: newPlayers}, {merge: true})
+      .then(() => this.incrementAction())
+      .then(() => {
+        if (this.state.actionCount === 4) {
+          this.loseCheck()
+            .then(() => this.playerTurnEnd())
+            .then(() => this.updatePlayerTurn())
+        }
+      })
   }
 
   //treat
@@ -389,7 +425,16 @@ class MainGame extends React.Component {
           allCities[allPlayers[this.state.currentTurn].location].red--
           this.cubes.update({redCubes: supply})
         }
-        this.cities.set({cities: allCities}, {merge: true})
+        this.cities
+          .set({cities: allCities}, {merge: true})
+          .then(() => this.incrementAction())
+          .then(() => {
+            if (this.state.actionCount === 4) {
+              this.loseCheck()
+                .then(() => this.playerTurnEnd())
+                .then(() => this.updatePlayerTurn())
+            }
+          })
         break
 
       case 'blue':
@@ -409,7 +454,16 @@ class MainGame extends React.Component {
           allCities[allPlayers[this.state.currentTurn].location].blue--
           this.cubes.update({blueCubes: supply})
         }
-        this.cities.set({cities: allCities}, {merge: true})
+        this.cities
+          .set({cities: allCities}, {merge: true})
+          .then(() => this.incrementAction())
+          .then(() => {
+            if (this.state.actionCount === 4) {
+              this.loseCheck()
+                .then(() => this.playerTurnEnd())
+                .then(() => this.updatePlayerTurn())
+            }
+          })
 
         break
 
@@ -430,7 +484,16 @@ class MainGame extends React.Component {
           allCities[allPlayers[this.state.currentTurn].location].yellow--
           this.cubes.update({yellowCubes: supply})
         }
-        this.cities.set({cities: allCities}, {merge: true})
+        this.cities
+          .set({cities: allCities}, {merge: true})
+          .then(() => this.incrementAction())
+          .then(() => {
+            if (this.state.actionCount === 4) {
+              this.loseCheck()
+                .then(() => this.playerTurnEnd())
+                .then(() => this.updatePlayerTurn())
+            }
+          })
 
         break
 
@@ -451,7 +514,16 @@ class MainGame extends React.Component {
           allCities[allPlayers[this.state.currentTurn].location].black--
           this.cubes.update({blackCubes: supply})
         }
-        this.cities.set({cities: allCities}, {merge: true})
+        this.cities
+          .set({cities: allCities}, {merge: true})
+          .then(() => this.incrementAction())
+          .then(() => {
+            if (this.state.actionCount === 4) {
+              this.loseCheck()
+                .then(() => this.playerTurnEnd())
+                .then(() => this.updatePlayerTurn())
+            }
+          })
 
         break
 
@@ -556,7 +628,16 @@ class MainGame extends React.Component {
         allPlayers[this.state.currentTurn].hand = newHand
         this.playerList.set({playerList: allPlayers}, {merge: true})
         playerCardDiscard = [...this.state.playerCardDiscard, ...discardHand]
-        this.decks.set({playerCardDiscard: playerCardDiscard}, {merge: true})
+        this.decks
+          .set({playerCardDiscard: playerCardDiscard}, {merge: true})
+          .then(() => this.incrementAction())
+          .then(() => {
+            if (this.state.actionCount === 4) {
+              this.loseCheck()
+                .then(() => this.playerTurnEnd())
+                .then(() => this.updatePlayerTurn())
+            }
+          })
       }
     }
   }
@@ -587,9 +668,9 @@ class MainGame extends React.Component {
     // this.infectWrapper('Tokyo', 'red', 2)
   }
 
-  testPlayerTurn = () => {
+  testPlayerTurnEnd = () => {
     console.log('before turn')
-    this.playerTurn(this.state.currentTurn)
+    this.playerTurnEnd(this.state.currentTurn)
     console.log('after turn')
   }
 
@@ -668,6 +749,17 @@ class MainGame extends React.Component {
 
   //************PLAYER TURN START**************
 
+  incrementAction = () => {
+    const incrementAction = firebase.firestore.FieldValue.increment(1)
+    this.props.game.update({actionCount: incrementAction})
+  }
+
+  updatePlayerTurn = () => {
+    let turn = this.state.currentTurn
+    turn = (turn + 1) % 4
+    this.props.game.set({currentTurn: turn, actionCount: 0}, {merge: true})
+  }
+
   isCardEpidemic = card => {
     return card.type === 'epidemic'
   }
@@ -707,15 +799,8 @@ class MainGame extends React.Component {
     return newInfectDeck
   }
 
-  playerTurn = index => {
-    // console.log('taking a turn')
+  playerTurnEnd = index => {
     let epidemicFlag = false
-    //actions
-    // while (this.state.actionCount < 4) {
-    //   continue
-    // }
-    //draw cards
-    //check if enough cards
     let playerCardDeck = this.state.playerCardDeck
     // let playerCardDiscard = this.state.playerCardDiscard //need to figure out how to limit hand size
     let infectionCardDeck = this.state.infectionCardDeck
@@ -1018,7 +1103,7 @@ class MainGame extends React.Component {
             turn={this.state.currentTurn}
             startGame={this.startGame}
             testOutbreak={this.testOutbreak}
-            testPlayerTurn={this.testPlayerTurn}
+            testPlayerTurnEnd={this.testPlayerTurnEnd}
             reset={this.reset}
             cities={this.state.cities}
             handleBasicTravel={this.handleBasicTravel}
