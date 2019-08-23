@@ -934,15 +934,68 @@ class MainGame extends React.Component {
   }
 
   infectStep = (city, color, number = 1, epidemic = false) => {
-    if (epidemic) {
-      //epidemic card
-      this.epidemicInfect(city, color)
-    } else if (!this.outbreakCheck(city, color)) {
-      //normal infect
-      this.normalInfect(city, color, number)
-    } else {
-      //outbreak
-      this.outbreakInfect(city, color)
+    switch (color) {
+      case 'red':
+        if (this.state.redCure !== 2) {
+          if (epidemic) {
+            //epidemic card
+            this.epidemicInfect(city, color)
+          } else if (!this.outbreakCheck(city, color)) {
+            //normal infect
+            this.normalInfect(city, color, number)
+          } else {
+            //outbreak
+            this.outbreakInfect(city, color)
+          }
+        }
+        break
+      case 'blue':
+        if (this.state.blueCure !== 2) {
+          if (epidemic) {
+            //epidemic card
+            this.epidemicInfect(city, color)
+          } else if (!this.outbreakCheck(city, color)) {
+            //normal infect
+            this.normalInfect(city, color, number)
+          } else {
+            //outbreak
+            this.outbreakInfect(city, color)
+          }
+        }
+
+        break
+      case 'black':
+        if (this.state.blackCure !== 2) {
+          if (epidemic) {
+            //epidemic card
+            this.epidemicInfect(city, color)
+          } else if (!this.outbreakCheck(city, color)) {
+            //normal infect
+            this.normalInfect(city, color, number)
+          } else {
+            //outbreak
+            this.outbreakInfect(city, color)
+          }
+        }
+
+        break
+      case 'yellow':
+        if (this.state.yellowCure !== 2) {
+          if (epidemic) {
+            //epidemic card
+            this.epidemicInfect(city, color)
+          } else if (!this.outbreakCheck(city, color)) {
+            //normal infect
+            this.normalInfect(city, color, number)
+          } else {
+            //outbreak
+            this.outbreakInfect(city, color)
+          }
+        }
+
+        break
+      default:
+        break
     }
   }
   //*************INFECTION STEP END**************
