@@ -141,6 +141,15 @@ class WaitingRoom extends React.Component {
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
 
+  handleLogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => console.log('user signed out'))
+      .then(() => this.props.history.push('/login'))
+      .catch(err => console.log(err))
+  }
+
   listenGames = () => {
     let games = []
     this.games.get().then(doc => {
@@ -194,6 +203,13 @@ class WaitingRoom extends React.Component {
             Create a new game
           </Button>
         </Form>
+        <Button
+          variant="outline-dark"
+          className="main-btn"
+          onClick={this.handleLogout}
+        >
+          Log out of your account
+        </Button>
       </div>
     )
   }

@@ -30,7 +30,7 @@ class Routes extends Component {
   async componentDidMount() {
     this._isMounted = true
     let userId = ''
-    let username = 'Guest'
+    let username = ''
     await firebase.auth().onAuthStateChanged(loggedinUser => {
       if (loggedinUser) {
         userId = loggedinUser.uid

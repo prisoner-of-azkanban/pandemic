@@ -8,6 +8,7 @@ class Homepage extends React.Component {
     super(props)
   }
 
+  //redirects to waiting room if a user is logged in
   async componentDidMount() {
     await firebase.auth().onAuthStateChanged(loggedinUser => {
       if (loggedinUser) {
