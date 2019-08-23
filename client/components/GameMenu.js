@@ -2,7 +2,6 @@ import React from 'react'
 import {Button, Dropdown, Collapse, Accordion, Card} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
-import CardHand from './CardHand'
 
 class GameMenu extends React.Component {
   constructor(props) {
