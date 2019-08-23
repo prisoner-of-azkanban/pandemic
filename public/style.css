@@ -22,7 +22,6 @@ form div {
 
 .chatBox {
   overflow-y: scroll;
-  height: 20vh;
   border: 1px solid gray;
   border-radius: 15px;
   padding-left: 5px;
@@ -172,22 +171,16 @@ canvas {
 .game-container {
   width: 100vw;
   height: 80vh;
-  justify-content: center;
-  align-content: center;
   text-align: center;
-}
-
-.chat-container {
-  height: 20vh;
 }
 
 #main-game-screen {
   height: 100%;
-  width: 80%;
+  width: 1020px;
 }
 
 #game-menu {
-  width: 30%;
+  width: calc(100%-1020px);
   height: 80vh;
   border: 1px solid black;
   border-radius: 15px;
@@ -198,6 +191,7 @@ canvas {
 
 #whole-game-screen {
   display: flex;
+  justify-content: space-evenly;
 }
 
 #btn-menu {
