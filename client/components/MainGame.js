@@ -1111,10 +1111,6 @@ class MainGame extends React.Component {
             players={this.state.playerList}
             username={this.props.username}
             turn={this.state.currentTurn}
-            startGame={this.startGame}
-            testOutbreak={this.testOutbreak}
-            testPlayerTurnEnd={this.testPlayerTurnEnd}
-            reset={this.reset}
             cities={this.state.cities}
             handleBasicTravel={this.handleBasicTravel}
             handleResearchSubmit={this.handleResearchSubmit}
