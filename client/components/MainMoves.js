@@ -112,7 +112,6 @@ class MainMoves extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
     //get current user and all cities (besides one current user is in)
     let currentUser = this.props.currentUser
     let allCities = Object.keys(connectedCities).filter(

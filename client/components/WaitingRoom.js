@@ -2,13 +2,15 @@ import React from 'react'
 import {Button, Form, Col, Row} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
 import {Link} from 'react-router-dom'
+import firebase from 'firebase'
 
 class WaitingRoom extends React.Component {
   constructor() {
     super()
     this.state = {
       gamename: '',
-      games: []
+      games: [],
+      username: ''
     }
     this._isMounted = false
     this.games = db.collection('games')
@@ -18,6 +20,27 @@ class WaitingRoom extends React.Component {
   async componentDidMount() {
     this._isMounted = true
     let games = []
+    // let userId = ''
+    // let username = ''
+
+    // await firebase.auth().onAuthStateChanged(loggedinUser => {
+    //   if (loggedinUser) {
+    //     userId = loggedinUser.uid
+    //     db
+    //       .collection('users')
+    //       .doc(userId)
+    //       .get()
+    //       .then(doc => {
+    //         if (doc.exists) {
+    //           username = doc.data().username
+    //         }
+    //       })
+    //       .then(() => {
+    //         if (this._isMounted) {
+    //           this.setState({username: username})
+    //         }
+    //       })
+    //       .then(() =>
     await this.games
       .get()
       .then(function(doc) {
@@ -28,6 +51,11 @@ class WaitingRoom extends React.Component {
           this.setState({games: games})
         }
       })
+    //    )
+    // } else {
+    //   this.props.history.push('/')
+    // }
+    //})
   }
 
   componentWillUnmount() {
@@ -113,6 +141,15 @@ class WaitingRoom extends React.Component {
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
   }
 
+  handleLogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => console.log('user signed out'))
+      .then(() => this.props.history.push('/login'))
+      .catch(err => console.log(err))
+  }
+
   listenGames = () => {
     let games = []
     this.games.get().then(doc => {
@@ -128,8 +165,12 @@ class WaitingRoom extends React.Component {
   }
 
   render() {
+    console.log('waiting room props', this.state)
     return (
       <div className="waiting-room-page">
+        <h3 className="waiting-room-header">
+          Welcome back, {this.props.username}
+        </h3>
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
             <Col
@@ -162,6 +203,13 @@ class WaitingRoom extends React.Component {
             Create a new game
           </Button>
         </Form>
+        <Button
+          variant="outline-dark"
+          className="main-btn"
+          onClick={this.handleLogout}
+        >
+          Log out of your account
+        </Button>
       </div>
     )
   }

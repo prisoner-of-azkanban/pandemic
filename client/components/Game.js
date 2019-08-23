@@ -126,16 +126,14 @@ class Game extends React.Component {
         ) : this.state.isFull ? (
           <p>The room is full, start the game</p>
         ) : (
-          <p>{MAXPLAYERS - this.state.players.length} may join the game</p>
+          <h4>Waiting for 4 players</h4>
         )}
         {this.state.started ? (
           <div />
         ) : (
           <div>
             <h4>Current players:</h4>
-            <ul>
-              {this.state.players.map(player => <li key={player}>{player}</li>)}
-            </ul>
+            {this.state.players.map(player => <p key={player}>{player}</p>)}
             {this.state.isFull ? (
               <Button variant="outline-dark" onClick={this.handleStart}>
                 Start the Game

@@ -80,7 +80,7 @@ class Chatroom extends React.Component {
         <div className="chatBox">
           {this.state.messages.length ? (
             this.state.messages.map((message, index) => (
-              <p key={index}>
+              <p key={index} className="chatBox-message">
                 {message.username} : {message.message}
               </p>
             ))
@@ -94,15 +94,18 @@ class Chatroom extends React.Component {
             }}
           />
         </div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} id="chatroom-submit">
           <Form.Control
             type="text"
             placeholder="enter message here"
             name="message"
             value={this.state.message}
             onChange={this.handleChange}
+            id="chatroom-text"
           />
-          <Button type="submit">Send</Button>
+          <Button type="submit" variant="outline-dark">
+            Send
+          </Button>
         </Form>
       </React.Fragment>
     )
