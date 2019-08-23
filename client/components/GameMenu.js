@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Modal} from 'react-bootstrap'
+import {Button, Dropdown, Collapse, Accordion, Card} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
 import CardHand from './CardHand'
@@ -107,27 +107,75 @@ class GameMenu extends React.Component {
         <h3 className="menu-header-1">Cards</h3>
         <div id="card-container">
           <div id="your-cards">
-            <h4 className="card-container-header">Yours</h4>
+            <h4 className="card-container-header">Your Deck</h4>
             {currentUser ? (
               <ul id="your-cards-container">
-                <CardHand hand={currentUser.hand} />
+                {currentUser.hand.map(card => {
+                  return (
+                    <p key={card.title} className={card.color}>
+                      {card.title}
+                    </p>
+                  )
+                })}
               </ul>
             ) : (
               <div />
             )}
           </div>
           <div id="others-cards">
-            <h4 className="card-container-header">Others</h4>
+            <h4 className="card-container-header">Other Decks</h4>
             {otherUsers ? (
               <div id="other-cards-container">
-                {otherUsers.map(user => {
-                  return (
-                    <div key={user.name}>
-                      <h5>{user.name}</h5>
-                      <CardHand hand={user.hand} />
-                    </div>
-                  )
-                })}
+                <Accordion className="other-cards-header">
+                  {otherUsers.map(user => {
+                    return (
+                      <Card key={user.name} className="other-cards-header">
+                        <Card.Header className="other-cards-header">
+                          <Accordion.Toggle
+                            as={Button}
+                            eventKey={user.name}
+                            variant="outline-dark"
+                          >
+                            {user.name}'s deck
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={user.name}>
+                          <Card.Body>
+                            {user.hand.map(card => {
+                              return (
+                                <p key={card.title} className={card.color}>
+                                  {card.title}
+                                </p>
+                              )
+                            })}
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    )
+                  })}
+                  <Card className="other-cards-header">
+                    <Card.Header className="other-cards-header">
+                      <Accordion.Toggle
+                        as={Button}
+                        eventKey="infectDeck"
+                        variant="outline-dark"
+                      >
+                        Infect discard
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="infectDeck">
+                      <Card.Body>
+                        {this.props.infectionCardDiscard.map(card => {
+                          return (
+                            <p key={card.city} className={card.color}>
+                              {card.city}
+                            </p>
+                          )
+                        })}
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
               </div>
             ) : (
               <div />
