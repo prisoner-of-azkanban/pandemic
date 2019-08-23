@@ -88,7 +88,7 @@ class GameMenu extends React.Component {
         <h3 className="menu-header-1">Cards</h3>
         <div id="card-container">
           <div id="your-cards">
-            <h4 className="card-container-header">Your Deck</h4>
+            <h4 className="card-container-header">Your hand:</h4>
             {currentUser ? (
               <ul id="your-cards-container">
                 {currentUser.hand.map(card => {
@@ -104,7 +104,7 @@ class GameMenu extends React.Component {
             )}
           </div>
           <div id="others-cards">
-            <h4 className="card-container-header">Other Decks</h4>
+            <h4 className="card-container-header" />
             {otherUsers ? (
               <div id="other-cards-container">
                 <Accordion className="other-cards-header">
@@ -117,7 +117,7 @@ class GameMenu extends React.Component {
                             eventKey={user.name}
                             variant="outline-dark"
                           >
-                            {user.name}'s deck
+                            {user.name}'s hand
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey={user.name}>
