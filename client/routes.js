@@ -21,7 +21,8 @@ class Routes extends Component {
   constructor() {
     super()
     this.state = {
-      username: ''
+      username: '',
+      loggedIn: false
     }
     this._isMounted = false
   }
@@ -44,7 +45,7 @@ class Routes extends Component {
           })
           .then(() => {
             if (this._isMounted) {
-              this.setState({username: username})
+              this.setState({username: username, loggedIn: true})
             }
           })
       }
@@ -55,20 +56,27 @@ class Routes extends Component {
       <Switch>
         <Route path="/login" render={props => <NewLogin {...props} />} />
         <Route path="/signup" render={props => <NewSignup {...props} />} />
-        <Route
-          exact
-          path="/game/:gamename"
-          render={props => (
-            <Gamepage {...props} username={this.state.username} />
-          )}
-        />
-        <Route path="/chat" component={NewChat} />
-        <Route path="/game" component={Gamepage} />
-        <Route path="/test" component={Win} />
-        <Route
-          path="/waitingroom"
-          render={props => <WaitingRoom {...props} />}
-        />
+        {this.state.loggedIn && (
+          <Switch>
+            <Route
+              exact
+              path="/game/:gamename"
+              render={props => (
+                <Gamepage {...props} username={this.state.username} />
+              )}
+            />
+            {/* <Route path="/chat" component={NewChat} /> */}
+            {/* <Route path="/game" component={Gamepage} /> */}
+            {/* <Route path="/test" component={Win} /> */}
+            <Route
+              path="/waitingroom"
+              render={props => (
+                <WaitingRoom {...props} username={this.state.username} />
+              )}
+            />
+          </Switch>
+        )}
+
         <Route exact path="/" render={props => <Homepage {...props} />} />
         <Route component={NewLogin} />
       </Switch>

@@ -20,42 +20,42 @@ class WaitingRoom extends React.Component {
   async componentDidMount() {
     this._isMounted = true
     let games = []
-    let userId = ''
-    let username = ''
+    // let userId = ''
+    // let username = ''
 
-    await firebase.auth().onAuthStateChanged(loggedinUser => {
-      if (loggedinUser) {
-        userId = loggedinUser.uid
-        db
-          .collection('users')
-          .doc(userId)
-          .get()
-          .then(doc => {
-            if (doc.exists) {
-              username = doc.data().username
-            }
-          })
-          .then(() => {
-            if (this._isMounted) {
-              this.setState({username: username})
-            }
-          })
-          .then(() =>
-            this.games
-              .get()
-              .then(function(doc) {
-                doc.forEach(game => games.push(game.data()))
-              })
-              .then(() => {
-                if (this._isMounted) {
-                  this.setState({games: games})
-                }
-              })
-          )
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    // await firebase.auth().onAuthStateChanged(loggedinUser => {
+    //   if (loggedinUser) {
+    //     userId = loggedinUser.uid
+    //     db
+    //       .collection('users')
+    //       .doc(userId)
+    //       .get()
+    //       .then(doc => {
+    //         if (doc.exists) {
+    //           username = doc.data().username
+    //         }
+    //       })
+    //       .then(() => {
+    //         if (this._isMounted) {
+    //           this.setState({username: username})
+    //         }
+    //       })
+    //       .then(() =>
+    await this.games
+      .get()
+      .then(function(doc) {
+        doc.forEach(game => games.push(game.data()))
+      })
+      .then(() => {
+        if (this._isMounted) {
+          this.setState({games: games})
+        }
+      })
+    //    )
+    // } else {
+    //   this.props.history.push('/')
+    // }
+    //})
   }
 
   componentWillUnmount() {
@@ -160,7 +160,7 @@ class WaitingRoom extends React.Component {
     return (
       <div className="waiting-room-page">
         <h3 className="waiting-room-header">
-          Welcome back, {this.state.username}
+          Welcome back, {this.props.username}
         </h3>
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
