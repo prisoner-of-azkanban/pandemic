@@ -1022,9 +1022,7 @@ class MainGame extends React.Component {
     let threeCubes = shuffledInfectionDeck.splice(0, 3)
     let twoCubes = shuffledInfectionDeck.splice(0, 3)
     let oneCubes = shuffledInfectionDeck.splice(0, 3)
-    // console.log('three', threeCubes)
-    // console.log('two', twoCubes)
-    // console.log('one', oneCubes)
+
     threeCubes.forEach(city => this.infectWrapper(city.city, city.color, 3))
     twoCubes.forEach(city => this.infectWrapper(city.city, city.color, 2))
     oneCubes.forEach(city => this.infectWrapper(city.city, city.color))
@@ -1061,7 +1059,6 @@ class MainGame extends React.Component {
       },
       {merge: true}
     )
-    // this.state.playerCardDeck.map((card, index)=> console.log(index, card.title))
   }
   //**************GAME SET UP END**************
 
@@ -1094,23 +1091,13 @@ class MainGame extends React.Component {
             win={this.state.win}
           />
         </div>
-        {/* <ul>
-          Infect Deck {this.state.infectionCardDeck.length}
-          {this.state.infectionCardDeck.map((card, index) => (
-            <li key={index}>{card.city}</li>
-          ))}
-        </ul>
-        <ul>
-          Infect Discard {this.state.infectionCardDiscard.length}
-          {this.state.infectionCardDiscard.map((card, index) => (
-            <li key={index}>{card.city}</li>
-          ))}
-        </ul> */}
+
         {this.state.cities.Atlanta ? ( //checks to see if data has been obtained first
           <GameMenu
             players={this.state.playerList}
             username={this.props.username}
             turn={this.state.currentTurn}
+            startGame={this.startGame}
             cities={this.state.cities}
             handleBasicTravel={this.handleBasicTravel}
             handleResearchSubmit={this.handleResearchSubmit}
