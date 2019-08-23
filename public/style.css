@@ -187,11 +187,13 @@ canvas {
 }
 
 #game-menu {
-  width: 20%;
+  width: 30%;
   height: 80vh;
   border: 1px solid black;
   border-radius: 15px;
   text-align: center;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 #whole-game-screen {
@@ -209,6 +211,11 @@ canvas {
 .game-menu-btn:hover {
   background-color: yellow;
   color: black;
+}
+
+.other-cards-header {
+  background-color: white;
+  border: none;
 }
 
 .menu-header-1 {
@@ -275,5 +282,6 @@ canvas {
   flex-direction: row;
 }
 
-#chatroom-text {
+.other-cards-decks {
+  padding-top: 5px;
 }
