@@ -78,7 +78,8 @@ class MainGame extends React.Component {
       redCure: 0,
       blueCure: 0,
       blackCure: 0,
-      yellowCure: 0
+      yellowCure: 0,
+      gameStart: 0
     }
     this.decks = this.props.game.collection('gamestate').doc('decks')
     this.cities = this.props.game.collection('gamestate').doc('cities')
@@ -169,7 +170,8 @@ class MainGame extends React.Component {
               redCure: doc.data().redCure,
               blueCure: doc.data().blueCure,
               blackCure: doc.data().blackCure,
-              yellowCure: doc.data().yellowCure
+              yellowCure: doc.data().yellowCure,
+              gameStart: doc.data().gameStart
             })
         })
       )
@@ -262,7 +264,8 @@ class MainGame extends React.Component {
           blueCure: doc.data().blueCure,
           blackCure: doc.data().blackCure,
           yellowCure: doc.data().yellowCure,
-          actionCount: doc.data().actionCount
+          actionCount: doc.data().actionCount,
+          gameStart: doc.data().gameStart
         })
     })
   }
@@ -1033,6 +1036,7 @@ class MainGame extends React.Component {
 
   // eslint-disable-next-line max-statements
   startGame = () => {
+    this.props.game.set({gameStart: 1}, {merge: true})
     //shuffle roles
     let roles = this.setupPlayerRoles(this.props.players, roleCards)
 
@@ -1160,6 +1164,7 @@ class MainGame extends React.Component {
             handleCureSubmit={this.handleCureSubmit}
             infectionCardDeck={this.state.infectionCardDeck}
             infectionCardDiscard={this.state.infectionCardDiscard}
+            gameStart={this.state.gameStart}
           />
         ) : (
           <div>Data loading</div>

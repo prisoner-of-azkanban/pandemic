@@ -77,13 +77,18 @@ class GameMenu extends React.Component {
           </Button>
         </div> */}
         <div id="btn-menu">
-          <Button
-            variant="outline-dark"
-            className="game-menu-btn"
-            onClick={this.props.startGame}
-          >
-            Start Game
-          </Button>
+          {this.props.gameStart ? (
+            <div />
+          ) : (
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.startGame}
+              disabled={this.props.gameStart}
+            >
+              Start Game
+            </Button>
+          )}
         </div>
         <h3 className="menu-header-1">Cards</h3>
         <div id="card-container">

@@ -89,7 +89,8 @@ class WaitingRoom extends React.Component {
         redCure: 0,
         blueCure: 0,
         blackCure: 0,
-        yellowCure: 0
+        yellowCure: 0,
+        gameStart: 0
       })
       .then(() =>
         db

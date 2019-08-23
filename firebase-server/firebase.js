@@ -1,8 +1,9 @@
 const firebase = require('firebase')
 require('firebase/firestore')
+const {GFB_KEY} = require('../secrets')
 
 let config = {
-  apiKey: 'AIzaSyAMQuH4xLOL4t5Esz28hW8GONs7fIKvhDo',
+  apiKey: GFB_KEY,
   authDomain: 'pandemic-online-38cdd.firebaseapp.com',
   databaseURL: 'https://pandemic-online-38cdd.firebaseio.com',
   projectId: 'pandemic-online-38cdd',
