@@ -2,13 +2,15 @@ import React from 'react'
 import {Button, Form, Col, Row} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
 import {Link} from 'react-router-dom'
+import firebase from 'firebase'
 
 class WaitingRoom extends React.Component {
   constructor() {
     super()
     this.state = {
       gamename: '',
-      games: []
+      games: [],
+      username: ''
     }
     this._isMounted = false
     this.games = db.collection('games')
@@ -18,16 +20,42 @@ class WaitingRoom extends React.Component {
   async componentDidMount() {
     this._isMounted = true
     let games = []
-    await this.games
-      .get()
-      .then(function(doc) {
-        doc.forEach(game => games.push(game.data()))
-      })
-      .then(() => {
-        if (this._isMounted) {
-          this.setState({games: games})
-        }
-      })
+    let userId = ''
+    let username = ''
+
+    await firebase.auth().onAuthStateChanged(loggedinUser => {
+      if (loggedinUser) {
+        userId = loggedinUser.uid
+        db
+          .collection('users')
+          .doc(userId)
+          .get()
+          .then(doc => {
+            if (doc.exists) {
+              username = doc.data().username
+            }
+          })
+          .then(() => {
+            if (this._isMounted) {
+              this.setState({username: username})
+            }
+          })
+          .then(() =>
+            this.games
+              .get()
+              .then(function(doc) {
+                doc.forEach(game => games.push(game.data()))
+              })
+              .then(() => {
+                if (this._isMounted) {
+                  this.setState({games: games})
+                }
+              })
+          )
+      } else {
+        this.props.history.push('/')
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -128,8 +156,10 @@ class WaitingRoom extends React.Component {
   }
 
   render() {
+    console.log('waiting room props', this.state)
     return (
       <div className="waiting-room-page">
+        <h1>Welcome back, {this.state.username}</h1>
         <Row className="waiting-room-list">
           {this.state.games.filter(game => !game.isFull).map(game => (
             <Col
