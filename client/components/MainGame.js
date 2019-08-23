@@ -1094,7 +1094,7 @@ class MainGame extends React.Component {
             win={this.state.win}
           />
         </div>
-        <ul>
+        {/* <ul>
           Infect Deck {this.state.infectionCardDeck.length}
           {this.state.infectionCardDeck.map((card, index) => (
             <li key={index}>{card.city}</li>
@@ -1105,7 +1105,7 @@ class MainGame extends React.Component {
           {this.state.infectionCardDiscard.map((card, index) => (
             <li key={index}>{card.city}</li>
           ))}
-        </ul>
+        </ul> */}
         {this.state.cities.Atlanta ? ( //checks to see if data has been obtained first
           <GameMenu
             players={this.state.playerList}
@@ -1122,6 +1122,8 @@ class MainGame extends React.Component {
             handleTreatSubmit={this.handleTreatSubmit}
             handleKnowledgeSubmit={this.handleKnowledgeSubmit}
             handleCureSubmit={this.handleCureSubmit}
+            infectionCardDeck={this.state.infectionCardDeck}
+            infectionCardDiscard={this.state.infectionCardDiscard}
           />
         ) : (
           <div>Data loading</div>
