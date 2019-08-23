@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+/* eslint-disable max-statements */
 import React from 'react'
 import {Button} from 'react-bootstrap'
 import {playerCards} from '../../game/playerCards'
@@ -322,7 +324,8 @@ class MainGame extends React.Component {
   handleTreatSubmit = color => {
     let removedCubeCount = 0
     //need to deal w below
-    const supply = firebase.firestore.FieldValue.increment(removedCubeCount)
+    let supply = firebase.firestore.FieldValue.increment(removedCubeCount)
+    const eradicate = firebase.firestore.FieldValue.increment(1)
     let allPlayers = [...this.state.playerList]
     let allCities = {...this.state.cities}
     switch (color) {
@@ -330,52 +333,83 @@ class MainGame extends React.Component {
         if (this.state.redCure === 1) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].red
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].red = 0
+          this.cubes.update({redCubes: supply}).then(() => {
+            if (this.state.redCubes === 24) {
+              this.props.game.update({redCure: eradicate})
+            }
+          })
         } else if (this.state.redCure === 0) {
           removedCubeCount = 1
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].red--
+          this.cubes.update({redCubes: supply})
         }
         this.cities.set({cities: allCities}, {merge: true})
-        this.cubes.update({redCubes: supply})
         break
 
       case 'blue':
         if (this.state.blueCure === 1) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].blue
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].blue = 0
+          this.cubes.update({blueCubes: supply}).then(() => {
+            if (this.state.blueCubes === 24) {
+              this.props.game.update({blueCure: eradicate})
+            }
+          })
         } else if (this.state.blueCure === 0) {
           removedCubeCount = 1
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].blue--
+          this.cubes.update({blueCubes: supply})
         }
         this.cities.set({cities: allCities}, {merge: true})
-        this.cubes.update({blueCubes: supply})
+
         break
 
       case 'yellow':
         if (this.state.yellowCure === 1) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].yellow
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].yellow = 0
+          this.cubes.update({yellowCubes: supply}).then(() => {
+            if (this.state.yellowCubes === 24) {
+              this.props.game.update({yellowCure: eradicate})
+            }
+          })
         } else if (this.state.yellowCure === 0) {
           removedCubeCount = 1
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].yellow--
+          this.cubes.update({yellowCubes: supply})
         }
         this.cities.set({cities: allCities}, {merge: true})
-        this.cubes.update({yellowCubes: supply})
+
         break
 
       case 'black':
         if (this.state.blackCure === 1) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].black
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].black = 0
+          this.cubes.update({blackCubes: supply}).then(() => {
+            if (this.state.blackCubes === 24) {
+              this.props.game.update({blackCure: eradicate})
+            }
+          })
         } else if (this.state.blackCure === 0) {
           removedCubeCount = 1
+          supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].black--
+          this.cubes.update({blackCubes: supply})
         }
         this.cities.set({cities: allCities}, {merge: true})
-        this.cubes.update({blackCubes: supply})
+
         break
 
       default:
@@ -401,9 +435,13 @@ class MainGame extends React.Component {
           cubes = this.state.redCubes
           if (colored && !cured) {
             if (cubes === 24) {
-              this.props.game.update({redCure: eradicate})
+              this.props.game
+                .update({redCure: eradicate})
+                .then(() => this.winCheck())
             } else {
-              this.props.game.update({redCure: cure})
+              this.props.game
+                .update({redCure: cure})
+                .then(() => this.winCheck())
             }
           }
           break
@@ -412,9 +450,13 @@ class MainGame extends React.Component {
           cubes = this.state.blueCubes
           if (colored && !cured) {
             if (cubes === 24) {
-              this.props.game.update({blueCure: eradicate})
+              this.props.game
+                .update({blueCure: eradicate})
+                .then(() => this.winCheck())
             } else {
-              this.props.game.update({blueCure: cure})
+              this.props.game
+                .update({blueCure: cure})
+                .then(() => this.winCheck())
             }
           }
           break
@@ -423,9 +465,13 @@ class MainGame extends React.Component {
           cubes = this.state.yellowCubes
           if (colored && !cured) {
             if (cubes === 24) {
-              this.props.game.update({yellowCure: eradicate})
+              this.props.game
+                .update({yellowCure: eradicate})
+                .then(() => this.winCheck())
             } else {
-              this.props.game.update({yellowCure: cure})
+              this.props.game
+                .update({yellowCure: cure})
+                .then(() => this.winCheck())
             }
           }
           break
@@ -434,9 +480,13 @@ class MainGame extends React.Component {
           cubes = this.state.blackCubes
           if (colored && !cured) {
             if (cubes === 24) {
-              this.props.game.update({blackCure: eradicate})
+              this.props.game
+                .update({blackCure: eradicate})
+                .then(() => this.winCheck())
             } else {
-              this.props.game.update({blackCure: cure})
+              this.props.game
+                .update({blackCure: cure})
+                .then(() => this.winCheck())
             }
           }
           break
@@ -556,28 +606,18 @@ class MainGame extends React.Component {
   loseCheck = () => {
     console.log('in lose check')
     const updateLose = firebase.firestore.FieldValue.increment(1)
-    if (
+    if (this.state.outbreaks > 7) {
+      this.props.game.update({lose: updateLose}).then(() => true)
+    } else if (this.state.playerCardDeck.length < 2) {
+      this.props.game.update({lose: updateLose}).then(() => true)
+    } else if (
       this.state.redCubes < 0 ||
       this.state.blueCubes < 0 ||
       this.state.yellowCubes < 0 ||
       this.state.blackCubes < 0
     ) {
-      console.log('looooose')
       this.props.game.update({lose: updateLose}).then(() => true)
     }
-
-    // if (this.state.outbreaks > 7) {
-    //   this.props.game.update({lose: updateLose}).then(() => true)
-    // } else if (this.state.playerCardDeck.length < 2) {
-    //   this.props.game.update({lose: updateLose}).then(() => true)
-    // } else if (
-    //   this.state.redCubes < 0 ||
-    //   this.state.blueCubes < 0 ||
-    //   this.state.yellowCubes < 0 ||
-    //   this.state.blackCubes < 0
-    // ) {
-    //   this.props.game.update({lose: updateLose}).then(() => true)
-    // }
     return false
   }
 
@@ -633,10 +673,6 @@ class MainGame extends React.Component {
     // }
     //draw cards
     //check if enough cards
-    if (this.loseCheck()) {
-      console.log('lost')
-      return
-    }
     let playerCardDeck = this.state.playerCardDeck
     // let playerCardDiscard = this.state.playerCardDiscard //need to figure out how to limit hand size
     let infectionCardDeck = this.state.infectionCardDeck
@@ -650,10 +686,6 @@ class MainGame extends React.Component {
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
       //check lose
-      if (this.loseCheck()) {
-        console.log('lost')
-        return
-      }
     } else {
       addToHand.push(card1)
     }
@@ -663,10 +695,6 @@ class MainGame extends React.Component {
       console.log('epidemic infect card2', epidemic.city)
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
-      if (this.loseCheck()) {
-        console.log('lost')
-        return
-      }
     } else {
       addToHand.push(card2)
     }
@@ -677,9 +705,6 @@ class MainGame extends React.Component {
     //infect
     if (!epidemicFlag) {
       this.playerInfectStep()
-      if (this.loseCheck()) {
-        console.log('lost')
-      }
     }
   }
 
@@ -699,16 +724,22 @@ class MainGame extends React.Component {
     const updateCubeBy = firebase.firestore.FieldValue.increment(-n)
     switch (color) {
       case 'red':
-        this.cubes.update({redCubes: updateCubeBy})
+        this.cubes.update({redCubes: updateCubeBy}).then(() => this.loseCheck())
         break
       case 'blue':
-        this.cubes.update({blueCubes: updateCubeBy})
+        this.cubes
+          .update({blueCubes: updateCubeBy})
+          .then(() => this.loseCheck())
         break
       case 'black':
-        this.cubes.update({blackCubes: updateCubeBy})
+        this.cubes
+          .update({blackCubes: updateCubeBy})
+          .then(() => this.loseCheck())
         break
       case 'yellow':
-        this.cubes.update({yellowCubes: updateCubeBy})
+        this.cubes
+          .update({yellowCubes: updateCubeBy})
+          .then(() => this.loseCheck())
 
         break
       default:
@@ -751,7 +782,9 @@ class MainGame extends React.Component {
   outbreakInfect = (city, color) => {
     if (!this._outbreak.has(city)) {
       console.log('OUTBREAK IN ', city)
-      const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
+      const updateOutbreaks = firebase.firestore.FieldValue.increment(1).then(
+        () => this.loseCheck()
+      )
       this.props.game.update({outbreaks: updateOutbreaks})
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
