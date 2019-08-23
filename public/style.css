@@ -279,3 +279,8 @@ canvas {
 .other-cards-decks {
   padding-top: 5px;
 }
+
+.mainmove-cure-card {
+  align-content: left;
+  text-align: left;
+}

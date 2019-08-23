@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import React from 'react'
-import {Button, Dropdown, Form} from 'react-bootstrap'
+import {Button, Dropdown, Form, Accordion, Card} from 'react-bootstrap'
 import {connectedCities} from '../../game/connectedCities'
 import {playerCards} from '../../game/playerCards'
 
@@ -83,8 +83,16 @@ class MainMoves extends React.Component {
   }
 
   handleCheckbox = e => {
-    if (e.target.checked)
+    console.log('event target checked', e.target.checked)
+    if (e.target.checked) {
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
+    } else {
+      this.setState({
+        discardCure: this.state.discardCure.filter(
+          card => card !== e.target.name
+        )
+      })
+    }
     console.log(this.state.discardCure)
   }
 
@@ -602,44 +610,84 @@ class MainMoves extends React.Component {
         )
         break
       case 'cure':
-        menuReturn = (
-          <div id="btn-menu">
-            Discover Cure. Discard:
-            <Form.Group
-              controlId="formBasicChecbox"
-              className="moves-cure-checks"
-            >
-              {currentUser.hand.map(card => (
-                <Form.Check
-                  type="checkbox"
-                  label={card.title}
-                  key={card.title}
-                  name={card.title}
-                  onChange={e => this.handleCheckbox(e)}
-                />
-              ))}
-            </Form.Group>
-            <Button
-              variant="outline-dark"
-              className="game-menu-btn"
-              onClick={() => {
-                const cards = this.state.discardCure.map(
-                  name => playerCards.filter(card => card.title === name)[0]
-                )
-                this.handleCureSubmit(cards, cards[0].color)
-              }}
-            >
-              Submit
-            </Button>
-            <Button
-              variant="outline-dark"
-              className="game-menu-btn"
-              onClick={this.props.resetMenu}
-            >
-              Back
-            </Button>
-          </div>
-        )
+        {
+          const allColors = ['red', 'blue', 'yellow', 'black']
+          menuReturn = (
+            <div id="btn-menu">
+              Discover Cure. Discard:
+              <Form.Group
+                controlId="formBasicChecbox"
+                className="moves-cure-checks"
+              >
+                <Accordion className="other-cards-header">
+                  {allColors.map(color => {
+                    return (
+                      <Card key={color} className="other-cards-header">
+                        <Card.Header>
+                          <Accordion.Toggle
+                            as={Button}
+                            eventKey={color}
+                            variant="outline-dark"
+                          >
+                            {color}
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={color}>
+                          <Card.Body>
+                            <div className="mainmove-cure-card">
+                              {currentUser.hand
+                                .filter(card => card.color === color)
+                                .map(colorCard => (
+                                  <Form.Check
+                                    type="checkbox"
+                                    label={colorCard.title}
+                                    key={colorCard.title}
+                                    name={colorCard.title}
+                                    onChange={e => this.handleCheckbox(e)}
+                                  />
+                                ))}
+                            </div>
+                            <Button
+                              variant="outline-dark"
+                              className="game-menu-btn"
+                              onClick={() => {
+                                const cards = this.state.discardCure.map(
+                                  name =>
+                                    playerCards.filter(
+                                      card => card.title === name
+                                    )[0]
+                                )
+                                this.handleCureSubmit(cards, color)
+                              }}
+                            >
+                              Cure {color}
+                            </Button>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    )
+                  })}
+                </Accordion>
+                {/* {currentUser.hand.map(card => (
+                  <Form.Check
+                    type="checkbox"
+                    label={card.title}
+                    key={card.title}
+                    name={card.title}
+                    onChange={e => this.handleCheckbox(e)}
+                  />
+                ))} */}
+              </Form.Group>
+              <Button
+                variant="outline-dark"
+                className="game-menu-btn"
+                onClick={this.props.resetMenu}
+              >
+                Back
+              </Button>
+            </div>
+          )
+        }
         break
       default:
         menuReturn = (
