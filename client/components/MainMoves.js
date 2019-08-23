@@ -195,7 +195,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('knowledge')}
-              disabled={canShareKnowledge}
+              disabled={!canShareKnowledge}
             >
               Knowledge
             </Button>
