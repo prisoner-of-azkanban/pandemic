@@ -113,7 +113,7 @@ class PandemicMap extends React.Component {
     if (this.props.outbreaks < 8) {
       let coords = outbreakToken[this.props.outbreaks]
       ctx.beginPath()
-      ctx.fillStyle = 'lilac'
+      ctx.fillStyle = 'purple'
       ctx.arc(coords[0], coords[1], 15, 0, 2 * Math.PI)
       ctx.fill()
       ctx.fillStyle = 'white'
@@ -415,7 +415,6 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
-    console.log(playerList[3].color)
     ctx.fillStyle = playerList[3].color
     ctx.fill()
     ctx.stroke()

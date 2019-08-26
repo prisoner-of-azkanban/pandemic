@@ -16,6 +16,12 @@ const HelpModal = props => {
         <Modal.Title id="modal-sizes-title-lg">Help</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <h4 className="help-modal-header">Changes to Game</h4>
+        <p>Role and event cards have been removed from the game.</p>
+        <p>
+          To compensate, there are five extra city cards in the player card
+          deck.
+        </p>
         <h4 className="help-modal-header">Move</h4>
         <h5 className="help-modal-subheader">Drive/Ferry</h5>
         <p>Move to any city connected by a line to the one you are in</p>
@@ -55,7 +61,7 @@ const HelpModal = props => {
           At any research station, discard 5 City cards of the same color from
           your hand to cure the disease of that color
         </p>
-        <h4 className="help-modal-header">Event</h4>
+        {/* <h4 className="help-modal-header">Event</h4>
         {eventCards.length ? (
           <div>
             {eventCards.map(card => (
@@ -68,7 +74,7 @@ const HelpModal = props => {
           <p>You have no event cards</p>
         )}
         <h4 className="help-modal-header">Role</h4>
-        <p>{props.currentUser.role.actionOne}</p>
+        <p>{props.currentUser.role.actionOne}</p> */}
       </Modal.Body>
     </Modal>
   )
