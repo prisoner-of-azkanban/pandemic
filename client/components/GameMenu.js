@@ -47,11 +47,10 @@ class GameMenu extends React.Component {
       <div id="game-menu">
         <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
         <h3 className="menu-header-1">
-          Current Turn: {this.props.players[this.props.turn].name}
+          Current Turn:
+          <span>{this.props.players[this.props.turn].name}</span>
         </h3>
-        <h5 className="menu-header-1">
-          Actions Left: {4 - this.props.actionCount}
-        </h5>
+        ({4 - this.props.actionCount} moves left)
         <h3 className="menu-header-1">Moves</h3>
         {canMakeMove ? (
           <MainMoves
@@ -82,7 +81,7 @@ class GameMenu extends React.Component {
           ) : (
             <Button
               variant="outline-dark"
-              className="game-menu-btn"
+              className="start-game-btn"
               onClick={this.props.startGame}
               disabled={this.props.gameStart}
             >
@@ -121,7 +120,7 @@ class GameMenu extends React.Component {
                             as={Button}
                             eventKey={user.name}
                             variant="outline-dark"
-                            className={`${user.color}`}
+                            className={`${user.color}-btn`}
                           >
                             {user.name}'s hand
                           </Accordion.Toggle>

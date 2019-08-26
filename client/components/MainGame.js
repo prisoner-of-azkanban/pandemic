@@ -12,7 +12,13 @@ const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
 import {GameMenu, PandemicMap, Lose, Win} from './index'
-import {isCardEpidemic} from './utils'
+import {
+  isCardEpidemic,
+  setupPlayer,
+  findMaxPop,
+  setupPlayerCards,
+  setupPlayerRoles
+} from './utils'
 
 class MainGame extends React.Component {
   constructor(props) {
@@ -1029,6 +1035,13 @@ class MainGame extends React.Component {
       const newEpidemicList = [...this.state.epidemicList, epidemic]
       this.props.game
         .set({epidemicList: newEpidemicList}, {merge: true})
+        .then(() =>
+          this.props.game.collection('chatroom').add({
+            username: 'Admin',
+            message: `${epidemic.city} has broken out!`,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+          })
+        )
         .catch(error => {
           console.log(
             'an error has occurred setting the epidemic list',
@@ -1292,41 +1305,41 @@ class MainGame extends React.Component {
   //*************INFECTION STEP END**************
 
   //*************GAME SET UP START****************
-  setupPlayerRoles = (players, roleDeck) => {
-    let shuffledRoles = shuffle(roleDeck, {copy: true})
-    return players.map(role => (role = shuffledRoles.shift()))
-  }
+  // setupPlayerRoles = (players, roleDeck) => {
+  //   let shuffledRoles = shuffle(roleDeck, {copy: true})
+  //   return players.map(role => (role = shuffledRoles.shift()))
+  // }
 
-  setupPlayerCards = (players, cardDeck) => {
-    let shuffledPlayerCardDeck = shuffle(cardDeck, {copy: true})
-    return players.map(player => (player = shuffledPlayerCardDeck.splice(0, 2)))
-  }
+  // setupPlayerCards = (players, cardDeck) => {
+  //   let shuffledPlayerCardDeck = shuffle(cardDeck, {copy: true})
+  //   return players.map(player => (player = shuffledPlayerCardDeck.splice(0, 2)))
+  // }
 
   //see who goes first
-  findMaxPop = playerHands => {
-    let playerPop = playerHands.map(hand =>
-      hand.map(card => parseInt(card.population, 10))
-    )
-    let turns = playerPop.map(pop => Math.max(...pop))
-    return [Math.max(...playerPop.map(pop => Math.max(...pop))), turns]
-  }
+  // findMaxPop = playerHands => {
+  //   let playerPop = playerHands.map(hand =>
+  //     hand.map(card => parseInt(card.population, 10))
+  //   )
+  //   let turns = playerPop.map(pop => Math.max(...pop))
+  //   return [Math.max(...playerPop.map(pop => Math.max(...pop))), turns]
+  // }
 
   //sets up player
-  setupPlayer = (player, playerHand, roles, turns, index) => {
-    return {
-      ...player,
-      turn: turns[index],
-      event: playerHand.filter(card => card.type === 'event').length > 0,
-      hand: playerHand,
-      role: roles[index]
-    }
-  }
+  // setupPlayer = (player, playerHand, roles, turns, index) => {
+  //   return {
+  //     ...player,
+  //     turn: turns[index],
+  //     event: playerHand.filter(card => card.type === 'event').length > 0,
+  //     hand: playerHand,
+  //     role: roles[index]
+  //   }
+  // }
 
   // eslint-disable-next-line max-statements
   startGame = () => {
     this.props.game.set({gameStart: 1}, {merge: true})
     //shuffle roles
-    let roles = this.setupPlayerRoles(this.props.players, roleCards)
+    let roles = setupPlayerRoles(this.props.players, roleCards)
 
     //shuffle player deck
     let shuffledPlayerCardDeck = shuffle(playerCards, {copy: true})
@@ -1343,7 +1356,7 @@ class MainGame extends React.Component {
     }
 
     //find max population
-    const turnsMapPop = this.findMaxPop(hands)
+    const turnsMapPop = findMaxPop(hands)
     const maxPop = turnsMapPop[0]
     let turns = turnsMapPop[1]
     turns = turns.map(pop => pop === maxPop)
@@ -1380,16 +1393,16 @@ class MainGame extends React.Component {
     //set state for game start
     let playerList = []
     playerList.push(
-      this.setupPlayer(this.state.playerList[0], hands[0], roles, turns, 0)
+      setupPlayer(this.state.playerList[0], hands[0], roles, turns, 0)
     )
     playerList.push(
-      this.setupPlayer(this.state.playerList[1], hands[1], roles, turns, 1)
+      setupPlayer(this.state.playerList[1], hands[1], roles, turns, 1)
     )
     playerList.push(
-      this.setupPlayer(this.state.playerList[2], hands[2], roles, turns, 2)
+      setupPlayer(this.state.playerList[2], hands[2], roles, turns, 2)
     )
     playerList.push(
-      this.setupPlayer(this.state.playerList[3], hands[3], roles, turns, 3)
+      setupPlayer(this.state.playerList[3], hands[3], roles, turns, 3)
     )
     this.props.game.set(
       {
