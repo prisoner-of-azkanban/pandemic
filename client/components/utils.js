@@ -2,23 +2,11 @@ function randomNumGenerator() {
   return Math.floor(Math.random() * 1000000000 + 1)
 }
 
-function handleBasicTravel(city) {
-  let allPlayers = [...this.state.playerList]
-  allPlayers[this.state.currentTurn].location = city
-  this.playerList
-    .set({playerList: allPlayers}, {merge: true})
-    .then(() => this.incrementAction())
-    .then(() => {
-      console.log('action count: ', this.state.actionCount)
-      if (this.state.actionCount === 3) {
-        this.loseCheck()
-        this.playerTurnEnd(this.state.currentTurn)
-        this.updatePlayerTurn()
-      }
-    })
+function isCardEpidemic(card) {
+  return card.type === 'epidemic'
 }
 
-module.exports = {randomNumGenerator, handleBasicTravel}
+module.exports = {randomNumGenerator, isCardEpidemic}
 
 //functions we need for the game
 //move:
