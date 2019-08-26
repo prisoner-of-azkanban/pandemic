@@ -26,7 +26,7 @@ class GameMenu extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
+    console.log(this.props)
     const currentUser = this.props.players.filter(
       player => player.name === this.props.username
     )[0]
@@ -42,6 +42,7 @@ class GameMenu extends React.Component {
 
     return (
       <div id="game-menu">
+        <h3>{this.props.username}</h3>
         <h3 className="menu-header-1">
           Current Turn: {this.props.players[this.props.turn].name}
         </h3>
