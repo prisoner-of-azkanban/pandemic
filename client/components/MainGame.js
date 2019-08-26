@@ -12,6 +12,7 @@ const shuffle = require('shuffle-array')
 import firebase from 'firebase'
 import {app, db} from '../../firebase-server/firebase'
 import {GameMenu, PandemicMap, Lose, Win} from './index'
+import {isCardEpidemic} from './utils'
 
 class MainGame extends React.Component {
   constructor(props) {
@@ -487,16 +488,31 @@ class MainGame extends React.Component {
             allCities[allPlayers[this.state.currentTurn].location].red
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].red = 0
-          this.cubes.update({redCubes: supply}).then(() => {
-            if (this.state.redCubes === 24) {
-              this.props.game.update({redCure: eradicate})
-            }
-          })
+          this.cubes
+            .update({redCubes: supply})
+            .then(() => {
+              if (this.state.redCubes === 24) {
+                this.props.game.update({redCure: eradicate})
+              }
+            })
+            .catch(err => {
+              console.log(
+                'an error has occurred with the treat action',
+                err.message
+              )
+              alert('an error has occurred')
+            })
         } else if (this.state.redCure === 0) {
           removedCubeCount = 1
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].red--
-          this.cubes.update({redCubes: supply})
+          this.cubes.update({redCubes: supply}).catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         }
         this.cities
           .set({cities: allCities}, {merge: true})
@@ -523,16 +539,31 @@ class MainGame extends React.Component {
             allCities[allPlayers[this.state.currentTurn].location].blue
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].blue = 0
-          this.cubes.update({blueCubes: supply}).then(() => {
-            if (this.state.blueCubes === 24) {
-              this.props.game.update({blueCure: eradicate})
-            }
-          })
+          this.cubes
+            .update({blueCubes: supply})
+            .then(() => {
+              if (this.state.blueCubes === 24) {
+                this.props.game.update({blueCure: eradicate})
+              }
+            })
+            .catch(err => {
+              console.log(
+                'an error has occurred with the treat action',
+                err.message
+              )
+              alert('an error has occurred')
+            })
         } else if (this.state.blueCure === 0) {
           removedCubeCount = 1
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].blue--
-          this.cubes.update({blueCubes: supply})
+          this.cubes.update({blueCubes: supply}).catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         }
         this.cities
           .set({cities: allCities}, {merge: true})
@@ -560,16 +591,31 @@ class MainGame extends React.Component {
             allCities[allPlayers[this.state.currentTurn].location].yellow
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].yellow = 0
-          this.cubes.update({yellowCubes: supply}).then(() => {
-            if (this.state.yellowCubes === 24) {
-              this.props.game.update({yellowCure: eradicate})
-            }
-          })
+          this.cubes
+            .update({yellowCubes: supply})
+            .then(() => {
+              if (this.state.yellowCubes === 24) {
+                this.props.game.update({yellowCure: eradicate})
+              }
+            })
+            .catch(err => {
+              console.log(
+                'an error has occurred with the treat action',
+                err.message
+              )
+              alert('an error has occurred')
+            })
         } else if (this.state.yellowCure === 0) {
           removedCubeCount = 1
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].yellow--
-          this.cubes.update({yellowCubes: supply})
+          this.cubes.update({yellowCubes: supply}).catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         }
         this.cities
           .set({cities: allCities}, {merge: true})
@@ -597,16 +643,31 @@ class MainGame extends React.Component {
             allCities[allPlayers[this.state.currentTurn].location].black
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].black = 0
-          this.cubes.update({blackCubes: supply}).then(() => {
-            if (this.state.blackCubes === 24) {
-              this.props.game.update({blackCure: eradicate})
-            }
-          })
+          this.cubes
+            .update({blackCubes: supply})
+            .then(() => {
+              if (this.state.blackCubes === 24) {
+                this.props.game.update({blackCure: eradicate})
+              }
+            })
+            .catch(err => {
+              console.log(
+                'an error has occurred with the treat action',
+                err.message
+              )
+              alert('an error has occurred')
+            })
         } else if (this.state.blackCure === 0) {
           removedCubeCount = 1
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
           allCities[allPlayers[this.state.currentTurn].location].black--
-          this.cubes.update({blackCubes: supply})
+          this.cubes.update({blackCubes: supply}).catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         }
         this.cities
           .set({cities: allCities}, {merge: true})
@@ -898,9 +959,9 @@ class MainGame extends React.Component {
       })
   }
 
-  isCardEpidemic = card => {
-    return card.type === 'epidemic'
-  }
+  // isCardEpidemic = card => {
+  //   return card.type === 'epidemic'
+  // }
 
   playerInfectStep = (epidemicInfect = null) => {
     let infectDeck
@@ -951,7 +1012,7 @@ class MainGame extends React.Component {
     const card2 = playerCardDeck.shift()
     let addToHand = []
     //check if card1 epidemic, resolve
-    if (this.isCardEpidemic(card1)) {
+    if (isCardEpidemic(card1)) {
       epidemicFlag = true
       const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
       console.log('epidemic infect card 1', epidemic.city)
@@ -961,7 +1022,7 @@ class MainGame extends React.Component {
       addToHand.push(card1)
     }
     //check if card2 epidemic, resolve
-    if (this.isCardEpidemic(card2)) {
+    if (isCardEpidemic(card2)) {
       epidemicFlag = true
       const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
       console.log('epidemic infect card2', epidemic.city)
