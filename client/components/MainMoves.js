@@ -159,6 +159,7 @@ class MainMoves extends React.Component {
     const canCure = Object.keys(currentPlayerColorObj).filter(
       color => currentPlayerColorObj[color] >= 1
     ).length
+
     //which menu to show
     let menuReturn = ''
     switch (this.props.showMenu) {
@@ -602,88 +603,78 @@ class MainMoves extends React.Component {
         )
         break
       case 'cure':
-        {
-          const allColors = ['red', 'blue', 'yellow', 'black']
-          menuReturn = (
-            <div id="btn-menu">
-              Discover Cure. Discard:
-              <Form.Group
-                controlId="formBasicChecbox"
-                className="moves-cure-checks"
-              >
-                <Accordion className="other-cards-header">
-                  {allColors.map(color => {
-                    return (
-                      <Card key={color} className="other-cards-header">
-                        <Card.Header>
-                          <Accordion.Toggle
-                            as={Button}
-                            eventKey={color}
+        menuReturn = (
+          <div id="btn-menu">
+            Discover Cure. Discard:
+            <Form.Group
+              controlId="formBasicChecbox"
+              className="moves-cure-checks"
+            >
+              <Accordion className="other-cards-header">
+                {Object.keys(currentPlayerColorObj).map(color => {
+                  return (
+                    <Card key={color} className="other-cards-header">
+                      <Card.Header>
+                        <Accordion.Toggle
+                          as={Button}
+                          eventKey={color}
+                          variant="outline-dark"
+                          onClick={this.resetState}
+                        >
+                          {color}
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey={color}>
+                        <Card.Body>
+                          <div className="mainmove-cure-card">
+                            {currentUser.hand
+                              .filter(card => card.color === color)
+                              .map(colorCard => (
+                                <Form.Check
+                                  type="checkbox"
+                                  label={colorCard.title}
+                                  key={colorCard.title}
+                                  name={colorCard.title}
+                                  onChange={e => this.handleCheckbox(e)}
+                                  checked={this.state.discardCure.includes(
+                                    colorCard.title
+                                  )}
+                                />
+                              ))}
+                          </div>
+                          <Button
                             variant="outline-dark"
-                            onClick={this.resetState}
+                            className="game-menu-btn"
+                            onClick={() => {
+                              const cards = this.state.discardCure.map(
+                                name =>
+                                  playerCards.filter(
+                                    card => card.title === name
+                                  )[0]
+                              )
+                              this.handleCureSubmit(cards, color)
+                            }}
+                            disabled={this.state.discardCure.length !== 1}
                           >
-                            {color}
-                          </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey={color}>
-                          <Card.Body>
-                            <div className="mainmove-cure-card">
-                              {currentUser.hand
-                                .filter(card => card.color === color)
-                                .map(colorCard => (
-                                  <Form.Check
-                                    type="checkbox"
-                                    label={colorCard.title}
-                                    key={colorCard.title}
-                                    name={colorCard.title}
-                                    onChange={e => this.handleCheckbox(e)}
-                                    checked={this.state.discardCure.includes(
-                                      colorCard.title
-                                    )}
-                                  />
-                                ))}
-                            </div>
-                            <Button
-                              variant="outline-dark"
-                              className="game-menu-btn"
-                              onClick={() => {
-                                const cards = this.state.discardCure.map(
-                                  name =>
-                                    playerCards.filter(
-                                      card => card.title === name
-                                    )[0]
-                                )
-                                this.handleCureSubmit(cards, color)
-                              }}
-                            >
-                              Cure {color}
-                            </Button>
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
-                    )
-                  })}
-                </Accordion>
-                {/* {currentUser.hand.map(card => (
-                  <Form.Check
-                    type="checkbox"
-                    label={card.title}
-                    key={card.title}
-                    name={card.title}
-                    onChange={e => this.handleCheckbox(e)}
-                  />
-                ))} */}
-              </Form.Group>
-              <Button
-                variant="outline-dark"
-                className="game-menu-btn"
-                onClick={this.props.resetMenu}
-              >
-                Back
-              </Button>
-            </div>
-          )
-        }
+                            Cure {color}
+                          </Button>
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  )
+                })}
+              </Accordion>
+            </Form.Group>
+            <Button
+              variant="outline-dark"
+              className="game-menu-btn"
+              onClick={this.props.resetMenu}
+            >
+              Back
+            </Button>
+          </div>
+        )
+
         break
       default:
         menuReturn = (
