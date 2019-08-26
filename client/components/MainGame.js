@@ -83,7 +83,8 @@ class MainGame extends React.Component {
       blueCure: 0,
       blackCure: 0,
       yellowCure: 0,
-      gameStart: 0
+      gameStart: 0,
+      epidemicList: []
     }
     this.decks = this.props.game.collection('gamestate').doc('decks')
     this.cities = this.props.game.collection('gamestate').doc('cities')
@@ -178,7 +179,8 @@ class MainGame extends React.Component {
               blueCure: doc.data().blueCure,
               blackCure: doc.data().blackCure,
               yellowCure: doc.data().yellowCure,
-              gameStart: doc.data().gameStart
+              gameStart: doc.data().gameStart,
+              epidemicList: doc.data().epidemicList
             })
         })
       )
@@ -278,7 +280,8 @@ class MainGame extends React.Component {
             blackCure: doc.data().blackCure,
             yellowCure: doc.data().yellowCure,
             actionCount: doc.data().actionCount,
-            gameStart: doc.data().gameStart
+            gameStart: doc.data().gameStart,
+            epidemicList: doc.data().epidemicList
           })
       })
       .catch(err => {
@@ -491,7 +494,7 @@ class MainGame extends React.Component {
     let allCities = {...this.state.cities}
     switch (color) {
       case 'red':
-        if (this.state.redCure === 1) {
+        if (this.state.redCure === 5) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].red
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
@@ -711,7 +714,7 @@ class MainGame extends React.Component {
     let playerCardDiscard = [...this.state.playerCardDiscard]
     let allCities = {...this.state.cities}
     if (allCities[allPlayers[this.state.currentTurn].location].research) {
-      const colored = cards.filter(card => card.color === color).length === 1
+      const colored = cards.filter(card => card.color === color).length === 5
       let cured
       let cubes
       switch (color) {
@@ -1023,7 +1026,16 @@ class MainGame extends React.Component {
     if (isCardEpidemic(card1)) {
       epidemicFlag = true
       const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
-      console.log('epidemic infect card 1', epidemic.city)
+      const newEpidemicList = [...this.state.epidemicList, epidemic]
+      this.props.game
+        .set({epidemicList: newEpidemicList}, {merge: true})
+        .catch(error => {
+          console.log(
+            'an error has occurred setting the epidemic list',
+            error.message
+          )
+          alert('an error has occurred')
+        })
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
     } else {
@@ -1033,7 +1045,16 @@ class MainGame extends React.Component {
     if (isCardEpidemic(card2)) {
       epidemicFlag = true
       const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
-      console.log('epidemic infect card2', epidemic.city)
+      const newEpidemicList = [...this.state.epidemicList, epidemic]
+      this.props.game
+        .set({epidemicList: newEpidemicList}, {merge: true})
+        .catch(error => {
+          console.log(
+            'an error has occurred setting the epidemic list',
+            error.message
+          )
+          alert('an error has occurred')
+        })
       this.infectWrapper(epidemic.city, epidemic.color, 3, true)
       this.playerInfectStep(this.epidemicDiscardShuffle())
     } else {
@@ -1343,6 +1364,7 @@ class MainGame extends React.Component {
     }
 
     const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
+    console.log(playerCardDeck.length)
 
     //shuffle infection cards
     let shuffledInfectionDeck = shuffle(infectionCards, {copy: true})
@@ -1435,6 +1457,12 @@ class MainGame extends React.Component {
             infectionCardDeck={this.state.infectionCardDeck}
             infectionCardDiscard={this.state.infectionCardDiscard}
             gameStart={this.state.gameStart}
+            epidemicList={this.state.epidemicList}
+            blackCure={this.state.blackCure}
+            redCure={this.state.redCure}
+            yellowCure={this.state.yellowCure}
+            blueCure={this.state.blueCure}
+            actionCount={this.state.actionCount}
           />
         ) : (
           <div>Data loading</div>

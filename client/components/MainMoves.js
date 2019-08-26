@@ -47,17 +47,22 @@ class MainMoves extends React.Component {
 
   handleResearchSubmit = () => {
     this.props.handleResearchSubmit()
+    this.resetState()
   }
 
   handleTreatSubmit = color => {
     this.props.handleTreatSubmit(color)
+    this.resetState()
   }
 
   handleKnowledgeSubmit = (give, take, card) => {
     this.props.handleKnowledgeSubmit(give, take, card)
+    this.resetState()
   }
 
   handleCureSubmit = (cards, color) => {
+    console.log('cards', cards)
+    console.log(color)
     this.props.handleCureSubmit(cards, color)
     this.resetState()
   }
@@ -156,9 +161,19 @@ class MainMoves extends React.Component {
       color =>
         (currentPlayerColorObj[color] = currentPlayerColorObj[color] + 1 || 1)
     )
+    const cured = {
+      red: this.props.redCure,
+      blue: this.props.blueCure,
+      black: this.props.blackCure,
+      yellow: this.props.yellowCure
+    }
+    console.log('cured', cured)
     const canCure = Object.keys(currentPlayerColorObj).filter(
-      color => currentPlayerColorObj[color] >= 1
+      color => currentPlayerColorObj[color] >= 5 && !cured[color]
     ).length
+    const cureColors = ['red', 'blue', 'yellow', 'black'].filter(
+      color => currentPlayerColorObj[color] >= 5 && !cured[color]
+    )
 
     //which menu to show
     let menuReturn = ''
@@ -193,7 +208,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('knowledge')}
-              disabled={!canShareKnowledge}
+              disabled={canShareKnowledge}
             >
               Knowledge
             </Button>
@@ -582,6 +597,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('give knowledge')}
+              // disabled = {!canGiveKnowledge}
             >
               Give Knowledge
             </Button>
@@ -589,6 +605,7 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('take knowledge')}
+              // disabled = {!canTakeKnowledge}
             >
               Take Knowledge
             </Button>
@@ -646,6 +663,7 @@ class MainMoves extends React.Component {
                             variant="outline-dark"
                             className="game-menu-btn"
                             onClick={() => {
+                              console.log('clicked')
                               const cards = this.state.discardCure.map(
                                 name =>
                                   playerCards.filter(
@@ -654,7 +672,10 @@ class MainMoves extends React.Component {
                               )
                               this.handleCureSubmit(cards, color)
                             }}
-                            disabled={this.state.discardCure.length !== 1}
+                            disabled={
+                              this.state.discardCure.length !== 5 ||
+                              cured[color] > 0
+                            }
                           >
                             Cure {color}
                           </Button>

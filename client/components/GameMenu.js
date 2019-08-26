@@ -37,7 +37,7 @@ class GameMenu extends React.Component {
     let canMakeMove
     if (userCanMakeMove.length) {
       canMakeMove = userCanMakeMove[0].name === this.props.username
-      console.log(canMakeMove)
+      // console.log(canMakeMove)
     }
 
     const color = this.props.players.filter(
@@ -49,6 +49,9 @@ class GameMenu extends React.Component {
         <h3 className="menu-header-1">
           Current Turn: {this.props.players[this.props.turn].name}
         </h3>
+        <h5 className="menu-header-1">
+          Actions Left: {4 - this.props.actionCount}
+        </h5>
         <h3 className="menu-header-1">Moves</h3>
         {canMakeMove ? (
           <MainMoves
@@ -65,6 +68,10 @@ class GameMenu extends React.Component {
             handleTreatSubmit={this.props.handleTreatSubmit}
             handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
             handleCureSubmit={this.props.handleCureSubmit}
+            blackCure={this.props.blackCure}
+            redCure={this.props.redCure}
+            yellowCure={this.props.yellowCure}
+            blueCure={this.props.blueCure}
           />
         ) : (
           <p>It is not your turn</p>
@@ -83,7 +90,7 @@ class GameMenu extends React.Component {
             </Button>
           )}
         </div>
-        <h3 className="menu-header-1">Cards</h3>
+        <h3 className="menu-header-1">Game Status</h3>
         <div id="card-container">
           <div id="your-cards">
             <h4 className="card-container-header">Your hand:</h4>
@@ -114,6 +121,7 @@ class GameMenu extends React.Component {
                             as={Button}
                             eventKey={user.name}
                             variant="outline-dark"
+                            className={`${user.color}`}
                           >
                             {user.name}'s hand
                           </Accordion.Toggle>
@@ -145,6 +153,28 @@ class GameMenu extends React.Component {
                     <Accordion.Collapse eventKey="infectDeck">
                       <Card.Body>
                         {this.props.infectionCardDiscard.map(card => {
+                          return (
+                            <p key={card.city} className={card.color}>
+                              {card.city}
+                            </p>
+                          )
+                        })}
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                  <Card className="other-cards-header">
+                    <Card.Header className="other-cards-header">
+                      <Accordion.Toggle
+                        as={Button}
+                        eventKey="epidemicList"
+                        variant="outline-dark"
+                      >
+                        Epidemic List
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="epidemicList">
+                      <Card.Body>
+                        {this.props.epidemicList.map(card => {
                           return (
                             <p key={card.city} className={card.color}>
                               {card.city}
