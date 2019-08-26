@@ -118,7 +118,7 @@ class PandemicMap extends React.Component {
       ctx.fill()
       ctx.fillStyle = 'white'
       ctx.stroke()
-      ctx.fillText(this.props.outbreaks, coords[0] - 6, coords[1] + 9)
+      ctx.fillText(this.props.outbreaks, coords[0] - 5, coords[1] + 8)
     }
   }
 
@@ -133,8 +133,8 @@ class PandemicMap extends React.Component {
       ctx.fillStyle = 'black'
       ctx.fillText(
         infectionRateNumber[this.props.infectionRate],
-        infect[0] - 6,
-        infect[1] + 9
+        infect[0] - 5,
+        infect[1] + 8
       )
     }
   }
@@ -197,12 +197,12 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(590, 30, 145, 110)
-    ctx.fillText('Infection', 621, 71)
-    ctx.fillText('Deck', 635, 97)
+    ctx.fillText('Infection', 626, 71)
+    ctx.fillText('Deck', 642, 97)
     if (this.props.infectionCardDeck.length > 9) {
-      ctx.fillText(this.props.infectionCardDeck.length, 646, 120)
+      ctx.fillText(this.props.infectionCardDeck.length, 652, 122)
     } else {
-      ctx.fillText(this.props.infectionCardDeck.length, 655, 120)
+      ctx.fillText(this.props.infectionCardDeck.length, 666, 122)
     }
   }
 
@@ -211,12 +211,12 @@ class PandemicMap extends React.Component {
     ctx.beginPath()
     ctx.fillStyle = 'black'
     ctx.rect(750, 30, 145, 110)
-    ctx.fillText('Infection', 786, 71)
-    ctx.fillText('Discard', 790, 97)
+    ctx.fillText('Infection', 788, 71)
+    ctx.fillText('Discard', 793, 97)
     if (this.props.infectionCardDiscard.length < 10) {
-      ctx.fillText(this.props.infectionCardDiscard.length, 816, 120)
+      ctx.fillText(this.props.infectionCardDiscard.length, 821, 122)
     } else {
-      ctx.fillText(this.props.infectionCardDiscard.length, 812, 120)
+      ctx.fillText(this.props.infectionCardDiscard.length, 817, 122)
     }
   }
 
@@ -226,11 +226,11 @@ class PandemicMap extends React.Component {
     ctx.fillStyle = 'black'
     ctx.rect(592, 520, 105, 140)
     ctx.fillText('Player', 618, 560)
-    ctx.fillText('Deck', 620, 590)
+    ctx.fillText('Deck', 623, 590)
     if (this.props.playerCardDeck.length > 10) {
       ctx.fillText(this.props.playerCardDeck.length, 633, 620)
     } else {
-      ctx.fillText(this.props.playerCardDeck.length, 637, 620)
+      ctx.fillText(this.props.playerCardDeck.length, 642, 620)
     }
   }
 
@@ -244,7 +244,7 @@ class PandemicMap extends React.Component {
     if (this.props.playerCardDiscard.length > 10) {
       ctx.fillText(this.props.playerCardDiscard.length, 772, 620)
     } else {
-      ctx.fillText(this.props.playerCardDiscard.length, 767, 620)
+      ctx.fillText(this.props.playerCardDiscard.length, 772, 620)
     }
   }
 
@@ -256,7 +256,13 @@ class PandemicMap extends React.Component {
     ctx.fillStyle = city.color
     ctx.fill()
     ctx.fillStyle = 'black'
-    ctx.fillText(city.name, city.coords[0] - 20, city.coords[1] + 20)
+    if (city.name === 'Ho Chi Minh City') {
+      ctx.fillText(city.name, city.coords[0] - 60, city.coords[1] + 20)
+    } else if (city.name === 'St. Petersburg' || city.name === 'Johannesburg') {
+      ctx.fillText(city.name, city.coords[0] - 40, city.coords[1] + 20)
+    } else {
+      ctx.fillText(city.name, city.coords[0] - 20, city.coords[1] + 20)
+    }
   }
 
   // Research Center Placement Method
@@ -379,7 +385,7 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] - 6, 3, 0, 2 * Math.PI)
-    ctx.fillStyle = 'lime'
+    ctx.fillStyle = playerList[0].color
     ctx.fill()
     ctx.stroke()
   }
@@ -389,7 +395,7 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] + 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
-    ctx.fillStyle = 'pink'
+    ctx.fillStyle = playerList[1].color
     ctx.fill()
     ctx.stroke()
   }
@@ -399,7 +405,7 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] + 6, city.coords[1] - 6, 3, 0, 2 * Math.PI)
-    ctx.fillStyle = 'aqua'
+    ctx.fillStyle = playerList[2].color
     ctx.fill()
     ctx.stroke()
   }
@@ -409,7 +415,7 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
-    ctx.fillStyle = 'brown'
+    ctx.fillStyle = playerList[3].color
     ctx.fill()
     ctx.stroke()
   }
@@ -422,7 +428,7 @@ class PandemicMap extends React.Component {
           ref={this.canvasRef}
           width="999"
           height="708"
-          style={{border: '5px solid #d3d3d3', margin: '10'}}
+          style={{border: '5px solid white', margin: '10'}}
         />
       </React.Fragment>
     )
