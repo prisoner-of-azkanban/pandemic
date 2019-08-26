@@ -35,7 +35,8 @@ class MainGame extends React.Component {
           turn: false,
           location: 'Atlanta',
           hand: [],
-          name: players[0]
+          name: players[0],
+          color: 'lime'
         },
         {
           id: 1,
@@ -44,7 +45,8 @@ class MainGame extends React.Component {
           turn: false,
           location: 'Atlanta',
           hand: [],
-          name: players[1]
+          name: players[1],
+          color: 'aqua'
         },
         {
           id: 2,
@@ -53,7 +55,8 @@ class MainGame extends React.Component {
           turn: false,
           location: 'Atlanta',
           hand: [],
-          name: players[2]
+          name: players[2],
+          color: 'fuchsia'
         },
         {
           id: 3,
@@ -62,7 +65,8 @@ class MainGame extends React.Component {
           turn: false,
           location: 'Atlanta',
           hand: [],
-          name: players[3]
+          name: players[3],
+          color: 'orange'
         }
       ],
       cities: cityList,

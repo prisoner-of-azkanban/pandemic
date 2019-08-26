@@ -251,6 +251,22 @@ canvas {
   text-shadow: 2px 2px 5px black;
 }
 
+.lime {
+  text-shadow: 2px 2px 5px lime;
+}
+
+.aqua {
+  text-shadow: 2px 2px 5px aqua;
+}
+
+.fuchsia {
+  text-shadow: 2px 2px 5px fuchsia;
+}
+
+.orange {
+  text-shadow: 2px 2px 5px orange;
+}
+
 .help-modal-header,
 .waiting-room-header {
   font-family: impact;
