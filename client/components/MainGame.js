@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 import React from 'react'
-import {Button} from 'react-bootstrap'
 import {playerCards} from '../../game/playerCards'
 import {epidemicCard} from '../../game/epidemic'
 import {infectionCards} from '../../game/infectionCards'
@@ -148,7 +147,6 @@ class MainGame extends React.Component {
             })
         }
       })
-
       .then(() =>
         this.decks.get().then(doc => {
           if (this._isMounted)
@@ -202,6 +200,10 @@ class MainGame extends React.Component {
             })
         })
       )
+      .catch(err => {
+        console.log('an error has occurred getting the game state', err.message)
+        alert('an error has occurred')
+      })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -252,68 +254,110 @@ class MainGame extends React.Component {
 
   //firebase listeners
   listenMain = () => {
-    this.props.game.get().then(doc => {
-      if (this._isMounted)
-        this.setState({
-          currentTurn: doc.data().currentTurn,
-          infectionRate: doc.data().infectionRate,
-          outbreaks: doc.data().outbreaks,
-          win: doc.data().win,
-          lose: doc.data().lose,
-          redCure: doc.data().redCure,
-          blueCure: doc.data().blueCure,
-          blackCure: doc.data().blackCure,
-          yellowCure: doc.data().yellowCure,
-          actionCount: doc.data().actionCount,
-          gameStart: doc.data().gameStart
-        })
-    })
+    this.props.game
+      .get()
+      .then(doc => {
+        if (this._isMounted)
+          this.setState({
+            currentTurn: doc.data().currentTurn,
+            infectionRate: doc.data().infectionRate,
+            outbreaks: doc.data().outbreaks,
+            win: doc.data().win,
+            lose: doc.data().lose,
+            redCure: doc.data().redCure,
+            blueCure: doc.data().blueCure,
+            blackCure: doc.data().blackCure,
+            yellowCure: doc.data().yellowCure,
+            actionCount: doc.data().actionCount,
+            gameStart: doc.data().gameStart
+          })
+      })
+      .catch(err => {
+        console.log('an error has occurred getting the game state', err.message)
+        alert('an error has occurred')
+      })
   }
 
   listenCubes = () => {
-    this.cubes.get().then(doc => {
-      if (this._isMounted)
-        this.setState({
-          blueCubes: doc.data().blueCubes,
-          redCubes: doc.data().redCubes,
-          blackCubes: doc.data().blackCubes,
-          yellowCubes: doc.data().yellowCubes
-        })
-    })
+    this.cubes
+      .get()
+      .then(doc => {
+        if (this._isMounted)
+          this.setState({
+            blueCubes: doc.data().blueCubes,
+            redCubes: doc.data().redCubes,
+            blackCubes: doc.data().blackCubes,
+            yellowCubes: doc.data().yellowCubes
+          })
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred getting the cubes state',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   listenPlayerList = () => {
-    this.playerList.get().then(doc => {
-      if (this._isMounted) {
-        this.setState(() => {
-          return {
-            playerList: doc.data().playerList
-            // actionCount: doc.data().actionCount
-          }
-        })
-      }
-    })
+    this.playerList
+      .get()
+      .then(doc => {
+        if (this._isMounted) {
+          this.setState(() => {
+            return {
+              playerList: doc.data().playerList
+              // actionCount: doc.data().actionCount
+            }
+          })
+        }
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred getting the player list state',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   listenDecks = () => {
-    this.decks.get().then(doc => {
-      if (this._isMounted)
-        this.setState({
-          playerCardDeck: doc.data().playerCardDeck,
-          playerCardDiscard: doc.data().playerCardDiscard,
-          infectionCardDeck: doc.data().infectionCardDeck,
-          infectionCardDiscard: doc.data().infectionCardDiscard
-        })
-    })
+    this.decks
+      .get()
+      .then(doc => {
+        if (this._isMounted)
+          this.setState({
+            playerCardDeck: doc.data().playerCardDeck,
+            playerCardDiscard: doc.data().playerCardDiscard,
+            infectionCardDeck: doc.data().infectionCardDeck,
+            infectionCardDiscard: doc.data().infectionCardDiscard
+          })
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred getting the decks state',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   listenCities = () => {
-    this.cities.get().then(doc => {
-      if (this._isMounted)
-        this.setState({
-          cities: doc.data().cities
-        })
-    })
+    this.cities
+      .get()
+      .then(doc => {
+        if (this._isMounted)
+          this.setState({
+            cities: doc.data().cities
+          })
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred getting the cities state',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   //************************ACTION METHODS START*************************
@@ -325,12 +369,18 @@ class MainGame extends React.Component {
       .set({playerList: allPlayers}, {merge: true})
       .then(() => this.incrementAction())
       .then(() => {
-        console.log('action count: ', this.state.actionCount)
         if (this.state.actionCount === 3) {
           this.loseCheck()
           this.playerTurnEnd(this.state.currentTurn)
           this.updatePlayerTurn()
         }
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred with handle basic travel',
+          err.message
+        )
+        alert('an error has occurred')
       })
   }
 
@@ -349,6 +399,10 @@ class MainGame extends React.Component {
           this.playerTurnEnd(this.state.currentTurn)
           this.updatePlayerTurn()
         }
+      })
+      .catch(err => {
+        console.log('an error has occurred with the flight action', err.message)
+        alert('an error has occurred')
       })
   }
 
@@ -373,6 +427,13 @@ class MainGame extends React.Component {
           this.updatePlayerTurn()
         }
       })
+      .catch(err => {
+        console.log(
+          'an error has occurred with the research action',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   // share/take knowledge
@@ -392,7 +453,6 @@ class MainGame extends React.Component {
       }
       return player
     })
-    console.log(newPlayers)
     this.playerList
       .set({playerList: newPlayers}, {merge: true})
       .then(() => this.incrementAction())
@@ -402,6 +462,13 @@ class MainGame extends React.Component {
           this.playerTurnEnd(this.state.currentTurn)
           this.updatePlayerTurn()
         }
+      })
+      .catch(err => {
+        console.log(
+          'an error has occurred with the knowledge action',
+          err.message
+        )
+        alert('an error has occurred')
       })
   }
 
@@ -441,6 +508,13 @@ class MainGame extends React.Component {
               this.updatePlayerTurn()
             }
           })
+          .catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         break
 
       case 'blue':
@@ -469,6 +543,13 @@ class MainGame extends React.Component {
               this.playerTurnEnd(this.state.currentTurn)
               this.updatePlayerTurn()
             }
+          })
+          .catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
           })
 
         break
@@ -500,6 +581,13 @@ class MainGame extends React.Component {
               this.updatePlayerTurn()
             }
           })
+          .catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
 
         break
 
@@ -530,6 +618,13 @@ class MainGame extends React.Component {
               this.updatePlayerTurn()
             }
           })
+          .catch(err => {
+            console.log(
+              'an error has occurred with the treat action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
 
         break
 
@@ -559,10 +654,24 @@ class MainGame extends React.Component {
               this.props.game
                 .update({redCure: eradicate})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             } else {
               this.props.game
                 .update({redCure: cure})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             }
           }
           break
@@ -574,10 +683,24 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blueCure: eradicate})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             } else {
               this.props.game
                 .update({blueCure: cure})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             }
           }
           break
@@ -589,10 +712,24 @@ class MainGame extends React.Component {
               this.props.game
                 .update({yellowCure: eradicate})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             } else {
               this.props.game
                 .update({yellowCure: cure})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             }
           }
           break
@@ -604,10 +741,24 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blackCure: eradicate})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             } else {
               this.props.game
                 .update({blackCure: cure})
                 .then(() => this.winCheck())
+                .catch(err => {
+                  console.log(
+                    'an error has occurred with the cure action',
+                    err.message
+                  )
+                  alert('an error has occurred')
+                })
             }
           }
           break
@@ -632,7 +783,15 @@ class MainGame extends React.Component {
           }
         }
         allPlayers[this.state.currentTurn].hand = newHand
-        this.playerList.set({playerList: allPlayers}, {merge: true})
+        this.playerList
+          .set({playerList: allPlayers}, {merge: true})
+          .catch(err => {
+            console.log(
+              'an error has occurred with the cure action',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         playerCardDiscard = [...this.state.playerCardDiscard, ...discardHand]
         this.decks
           .set({playerCardDiscard: playerCardDiscard}, {merge: true})
@@ -643,6 +802,13 @@ class MainGame extends React.Component {
               this.playerTurnEnd(this.state.currentTurn)
               this.updatePlayerTurn()
             }
+          })
+          .catch(err => {
+            console.log(
+              'an error has occurred with the cure action',
+              err.message
+            )
+            alert('an error has occurred')
           })
       }
     }
@@ -658,7 +824,13 @@ class MainGame extends React.Component {
       this.state.blackCure &&
       this.state.yellowCure
     ) {
-      this.props.game.update({win: updateWin}).then(() => true)
+      this.props.game
+        .update({win: updateWin})
+        .then(() => true)
+        .catch(err => {
+          console.log('an error has occurred with the win check', err.message)
+          alert('an error has occurred')
+        })
     }
     return false
   }
@@ -666,16 +838,34 @@ class MainGame extends React.Component {
   loseCheck = () => {
     const updateLose = firebase.firestore.FieldValue.increment(1)
     if (this.state.outbreaks > 7) {
-      this.props.game.update({lose: updateLose}).then(() => true)
+      this.props.game
+        .update({lose: updateLose})
+        .then(() => true)
+        .catch(err => {
+          console.log('an error has occurred with the lose check', err.message)
+          alert('an error has occurred')
+        })
     } else if (this.state.playerCardDeck.length < 2) {
-      this.props.game.update({lose: updateLose}).then(() => true)
+      this.props.game
+        .update({lose: updateLose})
+        .then(() => true)
+        .catch(err => {
+          console.log('an error has occurred with the lose check', err.message)
+          alert('an error has occurred')
+        })
     } else if (
       this.state.redCubes < 0 ||
       this.state.blueCubes < 0 ||
       this.state.yellowCubes < 0 ||
       this.state.blackCubes < 0
     ) {
-      this.props.game.update({lose: updateLose}).then(() => true)
+      this.props.game
+        .update({lose: updateLose})
+        .then(() => true)
+        .catch(err => {
+          console.log('an error has occurred with the lose check', err.message)
+          alert('an error has occurred')
+        })
     }
     return false
   }
@@ -693,8 +883,19 @@ class MainGame extends React.Component {
     allPlayers[turn].turn = false
     turn = (turn + 1) % 4
     allPlayers[turn].turn = true
-    this.playerList.set({playerList: allPlayers}, {merge: true})
-    this.props.game.set({currentTurn: turn, actionCount: 0}, {merge: true})
+    this.playerList.set({playerList: allPlayers}, {merge: true}).catch(err => {
+      console.log('an error has occurred with update player turn', err.message)
+      alert('an error has occurred')
+    })
+    this.props.game
+      .set({currentTurn: turn, actionCount: 0}, {merge: true})
+      .catch(err => {
+        console.log(
+          'an error has occurred with update player turn',
+          err.message
+        )
+        alert('an error has occurred')
+      })
   }
 
   isCardEpidemic = card => {
@@ -719,10 +920,15 @@ class MainGame extends React.Component {
       this.infectWrapper(infectCard.city, infectCard.color)
     }
     const newInfectDiscard = [...oldInfectDiscard, ...addToInfectDiscard]
-    this.decks.set(
-      {infectionCardDeck: infectDeck, infectionCardDiscard: newInfectDiscard},
-      {merge: true}
-    )
+    this.decks
+      .set(
+        {infectionCardDeck: infectDeck, infectionCardDiscard: newInfectDiscard},
+        {merge: true}
+      )
+      .catch(err => {
+        console.log('an error has occurred with the infect step', err.message)
+        alert('an error has occurred')
+      })
   }
 
   //for when epidemic happens, need to put cards back into deck, cannot use current state
@@ -767,8 +973,22 @@ class MainGame extends React.Component {
     let playerList = this.state.playerList
     //add non-epidemic cards to hand
     playerList[index].hand = [...playerList[index].hand, ...addToHand]
-    this.playerList.set({playerList: playerList}, {merge: true})
-    this.decks.set({playerCardDeck: playerCardDeck}, {merge: true})
+    this.playerList.set({playerList: playerList}, {merge: true}).catch(err => {
+      console.log(
+        'an error has occurred with the player turn resolution',
+        err.message
+      )
+      alert('an error has occurred')
+    })
+    this.decks
+      .set({playerCardDeck: playerCardDeck}, {merge: true})
+      .catch(err => {
+        console.log(
+          'an error has occurred with the player turn resolution',
+          err.message
+        )
+        alert('an error has occurred')
+      })
     //infect if not epidemic
     if (!epidemicFlag) {
       this.playerInfectStep()
@@ -790,22 +1010,52 @@ class MainGame extends React.Component {
     const updateCubeBy = firebase.firestore.FieldValue.increment(-n)
     switch (color) {
       case 'red':
-        this.cubes.update({redCubes: updateCubeBy}).then(() => this.loseCheck())
+        this.cubes
+          .update({redCubes: updateCubeBy})
+          .then(() => this.loseCheck())
+          .catch(err => {
+            console.log(
+              'an error has occurred with updating the cube count',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         break
       case 'blue':
         this.cubes
           .update({blueCubes: updateCubeBy})
           .then(() => this.loseCheck())
+          .catch(err => {
+            console.log(
+              'an error has occurred with updating the cube count',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         break
       case 'black':
         this.cubes
           .update({blackCubes: updateCubeBy})
           .then(() => this.loseCheck())
+          .catch(err => {
+            console.log(
+              'an error has occurred with updating the cube count',
+              err.message
+            )
+            alert('an error has occurred')
+          })
         break
       case 'yellow':
         this.cubes
           .update({yellowCubes: updateCubeBy})
           .then(() => this.loseCheck())
+          .catch(err => {
+            console.log(
+              'an error has occurred with updating the cube count',
+              err.message
+            )
+            alert('an error has occurred')
+          })
 
         break
       default:
@@ -822,14 +1072,26 @@ class MainGame extends React.Component {
   //epidemic infect
   epidemicInfect = (city, color) => {
     const updateInfectRate = firebase.firestore.FieldValue.increment(1)
-    this.props.game.update({infectionRate: updateInfectRate})
+    this.props.game.update({infectionRate: updateInfectRate}).catch(err => {
+      console.log(
+        'an error has occurred with the epidemic infect stage',
+        err.message
+      )
+      alert('an error has occurred')
+    })
     const cubes = 3
     let cities = this.state.cities
     const willOutbreak = cities[city][color]
     const cubesToSub = 3 - this.state.cities[city][color]
     this._removeCubeCount += cubesToSub
     cities[city][color] = cubes
-    this.cities.set({cities: cities}, {merge: true})
+    this.cities.set({cities: cities}, {merge: true}).catch(err => {
+      console.log(
+        'an error has occurred with the epidemic infect stage',
+        err.message
+      )
+      alert('an error has occurred')
+    })
     if (willOutbreak) {
       this.outbreakInfect(city, color)
     }
@@ -840,7 +1102,13 @@ class MainGame extends React.Component {
     const cubes = this.state.cities[city][color] + number
     let cities = this.state.cities
     cities[city][color] = cubes
-    this.cities.set({cities: cities}, {merge: true})
+    this.cities.set({cities: cities}, {merge: true}).catch(err => {
+      console.log(
+        'an error has occurred with the normal infect stage',
+        err.message
+      )
+      alert('an error has occurred')
+    })
     this._removeCubeCount += number
   }
   //outbreak infect
@@ -851,6 +1119,13 @@ class MainGame extends React.Component {
       this.props.game
         .update({outbreaks: updateOutbreaks})
         .then(() => this.loseCheck())
+        .catch(err => {
+          console.log(
+            'an error has occurred with the outbreak infect stage',
+            err.message
+          )
+          alert('an error has occurred')
+        })
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
       for (let i = 0; i < cityConnections.length; i++) {
