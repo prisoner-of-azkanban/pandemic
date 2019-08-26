@@ -202,7 +202,7 @@ class PandemicMap extends React.Component {
     if (this.props.infectionCardDeck.length > 9) {
       ctx.fillText(this.props.infectionCardDeck.length, 652, 122)
     } else {
-      ctx.fillText(this.props.infectionCardDeck.length, 666, 122)
+      ctx.fillText(this.props.infectionCardDeck.length, 658, 122)
     }
   }
 
@@ -415,6 +415,7 @@ class PandemicMap extends React.Component {
     let city = cityList[key]
     ctx.beginPath()
     ctx.arc(city.coords[0] - 6, city.coords[1] + 6, 3, 0, 2 * Math.PI)
+    console.log(playerList[3].color)
     ctx.fillStyle = playerList[3].color
     ctx.fill()
     ctx.stroke()
