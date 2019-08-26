@@ -65,9 +65,6 @@ class Routes extends Component {
                 <Gamepage {...props} username={this.state.username} />
               )}
             />
-            {/* <Route path="/chat" component={NewChat} /> */}
-            {/* <Route path="/game" component={Gamepage} /> */}
-            {/* <Route path="/test" component={Win} /> */}
             <Route
               path="/waitingroom"
               render={props => (
