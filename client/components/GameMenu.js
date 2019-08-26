@@ -40,9 +40,12 @@ class GameMenu extends React.Component {
       console.log(canMakeMove)
     }
 
+    const color = this.props.players.filter(
+      player => player.name === this.props.username
+    )[0].color
     return (
       <div id="game-menu">
-        <h3>{this.props.username}</h3>
+        <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
         <h3 className="menu-header-1">
           Current Turn: {this.props.players[this.props.turn].name}
         </h3>
@@ -66,16 +69,6 @@ class GameMenu extends React.Component {
         ) : (
           <p>It is not your turn</p>
         )}
-
-        {/* <h3 className="menu-header-1">Special</h3>
-        <div id="btn-menu">
-          <Button variant="outline-dark" className="game-menu-btn">
-            Event
-          </Button>
-          <Button variant="outline-dark" className="game-menu-btn">
-            Role
-          </Button>
-        </div> */}
         <div id="btn-menu">
           {this.props.gameStart ? (
             <div />
