@@ -51,6 +51,10 @@ class Chatroom extends React.Component {
               message: ''
             })
         })
+        .catch(err => {
+          console.log('an error has occurred in the chatroom', err.message)
+          alert(err.message)
+        })
     }
   }
 
@@ -71,6 +75,10 @@ class Chatroom extends React.Component {
           this.setState({
             messages: messages
           })
+      })
+      .catch(err => {
+        console.log('an error has occurred in the chatroom', err.message)
+        alert(err.message)
       })
   }
 

@@ -20,27 +20,6 @@ class WaitingRoom extends React.Component {
   async componentDidMount() {
     this._isMounted = true
     let games = []
-    // let userId = ''
-    // let username = ''
-
-    // await firebase.auth().onAuthStateChanged(loggedinUser => {
-    //   if (loggedinUser) {
-    //     userId = loggedinUser.uid
-    //     db
-    //       .collection('users')
-    //       .doc(userId)
-    //       .get()
-    //       .then(doc => {
-    //         if (doc.exists) {
-    //           username = doc.data().username
-    //         }
-    //       })
-    //       .then(() => {
-    //         if (this._isMounted) {
-    //           this.setState({username: username})
-    //         }
-    //       })
-    //       .then(() =>
     await this.games
       .get()
       .then(function(doc) {
@@ -51,12 +30,10 @@ class WaitingRoom extends React.Component {
           this.setState({games: games})
         }
       })
-      .catch(error => console.log(error))
-    //    )
-    // } else {
-    //   this.props.history.push('/')
-    // }
-    //})
+      .catch(err => {
+        console.log('an error has occurred with firebase', err.message)
+        alert(err.message)
+      })
   }
 
   componentWillUnmount() {
@@ -141,7 +118,13 @@ class WaitingRoom extends React.Component {
           })
       )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
-      .catch(error => console.log(error))
+      .catch(err => {
+        console.log(
+          'an error has occurred with setting up the game',
+          err.message
+        )
+        alert(err.message)
+      })
   }
 
   handleLogout = () => {
@@ -150,7 +133,10 @@ class WaitingRoom extends React.Component {
       .signOut()
       .then(() => console.log('user signed out'))
       .then(() => this.props.history.push('/login'))
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log('an error has occurred with logging out', err.message)
+        alert(err.message)
+      })
   }
 
   listenGames = () => {

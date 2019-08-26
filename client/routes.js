@@ -31,25 +31,30 @@ class Routes extends Component {
     this._isMounted = true
     let userId = ''
     let username = ''
-    await firebase.auth().onAuthStateChanged(loggedinUser => {
-      if (loggedinUser) {
-        userId = loggedinUser.uid
-        db
-          .collection('users')
-          .doc(userId)
-          .get()
-          .then(doc => {
-            if (doc.exists) {
-              username = doc.data().username
-            }
-          })
-          .then(() => {
-            if (this._isMounted) {
-              this.setState({username: username, loggedIn: true})
-            }
-          })
-      }
-    })
+    await firebase
+      .auth()
+      .onAuthStateChanged(loggedinUser => {
+        if (loggedinUser) {
+          userId = loggedinUser.uid
+          db
+            .collection('users')
+            .doc(userId)
+            .get()
+            .then(doc => {
+              if (doc.exists) {
+                username = doc.data().username
+              }
+            })
+            .then(() => {
+              if (this._isMounted) {
+                this.setState({username: username, loggedIn: true})
+              }
+            })
+        }
+      })
+      .catch(err => {
+        console.log('an error has occurred with firebase', err.message)
+      })
   }
   render() {
     return (

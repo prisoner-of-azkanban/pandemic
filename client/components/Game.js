@@ -38,6 +38,10 @@ class Game extends React.Component {
           this.setState({players: players, isFull: isFull, started: started})
         }
       })
+      .catch(err => {
+        console.log('an error has occurred with firebase', err.message)
+        alert(err.message)
+      })
   }
 
   componentWillUnmount() {
@@ -55,11 +59,17 @@ class Game extends React.Component {
       },
       {merge: true}
     )
-    this.game.collection('chatroom').add({
-      username: 'Admin',
-      message: this.state.username + ' has joined the game',
-      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-    })
+    this.game
+      .collection('chatroom')
+      .add({
+        username: 'Admin',
+        message: this.state.username + ' has joined the game',
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      })
+      .catch(err => {
+        console.log('an error has occurred with the chatroom', err.message)
+        alert(err.message)
+      })
   }
 
   handleStart = () => {
@@ -83,6 +93,10 @@ class Game extends React.Component {
           if (this._isMounted) {
             this.setState({started: started})
           }
+        })
+        .catch(err => {
+          console.log('an error has occurred with firebase', err.message)
+          alert(err.message)
         })
     }
   }
@@ -110,6 +124,10 @@ class Game extends React.Component {
               }
             })
           }
+        })
+        .catch(err => {
+          console.log('an error has occurred with firebase', err.message)
+          alert(err.message)
         })
     }
   }
