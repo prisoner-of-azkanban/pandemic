@@ -26,7 +26,7 @@ class GameMenu extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     const currentUser = this.props.players.filter(
       player => player.name === this.props.username
     )[0]
