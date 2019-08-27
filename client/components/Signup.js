@@ -20,6 +20,10 @@ class Signup extends React.Component {
     })
   }
 
+  handleBack = () => {
+    this.props.history.push('/')
+  }
+
   handleSubmit = event => {
     event.preventDefault()
     firebase
@@ -52,6 +56,7 @@ class Signup extends React.Component {
         displayName="Sign Up"
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        handleBack={this.handleBack}
         disabled={disabled}
       />
     )

@@ -9,6 +9,7 @@ const MAXPLAYERS = 4
 class Game extends React.Component {
   constructor(props) {
     super(props)
+    // console.log(props)
     this.state = {
       players: [],
       username: this.props.username,
@@ -52,24 +53,51 @@ class Game extends React.Component {
     unsubscribeStart()
   }
 
+  handleBack = () => {
+    this.props.history.push('/waitingroom')
+  }
+
   handleClick = () => {
-    this.game.set(
-      {
-        players: [...this.state.players, this.state.username]
-      },
-      {merge: true}
-    )
-    this.game
-      .collection('chatroom')
-      .add({
-        username: 'Admin',
-        message: this.state.username + ' has joined the game',
-        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-      })
-      .catch(err => {
-        console.log('an error has occurred with the chatroom', err.message)
-        alert(err.message)
-      })
+    if (!this.state.players.includes(this.state.username)) {
+      this.game.set(
+        {
+          players: [...this.state.players, this.state.username]
+        },
+        {merge: true}
+      )
+      this.game
+        .collection('chatroom')
+        .add({
+          username: 'Admin',
+          message: this.state.username + ' has joined the game',
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+        })
+        .catch(err => {
+          console.log('an error has occurred with the chatroom', err.message)
+          alert(err.message)
+        })
+    } else {
+      let newPlayersArray = this.state.players.filter(
+        name => name !== this.state.username
+      )
+      this.game.set(
+        {
+          players: [...newPlayersArray]
+        },
+        {merge: true}
+      )
+      this.game
+        .collection('chatroom')
+        .add({
+          username: 'Admin',
+          message: this.state.username + ' has left the game',
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+        })
+        .catch(err => {
+          console.log('an error has occurred with the chatroom', err.message)
+          alert(err.message)
+        })
+    }
   }
 
   handleStart = () => {
@@ -125,6 +153,17 @@ class Game extends React.Component {
             })
           }
         })
+        .then(() => {
+          if (this.state.players.length !== MAXPLAYERS) {
+            this.game.set({isFull: false}, {merge: true}).then(() => {
+              if (this._isMounted) {
+                this.setState({
+                  isFull: false
+                })
+              }
+            })
+          }
+        })
         .catch(err => {
           console.log('an error has occurred with firebase', err.message)
           alert(err.message)
@@ -133,40 +172,91 @@ class Game extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="game-container">
-        {this.state.started ? (
-          <MainGame
-            players={this.state.players}
-            game={this.game}
-            username={this.props.username}
-          />
-        ) : this.state.isFull ? (
-          <p>The room is full, start the game</p>
-        ) : (
-          <h4>Waiting for 4 players</h4>
-        )}
-        {this.state.started ? (
-          <div />
-        ) : (
-          <div>
-            <h4>Current players:</h4>
-            {this.state.players.map(player => <p key={player}>{player}</p>)}
-            {this.state.isFull ? (
-              <Button variant="outline-dark" onClick={this.handleStart}>
-                Start the Game
-              </Button>
-            ) : (
-              <Button
-                variant="outline-dark"
-                onClick={this.handleClick}
-                disabled={this.state.players.includes(this.state.username)}
-              >
-                Join the Game
-              </Button>
-            )}
-          </div>
-        )}
+        <div>
+          {this.state.started ? (
+            <MainGame
+              players={this.state.players}
+              game={this.game}
+              username={this.props.username}
+            />
+          ) : this.state.isFull ? (
+            <p>The room is full, start the game</p>
+          ) : (
+            <h4>Waiting for 4 players</h4>
+          )}
+          {this.state.started ? (
+            <div />
+          ) : (
+            <div>
+              <h4>Current players:</h4>
+              {this.state.players.map(player => <p key={player}>{player}</p>)}
+              {this.state.isFull ? (
+                <div>
+                  <Button variant="outline-dark" onClick={this.handleStart}>
+                    Start the Game
+                  </Button>
+                  <div>
+                    <Button
+                      variant="outline-dark"
+                      onClick={this.handleClick}
+                      disabled={
+                        !this.state.players.includes(this.state.username)
+                      }
+                    >
+                      Leave the Game
+                    </Button>
+                    <Button
+                      variant="outline-dark"
+                      onClick={this.handleBack}
+                      disabled={this.state.players.includes(
+                        this.state.username
+                      )}
+                    >
+                      Leave the Room
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div>
+                    <Button
+                      variant="outline-dark"
+                      onClick={this.handleClick}
+                      disabled={this.state.players.includes(
+                        this.state.username
+                      )}
+                    >
+                      Join the Game
+                    </Button>
+                    <Button
+                      variant="outline-dark"
+                      onClick={this.handleClick}
+                      disabled={
+                        !this.state.players.includes(this.state.username)
+                      }
+                    >
+                      Leave the Game
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      variant="outline-dark"
+                      onClick={this.handleBack}
+                      disabled={this.state.players.includes(
+                        this.state.username
+                      )}
+                    >
+                      Leave the Room
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     )
   }

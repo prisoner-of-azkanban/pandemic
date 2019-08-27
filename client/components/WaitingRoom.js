@@ -155,7 +155,7 @@ class WaitingRoom extends React.Component {
   }
 
   render() {
-    console.log('waiting room props', this.state)
+    // console.log('waiting room props', this.state)
     return (
       <div className="waiting-room-page">
         <h3 className="waiting-room-header">
@@ -172,7 +172,7 @@ class WaitingRoom extends React.Component {
             >
               <Link to={`/game/${game.name}`} className="game-join-link">
                 <h1 className="game-name">{game.name}</h1>
-                Join Game
+                Enter Room
               </Link>
             </Col>
           ))}
