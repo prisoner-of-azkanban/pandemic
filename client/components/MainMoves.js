@@ -345,10 +345,10 @@ class MainMoves extends React.Component {
               <div>
                 Discard {currentUser.location} and
                 <Dropdown onSelect={this.handleCharterFlightTo}>
-                  <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                  <Dropdown.Toggle variant="outline-dark">
                     {this.state.charterFlightTo}
                   </Dropdown.Toggle>
-                  <Dropdown.Menu>
+                  <Dropdown.Menu id="dropdown-basic">
                     {allCities.map(city => (
                       <Dropdown.Item key={city} eventKey={city}>
                         {city}
