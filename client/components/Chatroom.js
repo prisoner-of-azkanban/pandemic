@@ -88,7 +88,14 @@ class Chatroom extends React.Component {
         <div className="chatBox">
           {this.state.messages.length ? (
             this.state.messages.map((message, index) => (
-              <p key={index} className="chatBox-message">
+              <p
+                key={index}
+                className={
+                  message.username === 'Admin'
+                    ? 'chatBox-message-admin'
+                    : 'chatBox-message'
+                }
+              >
                 {message.username} : {message.message}
               </p>
             ))
