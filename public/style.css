@@ -182,11 +182,21 @@ canvas {
 #game-menu {
   width: 25vw;
   height: 80vh;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 15px;
   text-align: center;
   max-height: 80vh;
   overflow-y: scroll;
+}
+
+#game-menu-you,
+#game-menu-current,
+#game-menu-move,
+#game-menu-status {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 5px;
 }
 
 #whole-game-screen {
@@ -205,6 +215,11 @@ canvas {
 .game-menu-btn:hover {
   background-color: yellow;
   color: black;
+}
+
+.game-menu-btn:disabled {
+  background-color: white;
+  color: gray;
 }
 
 .other-cards-header {
@@ -231,8 +246,18 @@ canvas {
   padding-left: 0px;
 }
 
+#your-cards {
+  width: 40%;
+  text-align: center;
+}
+
+#others-cards {
+  width: 60%;
+  text-align: center;
+}
+
 .card-container-header {
-  font-style: italic;
+  font-weight: bold;
 }
 
 .yellow {
