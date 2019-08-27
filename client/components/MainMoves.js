@@ -348,7 +348,7 @@ class MainMoves extends React.Component {
                   <Dropdown.Toggle variant="outline-dark">
                     {this.state.charterFlightTo}
                   </Dropdown.Toggle>
-                  <Dropdown.Menu id="dropdown-basic">
+                  <Dropdown.Menu id="dropdown-charter">
                     {allCities.map(city => (
                       <Dropdown.Item key={city} eventKey={city}>
                         {city}
