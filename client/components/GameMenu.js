@@ -9,7 +9,7 @@ class GameMenu extends React.Component {
     super(props)
     this.state = {
       showHelpModal: false,
-      showInstructionModal: false,
+      showInstructionModal: true,
       showMoves: false,
       showMenu: 'default'
     }
@@ -51,166 +51,183 @@ class GameMenu extends React.Component {
     )[0].color
     return (
       <div id="game-menu">
-        <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
-        <h4>Currently in {currentUser.location}</h4>
-        <h3 className="menu-header-1">
-          Current Turn:
-          <span>{this.props.players[this.props.turn].name}</span>
-        </h3>
-        ({4 - this.props.actionCount} moves left)
-        <h3 className="menu-header-1">Moves</h3>
-        {canMakeMove ? (
-          <MainMoves
-            canMakeMove={canMakeMove}
-            showMenu={this.state.showMenu}
-            showMenuToggle={this.showMenuToggle}
-            resetMenu={this.resetMenu}
-            currentUser={currentUser}
-            otherUsers={otherUsers}
-            cities={this.props.cities}
-            handleBasicTravel={this.props.handleBasicTravel}
-            handleResearchSubmit={this.props.handleResearchSubmit}
-            handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
-            handleTreatSubmit={this.props.handleTreatSubmit}
-            handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
-            handleCureSubmit={this.props.handleCureSubmit}
-            blackCure={this.props.blackCure}
-            redCure={this.props.redCure}
-            yellowCure={this.props.yellowCure}
-            blueCure={this.props.blueCure}
-          />
-        ) : (
-          <p>It is not your turn</p>
-        )}
-        <div id="btn-menu">
-          {this.props.gameStart ? (
-            <div />
-          ) : (
-            <Button
-              variant="outline-dark"
-              className="start-game-btn"
-              onClick={this.props.startGame}
-              disabled={this.props.gameStart}
-            >
-              Start Game
-            </Button>
-          )}
+        <div id="game-menu-you">
+          <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
+          <h4>Currently in {currentUser.location}</h4>
         </div>
-        <h3 className="menu-header-1">Game Status</h3>
-        <div id="card-container">
-          <div id="your-cards">
-            <h4 className="card-container-header">Your hand:</h4>
-            {currentUser ? (
-              <ul id="your-cards-container">
-                {currentUser.hand.map(card => {
-                  return (
-                    <p key={card.title} className={card.color}>
-                      {card.title}
-                    </p>
-                  )
-                })}
-              </ul>
-            ) : (
+        <div id="game-menu-current">
+          <h3 className="menu-header-1">
+            Current Turn:{' '}
+            <span>{this.props.players[this.props.turn].name}</span>
+          </h3>
+          ({4 - this.props.actionCount} moves left)
+        </div>
+        <div id="game-menu-move">
+          <h3 className="menu-header-1">Available Moves</h3>
+          {canMakeMove ? (
+            <MainMoves
+              canMakeMove={canMakeMove}
+              showMenu={this.state.showMenu}
+              showMenuToggle={this.showMenuToggle}
+              resetMenu={this.resetMenu}
+              currentUser={currentUser}
+              otherUsers={otherUsers}
+              cities={this.props.cities}
+              handleBasicTravel={this.props.handleBasicTravel}
+              handleResearchSubmit={this.props.handleResearchSubmit}
+              handleOtherFlightSubmit={this.props.handleOtherFlightSubmit}
+              handleTreatSubmit={this.props.handleTreatSubmit}
+              handleKnowledgeSubmit={this.props.handleKnowledgeSubmit}
+              handleCureSubmit={this.props.handleCureSubmit}
+              blackCure={this.props.blackCure}
+              redCure={this.props.redCure}
+              yellowCure={this.props.yellowCure}
+              blueCure={this.props.blueCure}
+            />
+          ) : (
+            <p>It is not your turn</p>
+          )}
+          <div id="btn-menu">
+            {this.props.gameStart ? (
               <div />
+            ) : (
+              <Button
+                variant="outline-dark"
+                className="start-game-btn"
+                onClick={this.props.startGame}
+                disabled={this.props.gameStart}
+              >
+                Deal Cards
+              </Button>
             )}
           </div>
-          <div id="others-cards">
-            <h4 className="card-container-header" />
-            {otherUsers ? (
-              <div id="other-cards-container">
-                <Accordion className="other-cards-header">
-                  {otherUsers.map(user => {
+        </div>
+        <div id="game-menu-status">
+          <h3 className="menu-header-1">Game Status</h3>
+          <div id="card-container">
+            <div id="your-cards">
+              <h4 className="card-container-header">You:</h4>
+              {currentUser ? (
+                <ul id="your-cards-container">
+                  {currentUser.hand.map(card => {
                     return (
-                      <Card key={user.name} className="other-cards-header">
-                        <Card.Header className="other-cards-header">
-                          <Accordion.Toggle
-                            as={Button}
-                            eventKey={user.name}
-                            variant="outline-dark"
-                            className={`${user.color}-btn`}
-                          >
-                            {user.name}'s status
-                          </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey={user.name}>
-                          <Card.Body>
-                            <p>location: {user.location}</p>
-                            {user.hand.map(card => {
-                              return (
-                                <p key={card.title} className={card.color}>
-                                  {card.title}
-                                </p>
-                              )
-                            })}
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
+                      <p key={card.title} className={card.color}>
+                        {card.title}
+                      </p>
                     )
                   })}
-                  <Card className="other-cards-header">
-                    <Card.Header className="other-cards-header">
-                      <Accordion.Toggle
-                        as={Button}
-                        eventKey="infectDeck"
-                        variant="outline-dark"
-                      >
-                        Infect discard
-                      </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="infectDeck">
-                      <Card.Body>
-                        {this.props.infectionCardDiscard.map(card => {
-                          return (
-                            <p key={card.city} className={card.color}>
-                              {card.city}
-                            </p>
-                          )
-                        })}
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                  <Card className="other-cards-header">
-                    <Card.Header className="other-cards-header">
-                      <Accordion.Toggle
-                        as={Button}
-                        eventKey="epidemicList"
-                        variant="outline-dark"
-                      >
-                        Epidemic List
-                      </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="epidemicList">
-                      <Card.Body>
-                        {this.props.epidemicList.map(card => {
-                          return (
-                            <p key={card.city} className={card.color}>
-                              {card.city}
-                            </p>
-                          )
-                        })}
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </div>
-            ) : (
-              <div />
-            )}
+                </ul>
+              ) : (
+                <div />
+              )}
+            </div>
+            <div id="others-cards">
+              <h4 className="card-container-header">Other: </h4>
+              {otherUsers ? (
+                <div id="other-cards-container">
+                  <Accordion className="other-cards-header">
+                    {otherUsers.map(user => {
+                      return (
+                        <Card key={user.name} className="other-cards-header">
+                          <Card.Header className="other-cards-header">
+                            <Accordion.Toggle
+                              as={Button}
+                              eventKey={user.name}
+                              variant="outline-dark"
+                              className={`${user.color}-btn`}
+                            >
+                              {user.name}
+                            </Accordion.Toggle>
+                          </Card.Header>
+                          <Accordion.Collapse eventKey={user.name}>
+                            <Card.Body>
+                              <p>
+                                <span className="card-container-header">
+                                  Location:
+                                </span>
+                                <br />
+                                {user.location}
+                              </p>
+                              <span className="card-container-header">
+                                Hand:
+                              </span>
+                              {user.hand.map(card => {
+                                return (
+                                  <p key={card.title} className={card.color}>
+                                    {card.title}
+                                  </p>
+                                )
+                              })}
+                            </Card.Body>
+                          </Accordion.Collapse>
+                        </Card>
+                      )
+                    })}
+                    <Card className="other-cards-header">
+                      <Card.Header className="other-cards-header">
+                        <Accordion.Toggle
+                          as={Button}
+                          eventKey="infectDeck"
+                          variant="outline-dark"
+                        >
+                          Infect discard
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="infectDeck">
+                        <Card.Body>
+                          {this.props.infectionCardDiscard.map(card => {
+                            return (
+                              <p key={card.city} className={card.color}>
+                                {card.city}
+                              </p>
+                            )
+                          })}
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                    <Card className="other-cards-header">
+                      <Card.Header className="other-cards-header">
+                        <Accordion.Toggle
+                          as={Button}
+                          eventKey="epidemicList"
+                          variant="outline-dark"
+                        >
+                          Epidemic List
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="epidemicList">
+                        <Card.Body>
+                          {this.props.epidemicList.map(card => {
+                            return (
+                              <p key={card.city} className={card.color}>
+                                {card.city}
+                              </p>
+                            )
+                          })}
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+                </div>
+              ) : (
+                <div />
+              )}
+            </div>
           </div>
         </div>
-        <Button
-          variant="outline-dark"
-          className="game-menu-btn"
-          onClick={this.toggleHelpModal}
-        >
-          Help
-        </Button>
         <Button
           variant="outline-dark"
           className="game-menu-btn"
           onClick={this.toggleInstructionModal}
         >
           Instructions
+        </Button>
+        <Button
+          variant="outline-dark"
+          className="game-menu-btn"
+          onClick={this.toggleHelpModal}
+        >
+          Help
         </Button>
         <HelpModal
           showHelpModal={this.state.showHelpModal}
