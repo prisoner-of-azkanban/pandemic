@@ -236,35 +236,38 @@ canvas {
 }
 
 .yellow {
-  text-shadow: 2px 2px 5px yellow;
+  background-color: yellow;
 }
 
 .blue {
-  text-shadow: 2px 2px 5px blue;
+  background-color: blue;
+  color: white;
 }
 
 .red {
-  text-shadow: 2px 2px 5px red;
+  background-color: red;
+  color: white;
 }
 
 .black {
-  text-shadow: 2px 2px 5px black;
+  background-color: black;
+  color: white;
 }
 
 .lime {
-  text-shadow: 2px 2px 5px lime;
+  background-color: lime;
 }
 
 .aqua {
-  text-shadow: 2px 2px 5px aqua;
+  background-color: aqua;
 }
 
 .fuchsia {
-  text-shadow: 2px 2px 5px fuchsia;
+  background-color: fuchsia;
 }
 
 .orange {
-  text-shadow: 2px 2px 5px orange;
+  background-color: orange;
 }
 
 .help-modal-header,
@@ -299,4 +302,28 @@ canvas {
 .mainmove-cure-card {
   align-content: left;
   text-align: left;
+}
+
+.start-game-btn {
+  margin: 5px;
+  background-color: yellow;
+  color: black;
+  font-family: impact;
+}
+
+.lime-btn {
+  margin: 5px;
+  background-color: lime;
+}
+
+.aqua-btn {
+  background-color: aqua;
+}
+
+.fuchsia-btn {
+  background-color: fuchsia;
+}
+
+.orange-btn {
+  background-color: orange;
 }

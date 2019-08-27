@@ -2,12 +2,14 @@ import React from 'react'
 import {Button, Dropdown, Collapse, Accordion, Card} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
+import InstructionModal from './InstructionModal'
 
 class GameMenu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showModal: false,
+      showHelpModal: false,
+      showInstructionModal: false,
       showMoves: false,
       showMenu: 'default'
     }
@@ -21,8 +23,12 @@ class GameMenu extends React.Component {
     this.setState({showMenu: 'default'})
   }
 
-  toggleModal = () => {
-    this.setState({showModal: !this.state.showModal})
+  toggleHelpModal = () => {
+    this.setState({showHelpModal: !this.state.showHelpModal})
+  }
+
+  toggleInstructionModal = () => {
+    this.setState({showInstructionModal: !this.state.showInstructionModal})
   }
 
   render() {
@@ -47,11 +53,10 @@ class GameMenu extends React.Component {
       <div id="game-menu">
         <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
         <h3 className="menu-header-1">
-          Current Turn: {this.props.players[this.props.turn].name}
+          Current Turn:
+          <span>{this.props.players[this.props.turn].name}</span>
         </h3>
-        <h5 className="menu-header-1">
-          Actions Left: {4 - this.props.actionCount}
-        </h5>
+        ({4 - this.props.actionCount} moves left)
         <h3 className="menu-header-1">Moves</h3>
         {canMakeMove ? (
           <MainMoves
@@ -82,7 +87,7 @@ class GameMenu extends React.Component {
           ) : (
             <Button
               variant="outline-dark"
-              className="game-menu-btn"
+              className="start-game-btn"
               onClick={this.props.startGame}
               disabled={this.props.gameStart}
             >
@@ -121,7 +126,7 @@ class GameMenu extends React.Component {
                             as={Button}
                             eventKey={user.name}
                             variant="outline-dark"
-                            className={`${user.color}`}
+                            className={`${user.color}-btn`}
                           >
                             {user.name}'s hand
                           </Accordion.Toggle>
@@ -194,14 +199,25 @@ class GameMenu extends React.Component {
         <Button
           variant="outline-dark"
           className="game-menu-btn"
-          onClick={this.toggleModal}
+          onClick={this.toggleHelpModal}
         >
           Help
         </Button>
+        <Button
+          variant="outline-dark"
+          className="game-menu-btn"
+          onClick={this.toggleInstructionModal}
+        >
+          Instructions
+        </Button>
         <HelpModal
-          showModal={this.state.showModal}
-          toggleModal={this.toggleModal}
+          showHelpModal={this.state.showHelpModal}
+          toggleHelpModal={this.toggleHelpModal}
           currentUser={currentUser}
+        />
+        <InstructionModal
+          showInstructionModal={this.state.showInstructionModal}
+          toggleInstructionModal={this.toggleInstructionModal}
         />
       </div>
     )
