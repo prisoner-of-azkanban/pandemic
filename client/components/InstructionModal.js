@@ -32,18 +32,18 @@ const InstructionModal = props => {
         <p>
           The goal of the game is to discover cures for all 4 diseases. Players
           lose if:
-          <ul>
-            <li>8 outbreaks occur (a worldwide panic happens)</li>
-            <li>
-              not enough disease cubes are left when needed (a disease spreads
-              too much)
-            </li>
-            <li>
-              not enough player cards are left when needed (your team runs out
-              of time)
-            </li>
-          </ul>
         </p>
+        <ul>
+          <li>8 outbreaks occur (a worldwide panic happens)</li>
+          <li>
+            not enough disease cubes are left when needed (a disease spreads too
+            much)
+          </li>
+          <li>
+            not enough player cards are left when needed (your team runs out of
+            time)
+          </li>
+        </ul>
         <h4 className="help-modal-header">Instructions</h4>
         <h4 className="help-modal-subheader">Start The Game</h4>
         <p>Press the Deal Cards button to start the game.</p>
