@@ -21,7 +21,7 @@ class Login extends React.Component {
   }
 
   handleBack = () => {
-    this.props.history.push('/')
+    this.props.history.push('/home')
   }
 
   handleSubmit = event => {
