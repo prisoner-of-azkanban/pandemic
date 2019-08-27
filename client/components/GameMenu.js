@@ -57,7 +57,7 @@ class GameMenu extends React.Component {
         </div>
         <div id="game-menu-current">
           <h3 className="menu-header-1">
-            Current Turn:
+            Current Turn:{' '}
             <span>{this.props.players[this.props.turn].name}</span>
           </h3>
           ({4 - this.props.actionCount} moves left)
