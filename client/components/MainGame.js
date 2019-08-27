@@ -408,6 +408,8 @@ class MainGame extends React.Component {
     allPlayers[this.state.currentTurn].hand = allPlayers[
       this.state.currentTurn
     ].hand.filter(card => card.title !== cardDiscard)
+    let newDiscard = [...this.state.playerCardDiscard, cardDiscard]
+    this.decks.set({playerCardDiscard: newDiscard}, {merge: true})
     this.playerList
       .set({playerList: allPlayers})
       .then(() => this.incrementAction())
@@ -429,12 +431,16 @@ class MainGame extends React.Component {
     let allPlayers = [...this.state.playerList]
     let allCities = {...this.state.cities}
     let currentCity = allPlayers[this.state.currentTurn].location
-
     allCities[currentCity].research = true
     this.cities.set({cities: allCities})
     allPlayers[this.state.currentTurn].hand = allPlayers[
       this.state.currentTurn
     ].hand.filter(card => card.title !== currentCity)
+    const discardCard = playerCards.filter(
+      card => card.title === currentCity
+    )[0]
+    let newDiscard = [...this.state.playerCardDiscard, discardCard]
+    this.decks.set({playerCardDiscard: newDiscard}, {merge: true})
     this.playerList
       .set({playerList: allPlayers})
       .then(() => this.incrementAction())
