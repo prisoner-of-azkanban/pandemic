@@ -1016,13 +1016,21 @@ class MainGame extends React.Component {
   }
 
   //for when epidemic happens, need to put cards back into deck, cannot use current state
-  epidemicDiscardShuffle = () => {
+  epidemicDiscardShuffle = (infectionDeck = null) => {
     const oldInfectDiscard = this.state.infectionCardDiscard
-    let oldInfectDeck = this.state.infectionCardDeck
-    const epidemicCity = oldInfectDeck.pop()
-    const addToInfectDeck = [...oldInfectDiscard, epidemicCity]
-    const shuffledAdd = shuffle(addToInfectDeck, {copy: true})
-    const newInfectDeck = [...shuffledAdd, ...oldInfectDeck]
+    let oldInfectDeck
+    let newInfectDeck
+    if (infectionDeck) {
+      oldInfectDeck = infectionDeck
+      const epidemicCity = oldInfectDeck.pop()
+      newInfectDeck = oldInfectDeck.splice(0, 0, epidemicCity)
+    } else {
+      oldInfectDeck = this.state.infectionCardDeck
+      const epidemicCity = oldInfectDeck.pop()
+      const addToInfectDeck = [...oldInfectDiscard, epidemicCity]
+      const shuffledAdd = shuffle(addToInfectDeck, {copy: true})
+      newInfectDeck = [...shuffledAdd, ...oldInfectDeck]
+    }
     return newInfectDeck
   }
 
@@ -1035,16 +1043,16 @@ class MainGame extends React.Component {
     const card2 = playerCardDeck.shift()
     let addToHand = []
     //check if card1 epidemic, resolve
-    if (isCardEpidemic(card1)) {
+    if (isCardEpidemic(card1) && isCardEpidemic(card2)) {
       epidemicFlag = true
-      const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
-      const newEpidemicList = [...this.state.epidemicList, epidemic]
+      const epidemic1 = infectionCardDeck[infectionCardDeck.length - 1]
+      let newEpidemicList = [...this.state.epidemicList, epidemic1]
       this.props.game
         .set({epidemicList: newEpidemicList}, {merge: true})
         .then(() =>
           this.props.game.collection('chatroom').add({
             username: 'Admin',
-            message: `${epidemic.city} has broken out!`,
+            message: `${epidemic1.city} has broken out!`,
             createdAt: firebase.firestore.Timestamp.fromDate(new Date())
           })
         )
@@ -1055,18 +1063,19 @@ class MainGame extends React.Component {
           )
           alert('an error has occurred')
         })
-      this.infectWrapper(epidemic.city, epidemic.color, 3, true)
-      this.playerInfectStep(this.epidemicDiscardShuffle())
-    } else {
-      addToHand.push(card1)
-    }
-    //check if card2 epidemic, resolve
-    if (isCardEpidemic(card2)) {
-      epidemicFlag = true
-      const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
-      const newEpidemicList = [...this.state.epidemicList, epidemic]
+      this.infectWrapper(epidemic1.city, epidemic1.color, 3, true)
+      const infectDeck1 = this.epidemicDiscardShuffle()
+      const epidemic2 = infectionCardDeck[infectionCardDeck.length - 1]
+      newEpidemicList.push(epidemic2)
       this.props.game
         .set({epidemicList: newEpidemicList}, {merge: true})
+        .then(() =>
+          this.props.game.collection('chatroom').add({
+            username: 'Admin',
+            message: `${epidemic2.city} has broken out!`,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+          })
+        )
         .catch(error => {
           console.log(
             'an error has occurred setting the epidemic list',
@@ -1074,10 +1083,54 @@ class MainGame extends React.Component {
           )
           alert('an error has occurred')
         })
-      this.infectWrapper(epidemic.city, epidemic.color, 3, true)
-      this.playerInfectStep(this.epidemicDiscardShuffle())
+      this.infectWrapper(epidemic2.city, epidemic2.color, 3, true)
+      const infectDeck2 = this.epidemicDiscardShuffle(infectDeck1)
+      this.playerInfectStep(infectDeck2)
     } else {
-      addToHand.push(card2)
+      if (isCardEpidemic(card1)) {
+        epidemicFlag = true
+        const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
+        const newEpidemicList = [...this.state.epidemicList, epidemic]
+        this.props.game
+          .set({epidemicList: newEpidemicList}, {merge: true})
+          .then(() =>
+            this.props.game.collection('chatroom').add({
+              username: 'Admin',
+              message: `${epidemic.city} has broken out!`,
+              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+            })
+          )
+          .catch(error => {
+            console.log(
+              'an error has occurred setting the epidemic list',
+              error.message
+            )
+            alert('an error has occurred')
+          })
+        this.infectWrapper(epidemic.city, epidemic.color, 3, true)
+        this.playerInfectStep(this.epidemicDiscardShuffle())
+      } else {
+        addToHand.push(card1)
+      }
+      //check if card2 epidemic, resolve
+      if (isCardEpidemic(card2)) {
+        epidemicFlag = true
+        const epidemic = infectionCardDeck[infectionCardDeck.length - 1]
+        const newEpidemicList = [...this.state.epidemicList, epidemic]
+        this.props.game
+          .set({epidemicList: newEpidemicList}, {merge: true})
+          .catch(error => {
+            console.log(
+              'an error has occurred setting the epidemic list',
+              error.message
+            )
+            alert('an error has occurred')
+          })
+        this.infectWrapper(epidemic.city, epidemic.color, 3, true)
+        this.playerInfectStep(this.epidemicDiscardShuffle())
+      } else {
+        addToHand.push(card2)
+      }
     }
     let playerList = this.state.playerList
     //add non-epidemic cards to hand
