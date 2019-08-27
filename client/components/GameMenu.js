@@ -52,6 +52,7 @@ class GameMenu extends React.Component {
     return (
       <div id="game-menu">
         <h3 className={`menu-header-1 ${color}`}>{this.props.username}</h3>
+        <h4>Currently in {currentUser.location}</h4>
         <h3 className="menu-header-1">
           Current Turn:
           <span>{this.props.players[this.props.turn].name}</span>
@@ -128,11 +129,12 @@ class GameMenu extends React.Component {
                             variant="outline-dark"
                             className={`${user.color}-btn`}
                           >
-                            {user.name}'s hand
+                            {user.name}'s status
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey={user.name}>
                           <Card.Body>
+                            <p>location: {user.location}</p>
                             {user.hand.map(card => {
                               return (
                                 <p key={card.title} className={card.color}>
