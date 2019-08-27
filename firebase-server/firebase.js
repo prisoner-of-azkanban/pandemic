@@ -6,4 +6,4 @@ let app = firebase.initializeApp(config)
 
 const db = firebase.firestore()
 
-module.exports = {db, app, config}
+module.exports = {db, app}
