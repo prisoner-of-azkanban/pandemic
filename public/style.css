@@ -365,3 +365,8 @@ canvas {
 .modal-bold {
   font-weight: bold;
 }
+
+#dropdown-charter {
+  max-height: 400px;
+  overflow-y: scroll;
+}
