@@ -10,20 +10,19 @@ class Homepage extends React.Component {
 
   //redirects to waiting room if a user is logged in
   async componentDidMount() {
-    await firebase
-      .auth()
-      .onAuthStateChanged(loggedinUser => {
+    try {
+      await firebase.auth().onAuthStateChanged(loggedinUser => {
         if (loggedinUser) {
           this.props.history.push('/waitingroom')
         }
       })
-      .catch(err => {
-        console.log(
-          'an error has occurred with getting logged in user',
-          err.message
-        )
-        alert(err.message)
-      })
+    } catch (err) {
+      console.log(
+        'an error has occurred with getting logged in user',
+        err.message
+      )
+      alert(err.message)
+    }
   }
 
   render() {

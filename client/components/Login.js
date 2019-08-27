@@ -1,6 +1,7 @@
 import React from 'react'
 import LoginSignup from './LoginSignup'
 import firebase from 'firebase'
+import {Button} from 'react-bootstrap'
 
 import {app, db} from '../../firebase-server/firebase'
 
@@ -17,6 +18,10 @@ class Login extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+
+  handleBack = () => {
+    this.props.history.push('/home')
   }
 
   handleSubmit = event => {
@@ -45,6 +50,7 @@ class Login extends React.Component {
           displayName="Log In"
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
+          handleBack={this.handleBack}
           disabled={disabled}
         />
       </React.Fragment>

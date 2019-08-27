@@ -56,6 +56,7 @@ class Routes extends Component {
       <Switch>
         <Route path="/login" render={props => <NewLogin {...props} />} />
         <Route path="/signup" render={props => <NewSignup {...props} />} />
+        <Route exact path="/home" render={props => <Homepage {...props} />} />
         {this.state.loggedIn && (
           <Switch>
             <Route

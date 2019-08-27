@@ -50,6 +50,16 @@ const LoginSignup = props => {
           </Button>
         </div>
       </Form>
+      <div>
+        <Button
+          type="submit"
+          variant="outline-dark"
+          className="main-btn"
+          onClick={props.handleBack}
+        >
+          Return to Home Screen
+        </Button>
+      </div>
     </div>
   )
 }
