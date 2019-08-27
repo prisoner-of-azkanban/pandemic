@@ -558,7 +558,15 @@ class MainGame extends React.Component {
             .update({redCubes: supply})
             .then(() => {
               if (this.state.redCubes === 24) {
-                this.props.game.update({redCure: eradicate})
+                this.props.game.update({redCure: eradicate}).then(() =>
+                  this.chatroom.add({
+                    username: 'Admin',
+                    message: `${
+                      allPlayers[this.state.currentTurn].name
+                    } has eradicated red`,
+                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+                  })
+                )
               }
             })
             .catch(err => {
@@ -609,7 +617,15 @@ class MainGame extends React.Component {
             .update({blueCubes: supply})
             .then(() => {
               if (this.state.blueCubes === 24) {
-                this.props.game.update({blueCure: eradicate})
+                this.props.game.update({blueCure: eradicate}).then(() =>
+                  this.chatroom.add({
+                    username: 'Admin',
+                    message: `${
+                      allPlayers[this.state.currentTurn].name
+                    } has eradicated blue`,
+                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+                  })
+                )
               }
             })
             .catch(err => {
@@ -661,7 +677,15 @@ class MainGame extends React.Component {
             .update({yellowCubes: supply})
             .then(() => {
               if (this.state.yellowCubes === 24) {
-                this.props.game.update({yellowCure: eradicate})
+                this.props.game.update({yellowCure: eradicate}).then(() =>
+                  this.chatroom.add({
+                    username: 'Admin',
+                    message: `${
+                      allPlayers[this.state.currentTurn].name
+                    } has eradicated yellow`,
+                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+                  })
+                )
               }
             })
             .catch(err => {
@@ -713,7 +737,15 @@ class MainGame extends React.Component {
             .update({blackCubes: supply})
             .then(() => {
               if (this.state.blackCubes === 24) {
-                this.props.game.update({blackCure: eradicate})
+                this.props.game.update({blackCure: eradicate}).then(() =>
+                  this.chatroom.add({
+                    username: 'Admin',
+                    message: `${
+                      allPlayers[this.state.currentTurn].name
+                    } has eradicated black`,
+                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+                  })
+                )
               }
             })
             .catch(err => {
