@@ -1227,7 +1227,7 @@ class MainGame extends React.Component {
     if (infectionDeck) {
       oldInfectDeck = infectionDeck
       const epidemicCity = oldInfectDeck.pop()
-      newInfectDeck = oldInfectDeck.splice(0, 0, epidemicCity)
+      newInfectDeck = [epidemicCity, ...oldInfectDeck]
     } else {
       oldInfectDeck = this.state.infectionCardDeck
       const epidemicCity = oldInfectDeck.pop()
@@ -1235,6 +1235,7 @@ class MainGame extends React.Component {
       const shuffledAdd = shuffle(addToInfectDeck, {copy: true})
       newInfectDeck = [...shuffledAdd, ...oldInfectDeck]
     }
+    console.log(infectionDeck === null, newInfectDeck)
     return newInfectDeck
   }
 
@@ -1300,7 +1301,7 @@ class MainGame extends React.Component {
           .then(() =>
             this.props.game.collection('chatroom').add({
               username: 'Admin',
-              message: `${epidemic.city} has broken out!`,
+              message: `${epidemic.city} has broken out in an epidemic!`,
               createdAt: firebase.firestore.Timestamp.fromDate(new Date())
             })
           )
@@ -1323,6 +1324,13 @@ class MainGame extends React.Component {
         const newEpidemicList = [...this.state.epidemicList, epidemic]
         this.props.game
           .set({epidemicList: newEpidemicList}, {merge: true})
+          .then(() =>
+            this.props.game.collection('chatroom').add({
+              username: 'Admin',
+              message: `${epidemic.city} has broken out in an epidemic!`,
+              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+            })
+          )
           .catch(error => {
             console.log(
               'an error has occurred setting the epidemic list',
@@ -1495,6 +1503,13 @@ class MainGame extends React.Component {
       const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
       this.props.game
         .update({outbreaks: updateOutbreaks})
+        .then(() =>
+          this.props.game.collection('chatroom').add({
+            username: 'Admin',
+            message: `${city} has broken out and ${color} disease is spreading!`,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+          })
+        )
         .then(() => this.loseCheck())
         .catch(err => {
           console.log(
