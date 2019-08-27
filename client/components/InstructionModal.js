@@ -87,6 +87,7 @@ const InstructionModal = props => {
           The move menu shows you whose turn it is, what options you have during
           your turn, and the current status of the game.
         </p>
+        <p>For additional help on available moves, refer to the Help menu.</p>
       </Modal.Body>
     </Modal>
   )
