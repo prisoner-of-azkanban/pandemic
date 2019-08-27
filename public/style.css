@@ -327,3 +327,11 @@ canvas {
 .orange-btn {
   background-color: orange;
 }
+
+.modal-img-large {
+  width: 600px;
+}
+
+.modal-bold {
+  font-weight: bold;
+}
