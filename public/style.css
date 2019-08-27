@@ -366,8 +366,7 @@ canvas {
   font-weight: bold;
 }
 
-#charter-flight-select,
-#dropdown-basic {
+#dropdown-charter {
   max-height: 400px;
   overflow-y: scroll;
 }
