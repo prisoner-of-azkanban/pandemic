@@ -2,12 +2,14 @@ import React from 'react'
 import {Button, Dropdown, Collapse, Accordion, Card} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
+import InstructionModal from './InstructionModal'
 
 class GameMenu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showModal: false,
+      showHelpModal: false,
+      showInstructionModal: false,
       showMoves: false,
       showMenu: 'default'
     }
@@ -21,8 +23,12 @@ class GameMenu extends React.Component {
     this.setState({showMenu: 'default'})
   }
 
-  toggleModal = () => {
-    this.setState({showModal: !this.state.showModal})
+  toggleHelpModal = () => {
+    this.setState({showHelpModal: !this.state.showHelpModal})
+  }
+
+  toggleInstructionModal = () => {
+    this.setState({showInstructionModal: !this.state.showInstructionModal})
   }
 
   render() {
@@ -193,14 +199,25 @@ class GameMenu extends React.Component {
         <Button
           variant="outline-dark"
           className="game-menu-btn"
-          onClick={this.toggleModal}
+          onClick={this.toggleHelpModal}
         >
           Help
         </Button>
+        <Button
+          variant="outline-dark"
+          className="game-menu-btn"
+          onClick={this.toggleInstructionModal}
+        >
+          Instructions
+        </Button>
         <HelpModal
-          showModal={this.state.showModal}
-          toggleModal={this.toggleModal}
+          showHelpModal={this.state.showHelpModal}
+          toggleHelpModal={this.toggleHelpModal}
           currentUser={currentUser}
+        />
+        <InstructionModal
+          showInstructionModal={this.state.showInstructionModal}
+          toggleInstructionModal={this.toggleInstructionModal}
         />
       </div>
     )

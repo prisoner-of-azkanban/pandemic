@@ -2,14 +2,14 @@ import React from 'react'
 import {Modal} from 'react-bootstrap'
 
 const HelpModal = props => {
-  const eventCards = props.currentUser.hand.filter(
-    card => card.type === 'event'
-  )
+  // const eventCards = props.currentUser.hand.filter(
+  //   card => card.type === 'event'
+  // )
   return (
     <Modal
       size="lg"
-      show={props.showModal}
-      onHide={() => props.toggleModal()}
+      show={props.showHelpModal}
+      onHide={() => props.toggleHelpModal()}
       aria-labelledby="modal-sizes-title-lg"
     >
       <Modal.Header closeButton>
