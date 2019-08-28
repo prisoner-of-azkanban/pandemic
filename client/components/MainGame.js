@@ -265,8 +265,18 @@ class MainGame extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false
-    const unsubscribe = this.props.game.onSnapshot(this.listenMain)
-    unsubscribe()
+    const unsubscribeMain = this.props.game.onSnapshot(this.listenMain)
+    const unsubscribeDeck = this.decks.onSnapshot(this.listenDecks)
+    const unsubscribeCity = this.cities.onSnapshot(this.listenCities)
+    const unsubscribePlayerList = this.playerList.onSnapshot(
+      this.listenPlayerList
+    )
+    const unsubscribeCube = this.cubes.onSnapshot(this.listenCubes)
+    unsubscribeCity()
+    unsubscribeCube()
+    unsubscribeDeck()
+    unsubscribeMain()
+    unsubscribePlayerList()
   }
 
   //firebase listeners
