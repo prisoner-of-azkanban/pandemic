@@ -12,12 +12,24 @@ class Chatroom extends React.Component {
       .collection('games')
       .doc(this.props.gamename)
       .collection('chatroom')
+      .doc('messages')
 
     this.chatroom.onSnapshot(this.listenMessages)
   }
 
   componentDidMount() {
     this._isMounted = true
+    let messages = []
+    this.chatroom.get().then(doc => {
+      if (!doc.data().messages) {
+        this.chatroom.set({messages: []})
+      } else {
+        messages = doc.data().messages
+      }
+    })
+    if (this._isMounted) {
+      this.setState({messages: messages})
+    }
   }
 
   componentDidUpdate() {
@@ -38,13 +50,17 @@ class Chatroom extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
+    let messages = [
+      ...this.state.messages,
+      {
+        username: this.props.username,
+        message: this.state.message,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+      }
+    ]
     if (this.state.username && this.state.message) {
       this.chatroom
-        .add({
-          username: this.props.username,
-          message: this.state.message,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+        .set({messages: messages})
         .then(() => {
           if (this._isMounted)
             this.setState({
@@ -65,12 +81,9 @@ class Chatroom extends React.Component {
   listenMessages = () => {
     let messages = []
     this.chatroom
-      .orderBy('createdAt', 'asc')
       .get()
       .then(doc => {
-        doc.forEach(function(msg) {
-          messages.push(msg.data())
-        })
+        messages = doc.data().messages
         if (this._isMounted)
           this.setState({
             messages: messages
