@@ -549,7 +549,7 @@ class MainGame extends React.Component {
 
     switch (color) {
       case 'red':
-        if (this.state.redCure === 4) {
+        if (this.state.redCure === 1) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].red
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
