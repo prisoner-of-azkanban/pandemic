@@ -997,16 +997,11 @@ class MainGame extends React.Component {
           break
       }
       if (colored) {
-        console.log('trying to remove card')
-        console.log(cards)
-        // console.log(cardNames)
         let givePlayer = allPlayers[this.state.currentTurn]
         let discardHand = []
         let newHand = []
         const cityNames = cards.map(card => card.title)
         for (let i = 0; i < givePlayer.hand.length; i++) {
-          // console.log(givePlayer.hand[i])
-          // console.log(cityNames.includes(givePlayer.hand[i].title))
           if (cityNames.includes(givePlayer.hand[i].title)) {
             discardHand.push(givePlayer.hand[i])
           } else {
@@ -1177,10 +1172,6 @@ class MainGame extends React.Component {
       })
   }
 
-  // isCardEpidemic = card => {
-  //   return card.type === 'epidemic'
-  // }
-
   playerInfectStep = (epidemicInfect = null) => {
     let infectDeck
     let oldInfectDiscard
@@ -1235,7 +1226,6 @@ class MainGame extends React.Component {
       const shuffledAdd = shuffle(addToInfectDeck, {copy: true})
       newInfectDeck = [...shuffledAdd, ...oldInfectDeck]
     }
-    console.log(infectionDeck === null, newInfectDeck)
     return newInfectDeck
   }
 
@@ -1499,7 +1489,6 @@ class MainGame extends React.Component {
   //outbreak infect
   outbreakInfect = (city, color) => {
     if (!this._outbreak.has(city)) {
-      // console.log('OUTBREAK IN ', city)
       const updateOutbreaks = firebase.firestore.FieldValue.increment(1)
       this.props.game
         .update({outbreaks: updateOutbreaks})
@@ -1521,7 +1510,6 @@ class MainGame extends React.Component {
       const cityConnections = connectedCities[city]
       this._outbreak.add(city)
       for (let i = 0; i < cityConnections.length; i++) {
-        // console.log('outbreak infect', cityConnections[i])
         this.infectStep(cityConnections[i], color)
       }
     }
@@ -1656,7 +1644,6 @@ class MainGame extends React.Component {
     }
 
     const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
-    playerCardDeck.map((index, card) => console.log(index, card.title))
     //shuffle infection cards
     let shuffledInfectionDeck = shuffle(infectionCards, {copy: true})
     let threeCubes = shuffledInfectionDeck.splice(0, 3)

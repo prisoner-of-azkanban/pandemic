@@ -32,7 +32,6 @@ class GameMenu extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
     const currentUser = this.props.players.filter(
       player => player.name === this.props.username
     )[0]
@@ -43,7 +42,6 @@ class GameMenu extends React.Component {
     let canMakeMove
     if (userCanMakeMove.length) {
       canMakeMove = userCanMakeMove[0].name === this.props.username
-      // console.log(canMakeMove)
     }
 
     const color = this.props.players.filter(

@@ -61,14 +61,11 @@ class MainMoves extends React.Component {
   }
 
   handleCureSubmit = (cards, color) => {
-    console.log('cards', cards)
-    console.log(color)
     this.props.handleCureSubmit(cards, color)
     this.resetState()
   }
 
   handleCheckbox = e => {
-    console.log('event target checked', e.target.checked)
     if (e.target.checked) {
       this.setState({discardCure: [...this.state.discardCure, e.target.name]})
     } else {
@@ -78,7 +75,6 @@ class MainMoves extends React.Component {
         )
       })
     }
-    console.log(this.state.discardCure)
   }
 
   handleGiveKnowledgeCardToSelect = (eventKey, event) => {
@@ -105,7 +101,6 @@ class MainMoves extends React.Component {
     this.setState({
       charterFlightTo: eventKey
     })
-    console.log(this.state.charterFlightTo)
   }
   handleShuttleFlightTo = (eventKey, event) => {
     this.setState({
@@ -167,7 +162,6 @@ class MainMoves extends React.Component {
       black: this.props.blackCure,
       yellow: this.props.yellowCure
     }
-    console.log('cured', cured)
     const canCure = Object.keys(currentPlayerColorObj).filter(
       color => currentPlayerColorObj[color] >= 4 && !cured[color]
     ).length
@@ -663,7 +657,6 @@ class MainMoves extends React.Component {
                             variant="outline-dark"
                             className="game-menu-btn"
                             onClick={() => {
-                              console.log('clicked')
                               const cards = this.state.discardCure.map(
                                 name =>
                                   playerCards.filter(
