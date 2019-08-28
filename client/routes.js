@@ -4,12 +4,8 @@ import {
   Homepage,
   NewSignup,
   NewLogin,
-  NewChat,
   Gamepage,
-  WaitingRoom,
-  PandemicMap,
-  Lose,
-  Win
+  WaitingRoom
 } from './components'
 import firebase from 'firebase'
 import {app, db, config} from '../firebase-server/firebase'

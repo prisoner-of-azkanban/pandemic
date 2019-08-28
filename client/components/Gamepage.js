@@ -14,8 +14,6 @@ const Gamepage = props => {
         username={props.username}
         className="chat-container"
       />
-
-      {/* <Test /> */}
     </div>
   ) : (
     <div />
