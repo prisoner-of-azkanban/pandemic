@@ -1632,11 +1632,6 @@ class MainGame extends React.Component {
 
     //shuffle player deck
     let shuffledPlayerCardDeck = shuffle(playerCards, {copy: true})
-    let extraCards = shuffle(playerCards, {copy: true})
-    shuffledPlayerCardDeck = [
-      ...shuffledPlayerCardDeck,
-      ...extraCards.slice(0, 5)
-    ]
 
     //deal out player cards
     let hands = []
@@ -1653,12 +1648,7 @@ class MainGame extends React.Component {
 
     let pile = []
     for (let i = 0; i < 4; i++) {
-      let shuffledIndex
-      if (i < 3) {
-        shuffledIndex = 11
-      } else {
-        shuffledIndex = 12
-      }
+      const shuffledIndex = 10
       let tempPile = shuffledPlayerCardDeck.splice(0, shuffledIndex)
       tempPile.push(epidemicCard)
       shuffle(tempPile)
@@ -1666,7 +1656,7 @@ class MainGame extends React.Component {
     }
 
     const playerCardDeck = shuffle(pile).flat() //shuffle pile order and combine
-
+    playerCardDeck.map((index, card) => console.log(index, card.title))
     //shuffle infection cards
     let shuffledInfectionDeck = shuffle(infectionCards, {copy: true})
     let threeCubes = shuffledInfectionDeck.splice(0, 3)
