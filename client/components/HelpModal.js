@@ -40,8 +40,7 @@ const HelpModal = props => {
         <h4 className="help-modal-header">Research</h4>
         <p>
           Discard the City card that matches the city you are in to place a
-          research station there. If all 6 research stations have been built,
-          move a research station from anywhere on the map.
+          research station there.
         </p>
         <h4 className="help-modal-header">Treat</h4>
         <p>
@@ -58,23 +57,9 @@ const HelpModal = props => {
         </p>
         <h4 className="help-modal-header">Cure</h4>
         <p>
-          At any research station, discard 5 City cards of the same color from
+          At any research station, discard 4 City cards of the same color from
           your hand to cure the disease of that color
         </p>
-        {/* <h4 className="help-modal-header">Event</h4>
-        {eventCards.length ? (
-          <div>
-            {eventCards.map(card => (
-              <p key={card.title}>
-                {card.title}: {card.description}
-              </p>
-            ))}
-          </div>
-        ) : (
-          <p>You have no event cards</p>
-        )}
-        <h4 className="help-modal-header">Role</h4>
-        <p>{props.currentUser.role.actionOne}</p> */}
       </Modal.Body>
     </Modal>
   )

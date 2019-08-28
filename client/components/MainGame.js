@@ -549,7 +549,7 @@ class MainGame extends React.Component {
 
     switch (color) {
       case 'red':
-        if (this.state.redCure === 5) {
+        if (this.state.redCure === 4) {
           removedCubeCount =
             allCities[allPlayers[this.state.currentTurn].location].red
           supply = firebase.firestore.FieldValue.increment(removedCubeCount)
@@ -801,7 +801,7 @@ class MainGame extends React.Component {
     let playerCardDiscard = [...this.state.playerCardDiscard]
     let allCities = {...this.state.cities}
     if (allCities[allPlayers[this.state.currentTurn].location].research) {
-      const colored = cards.filter(card => card.color === color).length === 5
+      const colored = cards.filter(card => card.color === color).length === 4
       let cured
       let cubes
       switch (color) {
@@ -1652,12 +1652,12 @@ class MainGame extends React.Component {
     const playerFirst = turns.indexOf(true)
 
     let pile = []
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       let shuffledIndex
       if (i < 3) {
-        shuffledIndex = 8
+        shuffledIndex = 11
       } else {
-        shuffledIndex = 7
+        shuffledIndex = 12
       }
       let tempPile = shuffledPlayerCardDeck.splice(0, shuffledIndex)
       tempPile.push(epidemicCard)

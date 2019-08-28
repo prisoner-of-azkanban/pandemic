@@ -169,10 +169,10 @@ class MainMoves extends React.Component {
     }
     console.log('cured', cured)
     const canCure = Object.keys(currentPlayerColorObj).filter(
-      color => currentPlayerColorObj[color] >= 5 && !cured[color]
+      color => currentPlayerColorObj[color] >= 4 && !cured[color]
     ).length
     const cureColors = ['red', 'blue', 'yellow', 'black'].filter(
-      color => currentPlayerColorObj[color] >= 5 && !cured[color]
+      color => currentPlayerColorObj[color] >= 4 && !cured[color]
     )
 
     //which menu to show
@@ -673,7 +673,7 @@ class MainMoves extends React.Component {
                               this.handleCureSubmit(cards, color)
                             }}
                             disabled={
-                              this.state.discardCure.length !== 5 ||
+                              this.state.discardCure.length !== 4 ||
                               cured[color] > 0
                             }
                           >
