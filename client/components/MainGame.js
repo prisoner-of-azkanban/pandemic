@@ -16,7 +16,6 @@ import {
   isCardEpidemic,
   setupPlayer,
   findMaxPop,
-  setupPlayerCards,
   setupPlayerRoles
 } from './utils'
 
@@ -326,7 +325,6 @@ class MainGame extends React.Component {
           this.setState(() => {
             return {
               playerList: doc.data().playerList
-              // actionCount: doc.data().actionCount
             }
           })
         }
@@ -534,7 +532,6 @@ class MainGame extends React.Component {
   //treat
   handleTreatSubmit = color => {
     let removedCubeCount = 0
-    //need to deal w below
     let supply = firebase.firestore.FieldValue.increment(removedCubeCount)
     const eradicate = firebase.firestore.FieldValue.increment(1)
     let allPlayers = [...this.state.playerList]
@@ -796,7 +793,6 @@ class MainGame extends React.Component {
   handleCureSubmit = (cards, color) => {
     const eradicate = firebase.firestore.FieldValue.increment(2)
     const cure = firebase.firestore.FieldValue.increment(1)
-    // const cardNames = new Set(cards)
     let allPlayers = [...this.state.playerList]
     let playerCardDiscard = [...this.state.playerCardDiscard]
     let allCities = {...this.state.cities}
@@ -1582,35 +1578,6 @@ class MainGame extends React.Component {
   //*************INFECTION STEP END**************
 
   //*************GAME SET UP START****************
-  // setupPlayerRoles = (players, roleDeck) => {
-  //   let shuffledRoles = shuffle(roleDeck, {copy: true})
-  //   return players.map(role => (role = shuffledRoles.shift()))
-  // }
-
-  // setupPlayerCards = (players, cardDeck) => {
-  //   let shuffledPlayerCardDeck = shuffle(cardDeck, {copy: true})
-  //   return players.map(player => (player = shuffledPlayerCardDeck.splice(0, 2)))
-  // }
-
-  //see who goes first
-  // findMaxPop = playerHands => {
-  //   let playerPop = playerHands.map(hand =>
-  //     hand.map(card => parseInt(card.population, 10))
-  //   )
-  //   let turns = playerPop.map(pop => Math.max(...pop))
-  //   return [Math.max(...playerPop.map(pop => Math.max(...pop))), turns]
-  // }
-
-  //sets up player
-  // setupPlayer = (player, playerHand, roles, turns, index) => {
-  //   return {
-  //     ...player,
-  //     turn: turns[index],
-  //     event: playerHand.filter(card => card.type === 'event').length > 0,
-  //     hand: playerHand,
-  //     role: roles[index]
-  //   }
-  // }
 
   // eslint-disable-next-line max-statements
   startGame = () => {

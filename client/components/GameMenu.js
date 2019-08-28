@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Dropdown, Collapse, Accordion, Card} from 'react-bootstrap'
+import {Button, Accordion, Card} from 'react-bootstrap'
 import MainMoves from './MainMoves'
 import HelpModal from './HelpModal'
 import InstructionModal from './InstructionModal'
@@ -10,7 +10,6 @@ class GameMenu extends React.Component {
     this.state = {
       showHelpModal: false,
       showInstructionModal: true,
-      showMoves: false,
       showMenu: 'default'
     }
   }

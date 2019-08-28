@@ -591,7 +591,6 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('give knowledge')}
-              // disabled = {!canGiveKnowledge}
             >
               Give Knowledge
             </Button>
@@ -599,7 +598,6 @@ class MainMoves extends React.Component {
               variant="outline-dark"
               className="game-menu-btn"
               onClick={() => this.props.showMenuToggle('take knowledge')}
-              // disabled = {!canTakeKnowledge}
             >
               Take Knowledge
             </Button>

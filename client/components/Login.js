@@ -1,7 +1,6 @@
 import React from 'react'
 import LoginSignup from './LoginSignup'
 import firebase from 'firebase'
-import {Button} from 'react-bootstrap'
 
 import {app, db} from '../../firebase-server/firebase'
 

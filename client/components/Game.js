@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'react-bootstrap'
 import {app, db} from '../../firebase-server/firebase'
 import firebase from 'firebase'
-import {MainGame, PandemicMap} from './index'
+import {MainGame} from './index'
 
 const MAXPLAYERS = 4
 
