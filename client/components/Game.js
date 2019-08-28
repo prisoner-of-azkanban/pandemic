@@ -9,7 +9,6 @@ const MAXPLAYERS = 4
 class Game extends React.Component {
   constructor(props) {
     super(props)
-    // console.log(props)
     this.state = {
       players: [],
       username: this.props.username,
@@ -172,7 +171,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="game-container">
         <div>

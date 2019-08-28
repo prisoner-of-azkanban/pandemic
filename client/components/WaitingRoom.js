@@ -155,7 +155,6 @@ class WaitingRoom extends React.Component {
   }
 
   render() {
-    // console.log('waiting room props', this.state)
     return (
       <div className="waiting-room-page">
         <h3 className="waiting-room-header">
