@@ -118,6 +118,16 @@ class WaitingRoom extends React.Component {
             yellowCubes: 24
           })
       )
+      .then(() =>
+        db
+          .collection('games')
+          .doc(this.state.gamename)
+          .collection('chatroom')
+          .doc('messages')
+          .set({
+            messages: []
+          })
+      )
       .then(() => this.props.history.push(`/game/${this.state.gamename}`))
       .catch(err => {
         console.log(
