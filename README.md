@@ -5,7 +5,7 @@ Based on the popular board game, Online Pandemic is a cooperative game for four 
 
 ## How To Play
 
-Go to onlinepandemicgame.herokuapp.com and sign up. Create a room, have some friends join, start the game and deal out cards.
+Go to <onlinepandemicgame.herokuapp.com> and sign up. Create a room, have some friends join, start the game and deal out cards.
 
 ### Deviations from the standard board game
 
@@ -24,6 +24,6 @@ This online version of Pandemic does not include roles or event cards. To compen
 
 **Built by:**
 
-* Lara Seren
-* Rebecca Rossman
-* Yuting Zhang
+* [Lara Seren](https://github.com/dotsalot)
+* [Rebecca Rossman](https://github.com/rrossman25)
+* [Yuting Zhang](https://github.com/yzhang729)
