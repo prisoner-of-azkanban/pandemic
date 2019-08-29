@@ -95,7 +95,7 @@ class MainGame extends React.Component {
     this.cities = this.props.game.collection('gamestate').doc('cities')
     this.playerList = this.props.game.collection('gamestate').doc('playerList')
     this.cubes = this.props.game.collection('gamestate').doc('cubes')
-    this.chatroom = this.props.game.collection('chatroom')
+    this.chatroom = this.props.game.collection('chatroom').doc('messages')
     this.props.game.onSnapshot(this.listenMain)
     this.decks.onSnapshot(this.listenDecks)
     this.cities.onSnapshot(this.listenCities)
@@ -403,13 +403,9 @@ class MainGame extends React.Component {
         }
       })
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `${
-            allPlayers[this.state.currentTurn].name
-          } has moved to ${city}`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+        this.addChat(
+          `${allPlayers[this.state.currentTurn].name} has moved to ${city}`
+        )
       )
       .catch(err => {
         console.log(
@@ -439,13 +435,9 @@ class MainGame extends React.Component {
         }
       })
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `${
-            allPlayers[this.state.currentTurn].name
-          } has moved to ${cityGo}`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+        this.addChat(
+          `${allPlayers[this.state.currentTurn].name} has moved to ${cityGo}`
+        )
       )
       .catch(err => {
         console.log('an error has occurred with the flight action', err.message)
@@ -479,13 +471,11 @@ class MainGame extends React.Component {
         }
       })
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `${
+        this.addChat(
+          `${
             allPlayers[this.state.currentTurn].name
-          } has built a research station in ${currentCity}`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+          } has built a research station in ${currentCity}`
+        )
       )
       .catch(err => {
         console.log(
@@ -524,11 +514,9 @@ class MainGame extends React.Component {
         }
       })
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `${playerGive} has shared knowledge of ${card} with ${playerTake}`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+        this.addChat(
+          `${playerGive} has shared knowledge of ${card} with ${playerTake}`
+        )
       )
       .catch(err => {
         console.log(
@@ -546,13 +534,12 @@ class MainGame extends React.Component {
     const eradicate = firebase.firestore.FieldValue.increment(1)
     let allPlayers = [...this.state.playerList]
     let allCities = {...this.state.cities}
-    this.chatroom.add({
-      username: 'Admin',
-      message: `${
-        allPlayers[this.state.currentTurn].name
-      } has treated ${color} in ${allPlayers[this.state.currentTurn].location}`,
-      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-    })
+
+    this.addChat(
+      `${allPlayers[this.state.currentTurn].name} has treated ${color} in ${
+        allPlayers[this.state.currentTurn].location
+      }`
+    )
 
     switch (color) {
       case 'red':
@@ -565,15 +552,15 @@ class MainGame extends React.Component {
             .update({redCubes: supply})
             .then(() => {
               if (this.state.redCubes === 24) {
-                this.props.game.update({redCure: eradicate}).then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has eradicated red`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
-                )
+                this.props.game
+                  .update({redCure: eradicate})
+                  .then(() =>
+                    this.addChat(
+                      `${
+                        allPlayers[this.state.currentTurn].name
+                      } has eradicated red`
+                    )
+                  )
               }
             })
             .catch(err => {
@@ -624,15 +611,15 @@ class MainGame extends React.Component {
             .update({blueCubes: supply})
             .then(() => {
               if (this.state.blueCubes === 24) {
-                this.props.game.update({blueCure: eradicate}).then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has eradicated blue`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
-                )
+                this.props.game
+                  .update({blueCure: eradicate})
+                  .then(() =>
+                    this.addChat(
+                      `${
+                        allPlayers[this.state.currentTurn].name
+                      } has eradicated blue`
+                    )
+                  )
               }
             })
             .catch(err => {
@@ -684,15 +671,15 @@ class MainGame extends React.Component {
             .update({yellowCubes: supply})
             .then(() => {
               if (this.state.yellowCubes === 24) {
-                this.props.game.update({yellowCure: eradicate}).then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has eradicated yellow`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
-                )
+                this.props.game
+                  .update({yellowCure: eradicate})
+                  .then(() =>
+                    this.addChat(
+                      `${
+                        allPlayers[this.state.currentTurn].name
+                      } has eradicated yellow`
+                    )
+                  )
               }
             })
             .catch(err => {
@@ -744,15 +731,15 @@ class MainGame extends React.Component {
             .update({blackCubes: supply})
             .then(() => {
               if (this.state.blackCubes === 24) {
-                this.props.game.update({blackCure: eradicate}).then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has eradicated black`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
-                )
+                this.props.game
+                  .update({blackCure: eradicate})
+                  .then(() =>
+                    this.addChat(
+                      `${
+                        allPlayers[this.state.currentTurn].name
+                      } has eradicated black`
+                    )
+                  )
               }
             })
             .catch(err => {
@@ -819,13 +806,11 @@ class MainGame extends React.Component {
               this.props.game
                 .update({redCure: eradicate})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
+                  this.addChat(
+                    `${
                       allPlayers[this.state.currentTurn].name
-                    } has eradicated red`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                    } has eradicated red`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -839,13 +824,9 @@ class MainGame extends React.Component {
               this.props.game
                 .update({redCure: cure})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has cured red`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                  this.addChat(
+                    `${allPlayers[this.state.currentTurn].name} has cured red`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -866,13 +847,11 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blueCure: eradicate})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
+                  this.addChat(
+                    `${
                       allPlayers[this.state.currentTurn].name
-                    } has eradicated blue`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                    } has eradicated blue`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -886,13 +865,9 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blueCure: cure})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has cured blue`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                  this.addChat(
+                    `${allPlayers[this.state.currentTurn].name} has cured blue`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -913,13 +888,11 @@ class MainGame extends React.Component {
               this.props.game
                 .update({yellowCure: eradicate})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
+                  this.addChat(
+                    `${
                       allPlayers[this.state.currentTurn].name
-                    } has eradicated yellow`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                    } has eradicated yellow`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -933,13 +906,11 @@ class MainGame extends React.Component {
               this.props.game
                 .update({yellowCure: cure})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
+                  this.addChat(
+                    `${
                       allPlayers[this.state.currentTurn].name
-                    } has cured yellow`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                    } has cured yellow`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -960,13 +931,11 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blackCure: eradicate})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
+                  this.addChat(
+                    `${
                       allPlayers[this.state.currentTurn].name
-                    } has eradicated black`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                    } has eradicated black`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -980,13 +949,9 @@ class MainGame extends React.Component {
               this.props.game
                 .update({blackCure: cure})
                 .then(() =>
-                  this.chatroom.add({
-                    username: 'Admin',
-                    message: `${
-                      allPlayers[this.state.currentTurn].name
-                    } has cured black`,
-                    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-                  })
+                  this.addChat(
+                    `${allPlayers[this.state.currentTurn].name} has cured black`
+                  )
                 )
                 .then(() => this.winCheck())
                 .catch(err => {
@@ -1059,13 +1024,7 @@ class MainGame extends React.Component {
       this.props.game
         .update({win: updateWin})
         .then(() => true)
-        .then(() =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `Congratulations, you win the game!`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
-        )
+        .then(() => this.addChat(`Congratuations, you saved the world!`))
         .catch(err => {
           console.log('an error has occurred with the win check', err.message)
           alert('an error has occurred')
@@ -1081,11 +1040,9 @@ class MainGame extends React.Component {
         .update({lose: updateLose})
         .then(() => true)
         .then(() =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `Too many outbreaks - a worldwide panic has occurred. Game over.`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(
+            `Too many outbreaks - a worldwide panic has occurred. Game over.`
+          )
         )
         .catch(err => {
           console.log('an error has occurred with the lose check', err.message)
@@ -1096,13 +1053,7 @@ class MainGame extends React.Component {
         .update({lose: updateLose})
         .then(() => true)
         .then(() => true)
-        .then(() =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `You have run out of time. Game over.`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
-        )
+        .then(() => this.addChat(`You have run out of time. Game over.`))
         .catch(err => {
           console.log('an error has occurred with the lose check', err.message)
           alert('an error has occurred')
@@ -1118,11 +1069,7 @@ class MainGame extends React.Component {
         .then(() => true)
         .then(() => true)
         .then(() =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `The disease has spread too much - game over.`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(`The disease has spread too much - game over.`)
         )
         .catch(err => {
           console.log('an error has occurred with the lose check', err.message)
@@ -1153,13 +1100,7 @@ class MainGame extends React.Component {
     allPlayers[turn].turn = true
     this.playerList
       .set({playerList: allPlayers}, {merge: true})
-      .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `It is now ${allPlayers[turn].name}'s turn`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
-      )
+      .then(() => this.addChat(`It is now ${allPlayers[turn].name}'s turn`))
       .catch(err => {
         console.log(
           'an error has occurred with update player turn',
@@ -1203,11 +1144,7 @@ class MainGame extends React.Component {
       )
       .then(() =>
         addToInfectDiscard.forEach(card =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `${card.city} has been infected!`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(`${card.city} has been infected!`)
         )
       )
       .catch(err => {
@@ -1251,11 +1188,7 @@ class MainGame extends React.Component {
       this.props.game
         .set({epidemicList: newEpidemicList}, {merge: true})
         .then(() =>
-          this.chatroom.add({
-            username: 'Admin',
-            message: `${epidemic1.city} has broken out in an epidemic!`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(`${epidemic1.city} has broken out in an epidemic!`)
         )
         .catch(error => {
           console.log(
@@ -1271,11 +1204,7 @@ class MainGame extends React.Component {
       this.props.game
         .set({epidemicList: newEpidemicList}, {merge: true})
         .then(() =>
-          this.props.game.collection('chatroom').add({
-            username: 'Admin',
-            message: `${epidemic2.city} has broken out in an epidemic!`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(`${epidemic2.city} has broken out in an epidemic!`)
         )
         .catch(error => {
           console.log(
@@ -1295,11 +1224,7 @@ class MainGame extends React.Component {
         this.props.game
           .set({epidemicList: newEpidemicList}, {merge: true})
           .then(() =>
-            this.props.game.collection('chatroom').add({
-              username: 'Admin',
-              message: `${epidemic.city} has broken out in an epidemic!`,
-              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-            })
+            this.addChat(`${epidemic.city} has broken out in an epidemic!`)
           )
           .catch(error => {
             console.log(
@@ -1321,11 +1246,7 @@ class MainGame extends React.Component {
         this.props.game
           .set({epidemicList: newEpidemicList}, {merge: true})
           .then(() =>
-            this.props.game.collection('chatroom').add({
-              username: 'Admin',
-              message: `${epidemic.city} has broken out in an epidemic!`,
-              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-            })
+            this.addChat(`${epidemic.city} has broken out in an epidemic!`)
           )
           .catch(error => {
             console.log(
@@ -1445,13 +1366,11 @@ class MainGame extends React.Component {
     this.props.game
       .update({infectionRate: updateInfectRate})
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `The infection rate has increased to ${
+        this.addChat(
+          `The infection rate has increased to ${
             infectionRateNumber[this.state.infectionRate]
-          }`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+          }`
+        )
       )
       .catch(err => {
         console.log(
@@ -1499,11 +1418,9 @@ class MainGame extends React.Component {
       this.props.game
         .update({outbreaks: updateOutbreaks})
         .then(() =>
-          this.props.game.collection('chatroom').add({
-            username: 'Admin',
-            message: `${city} has broken out and ${color} disease is spreading!`,
-            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-          })
+          this.addChat(
+            `${city} has broken out and ${color} disease is spreading!`
+          )
         )
         .then(() => this.loseCheck())
         .catch(err => {
@@ -1665,13 +1582,9 @@ class MainGame extends React.Component {
         {merge: true}
       )
       .then(() =>
-        this.chatroom.add({
-          username: 'Admin',
-          message: `Cards have been dealt, it is ${
-            playerList[playerFirst].name
-          }'s turn`,
-          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-        })
+        this.addChat(
+          `Cards have been dealt, it is ${playerList[playerFirst].name}'s turn`
+        )
       )
       .catch(err => {
         console.log('an error has occurred with the game setup', err.message)
@@ -1679,6 +1592,26 @@ class MainGame extends React.Component {
       })
   }
   //**************GAME SET UP END**************
+
+  //add chat messages
+  addChat(msg) {
+    let messages = []
+    this.chatroom
+      .get()
+      .then(doc => (messages = doc.data().messages))
+      .then(() =>
+        this.chatroom.set({
+          messages: [
+            ...messages,
+            {
+              username: 'Admin',
+              message: msg,
+              createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+            }
+          ]
+        })
+      )
+  }
 
   render() {
     return this.state.win ? (
