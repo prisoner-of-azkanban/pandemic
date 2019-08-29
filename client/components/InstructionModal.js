@@ -19,7 +19,7 @@ const InstructionModal = props => {
         <h3 className="help-modal-header">Welcome to Pandemic!</h3>
         <p>Can you and your friends save the world?</p>
         <p>
-          Based on the popular board game, Pandemic Online is a cooperative game
+          Based on the popular board game, Online Pandemic is a cooperative game
           for four players. As members of an elite disease control team, you
           must keep four deadly diseases at bay. Work together as you travel the
           globe to treat infections while collecting the cards you need to
