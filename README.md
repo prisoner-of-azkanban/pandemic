@@ -11,7 +11,7 @@ Go to onlinepandemicgame.herokuapp.com and sign up. Create a room, have some fri
 
 This online version of Pandemic does not include roles or event cards. To compensate, everyone is a scientist (only need four cards of a color to discover the cure), and there are only four epidemic cards. You can read the instruction and help menus in game for more details.
 
-### Tech Stack
+## Tech Stack
 
 **Built with:**
 
@@ -20,9 +20,10 @@ This online version of Pandemic does not include roles or event cards. To compen
 * Canvas
 * Firebase
 
-###Authors
+## Authors
+
 **Built by:**
 
-* Lara
-* Rebecca
-* Yuting
+* Lara Seren
+* Rebecca Rossman
+* Yuting Zhang
