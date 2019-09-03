@@ -1143,9 +1143,7 @@ class MainGame extends React.Component {
         {merge: true}
       )
       .then(() => {
-        let num = 0
         addToInfectDiscard.forEach(card => {
-          console.log('infect', card.city, num++)
           this.addChat(`${card.city} has been infected!`)
         })
       })
