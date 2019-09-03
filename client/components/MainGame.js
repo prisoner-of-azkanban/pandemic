@@ -1119,17 +1119,21 @@ class MainGame extends React.Component {
       })
   }
 
-  playerInfectStep = (epidemicInfect = null) => {
+  playerInfectStep = (epidemicInfect = null, double = null) => {
     let infectDeck
     let oldInfectDiscard
+    let infectionRate
     if (!epidemicInfect) {
       infectDeck = this.state.infectionCardDeck
       oldInfectDiscard = this.state.infectionCardDiscard
+      infectionRate = infectionRateNumber[this.state.infectionRate]
     } else {
       infectDeck = epidemicInfect
       oldInfectDiscard = []
+      infectionRate = double
+        ? infectionRateNumber[this.state.infectionRate + 2]
+        : infectionRateNumber[this.state.infectionRate + 1]
     }
-    const infectionRate = infectionRateNumber[this.state.infectionRate]
     let addToInfectDiscard = []
     for (let i = 0; i < infectionRate; i++) {
       const infectCard = infectDeck.shift()
@@ -1143,9 +1147,22 @@ class MainGame extends React.Component {
         {merge: true}
       )
       .then(() => {
-        addToInfectDiscard.forEach(card => {
-          this.addChat(`${card.city} has been infected!`)
+        let messages = []
+        let newMessages = addToInfectDiscard.map(card => {
+          return {
+            username: 'Admin',
+            message: `${card.city} has been infected!`,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+          }
         })
+        this.chatroom
+          .get()
+          .then(doc => (messages = doc.data().messages))
+          .then(() =>
+            this.chatroom.set({
+              messages: [...messages, ...newMessages]
+            })
+          )
       })
       .catch(err => {
         console.log('an error has occurred with the infect step', err.message)
@@ -1213,9 +1230,9 @@ class MainGame extends React.Component {
           )
           alert('an error has occurred')
         })
-      this.infectWrapper(epidemic2.city, epidemic2.color, 3, true)
+      this.infectWrapper(epidemic2.city, epidemic2.color, 3, true, true)
       const infectDeck2 = this.epidemicDiscardShuffle(infectDeck1)
-      this.playerInfectStep(infectDeck2)
+      this.playerInfectStep(infectDeck2, true)
     } else {
       if (isCardEpidemic(card1)) {
         epidemicFlag = true
@@ -1354,21 +1371,30 @@ class MainGame extends React.Component {
     }
   }
 
-  infectWrapper = (city, color, number = 1, epidemic = false) => {
-    this.infectStep(city, color, number, epidemic)
+  infectWrapper = (
+    city,
+    color,
+    number = 1,
+    epidemic = false,
+    second = false
+  ) => {
+    this.infectStep(city, color, number, epidemic, second)
     this.updateCubeCount(color, this._removeCubeCount)
     this.resetAfterInfect()
   }
 
   //epidemic infect
-  epidemicInfect = (city, color) => {
+  epidemicInfect = (city, color, second) => {
     const updateInfectRate = firebase.firestore.FieldValue.increment(1)
+    const oldInfectRate = second
+      ? this.state.infectionRate + 1
+      : this.state.infectionRate
     this.props.game
       .update({infectionRate: updateInfectRate})
       .then(() =>
         this.addChat(
           `The infection rate has increased to ${
-            infectionRateNumber[this.state.infectionRate]
+            infectionRateNumber[oldInfectRate + 1]
           }`
         )
       )
@@ -1438,13 +1464,13 @@ class MainGame extends React.Component {
     }
   }
 
-  infectStep = (city, color, number = 1, epidemic = false) => {
+  infectStep = (city, color, number = 1, epidemic = false, second = false) => {
     switch (color) { //checks if eradicated
       case 'red':
         if (this.state.redCure !== 2) {
           if (epidemic) {
             //epidemic card
-            this.epidemicInfect(city, color)
+            this.epidemicInfect(city, color, second)
           } else if (!this.outbreakCheck(city, color)) {
             //normal infect
             this.normalInfect(city, color, number)
@@ -1458,7 +1484,7 @@ class MainGame extends React.Component {
         if (this.state.blueCure !== 2) {
           if (epidemic) {
             //epidemic card
-            this.epidemicInfect(city, color)
+            this.epidemicInfect(city, color, second)
           } else if (!this.outbreakCheck(city, color)) {
             //normal infect
             this.normalInfect(city, color, number)
@@ -1473,7 +1499,7 @@ class MainGame extends React.Component {
         if (this.state.blackCure !== 2) {
           if (epidemic) {
             //epidemic card
-            this.epidemicInfect(city, color)
+            this.epidemicInfect(city, color, second)
           } else if (!this.outbreakCheck(city, color)) {
             //normal infect
             this.normalInfect(city, color, number)
@@ -1488,7 +1514,7 @@ class MainGame extends React.Component {
         if (this.state.yellowCure !== 2) {
           if (epidemic) {
             //epidemic card
-            this.epidemicInfect(city, color)
+            this.epidemicInfect(city, color, second)
           } else if (!this.outbreakCheck(city, color)) {
             //normal infect
             this.normalInfect(city, color, number)
