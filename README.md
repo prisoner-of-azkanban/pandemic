@@ -5,11 +5,39 @@ Based on the popular board game, Online Pandemic is a cooperative game for four 
 
 ## How To Play
 
+### Heroku deployment
+
 Go to <http://onlinepandemicgame.herokuapp.com> and sign up. Create a room, have some friends join, start the game and deal out cards.
+
+### Local Host
+
+Alternatively, you can run Online Pandemic from the command line. You will need to create your own Firebase Firestore. In firebase-server folder, include a secrets.js file with the following (Firebase should give you everything):
+
+```
+//firebase
+let config = {
+  apiKey: '',
+  authDomain: '',
+  databaseURL: '',
+  projectId: '',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: ''
+}
+module.exports = {config}
+```
+
+Run the following commands in the command line:
+
+* npm install
+* npm run start-dev
+
+This will run Online Pandimic on localhost:8080
+You will still need to sign up to play
 
 ### Deviations from the standard board game
 
-This online version of Pandemic does not include roles or event cards. To compensate, everyone is a scientist (only need four cards of a color to discover the cure), and there are only four epidemic cards. You can read the instruction and help menus in game for more details.
+This online version of Pandemic does not include roles or event cards. To compensate, everyone is a scientist (only need four cards of a color to discover the cure), and there are only four epidemic cards. There is also no hand size limit. You can are also allowed to build more than six research stations. You can read the instruction and help menus in game for more details.
 
 ## Tech Stack
 
@@ -17,8 +45,10 @@ This online version of Pandemic does not include roles or event cards. To compen
 
 * JavaScript
 * React
-* Canvas
+* HTML5 Canvas
 * Firebase
+* CSS
+* Bootstrap
 
 ## Authors
 
