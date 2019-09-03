@@ -37,7 +37,7 @@ You will still need to sign up to play
 
 ### Deviations from the standard board game
 
-This online version of Pandemic does not include roles or event cards. To compensate, everyone is a scientist (only need four cards of a color to discover the cure), and there are only four epidemic cards. There is also no hand size limit. You can are also allowed to build more than six research stations. You can read the instruction and help menus in game for more details.
+This online version of Pandemic does not include roles or event cards. To compensate, everyone is a scientist (only need four cards of a color to discover the cure), and there are only four epidemic cards. There is also no hand size limit. You are also allowed to build more than six research stations. You can read the instruction and help menus in game for more details.
 
 ## Tech Stack
 
