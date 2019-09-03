@@ -7,6 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "test": "mocha ./tests/tests.js ./tests --recursive --watch --require @babel/polyfill --require @babel/register",
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "deploy": "script/deploy",
@@ -40,6 +41,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "chai-things": "^0.2.0",
     "compression": "^1.7.3",
     "express": "^4.16.4",
     "firebase": "^6.3.5",

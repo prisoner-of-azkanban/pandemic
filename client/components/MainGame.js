@@ -1142,11 +1142,13 @@ class MainGame extends React.Component {
         {infectionCardDeck: infectDeck, infectionCardDiscard: newInfectDiscard},
         {merge: true}
       )
-      .then(() =>
-        addToInfectDiscard.forEach(card =>
+      .then(() => {
+        let num = 0
+        addToInfectDiscard.forEach(card => {
+          console.log('infect', card.city, num++)
           this.addChat(`${card.city} has been infected!`)
-        )
-      )
+        })
+      })
       .catch(err => {
         console.log('an error has occurred with the infect step', err.message)
         alert('an error has occurred')
